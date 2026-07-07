@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.env.*
+.streamlit/secrets.toml
+data/UserSubmissions/
+*.log
+hf_backend/
+hf_space_pep2taste-api/
+.idea/

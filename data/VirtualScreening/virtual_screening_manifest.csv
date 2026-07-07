@@ -1,0 +1,7 @@
+Task,Library,Enzyme(s),Probability group,Unique sequences,Pool file,Filtered file,N/C terminal analysis,MEME output,Status
+Bitter,Virtual hydrolysate screening,Combined enzymes,Reported,,bitter/reported_candidates.csv,bitter/reported_candidates.csv,motifs/bitter_terminal_summary.csv,motifs/bitter_meme/,Placeholder
+Bitter,Virtual hydrolysate screening,Combined enzymes,Pro >= 0.90,,bitter/pro_ge_0.90.csv,bitter/high_confidence_ge_0.90.csv,motifs/bitter_terminal_summary.csv,motifs/bitter_meme/,Placeholder
+Bitter,Virtual hydrolysate screening,Combined enzymes,Pro >= 0.95,,bitter/pro_ge_0.95.csv,bitter/high_confidence_ge_0.95.csv,motifs/bitter_terminal_summary.csv,motifs/bitter_meme/,Placeholder
+Umami,Virtual hydrolysate screening,Combined enzymes,Reported,,umami/reported_candidates.csv,umami/reported_candidates.csv,motifs/umami_terminal_summary.csv,motifs/umami_meme/,Placeholder
+Umami,Virtual hydrolysate screening,Combined enzymes,Pro >= 0.90,,umami/pro_ge_0.90.csv,umami/high_confidence_ge_0.90.csv,motifs/umami_terminal_summary.csv,motifs/umami_meme/,Placeholder
+Umami,Virtual hydrolysate screening,Combined enzymes,Pro >= 0.95,,umami/pro_ge_0.95.csv,umami/high_confidence_ge_0.95.csv,motifs/umami_terminal_summary.csv,motifs/umami_meme/,Placeholder
