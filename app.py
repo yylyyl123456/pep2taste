@@ -20,8 +20,8 @@ import streamlit.components.v1 as components
 
 # ==========================================================
 # Pep2Taste Streamlit Rebuild
-# Frontend-only version. Model inference is mocked by default.
-# Later, replace mock_predict() or configure API URLs in secrets.
+# Cloud inference is enabled through BITTER_API_URL and UMAMI_API_URL.
+# Mock prediction is only used as a fallback when the backend is unavailable.
 # ==========================================================
 
 APP_DIR = Path(__file__).resolve().parent
@@ -1190,7 +1190,7 @@ def home_page() -> None:
         )
 
     st.markdown(
-        '<div class="warning-box">The final bitter and umami peptide prediction models have not yet been connected. Current outputs are placeholders for interface development and interaction testing only.</div>',
+        '<div class="note-box"><strong>Cloud inference is enabled.</strong> Bitter and umami peptide predictions are served through the configured Hugging Face backend API, with local mock output used only when the backend is unavailable.</div>',
         unsafe_allow_html=True,
     )
 
