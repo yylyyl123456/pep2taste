@@ -671,14 +671,22 @@ def deterministic_mock_score(seq: str, task: str) -> float:
     return round(max(0.01, min(0.99, float(score))), 4)
 
 
-def predict_with_api_or_mock(sequences: List[str], task: str, threshold: float) -> Tuple[List[Dict[str, Any]], str]:
+def predict_with_api_or_mock(
+    sequences: List[str],
+    task: str,
+    threshold: float,
+    method: str | None = None,
+) -> Tuple[List[Dict[str, Any]], str]:
     api_key = "BITTER_API_URL" if task == "bitter" else "UMAMI_API_URL"
     url = get_secret_or_env(api_key, "")
     if url:
         try:
+            payload = {"sequences": sequences, "task": task, "threshold": threshold}
+            if method:
+                payload["method"] = method
             resp = requests.post(
                 url,
-                json={"sequences": sequences, "task": task, "threshold": threshold},
+                json=payload,
                 timeout=90,
             )
             resp.raise_for_status()
@@ -703,6 +711,7 @@ def predict_with_api_or_mock(sequences: List[str], task: str, threshold: float) 
             "probability": prob,
             "threshold": threshold,
             "label": label,
+            "method": method,
         })
     return results, "mock"
 
@@ -1225,12 +1234,14 @@ def prediction_page(task: str) -> None:
     threshold_key = f"{task}_threshold"
     if text_key not in st.session_state:
         st.session_state[text_key] = ""
+    selected_method = None
 
     if not is_bitter:
         st.markdown(f'<div class="predictor-model-label">{model_name} Prediction Model:</div>', unsafe_allow_html=True)
-        st.selectbox(
+        selected_method = st.selectbox(
             "Prediction model",
-            [model_name],
+            ["ESM2_LoRA", "PepBERT_LoRA", "ProtT5_LoRA", "Umami_LoRA"],
+            index=3,
             key=f"{task}_model",
             label_visibility="collapsed",
         )
@@ -1323,12 +1334,39 @@ def prediction_page(task: str) -> None:
         if not valid:
             st.error("No valid peptide sequence found. Paste FASTA/list input or upload a CSV, FASTA, or TXT file.")
         else:
-            with st.spinner(f"Running {model_name} prediction for {len(valid)} valid sequence(s)..."):
-                results, source = predict_with_api_or_mock(valid, task, threshold)
+            run_name = selected_method if selected_method else model_name
+            with st.spinner(f"Running {run_name} prediction for {len(valid)} valid sequence(s)..."):
+                results, source = predict_with_api_or_mock(valid, task, threshold, selected_method)
                 time.sleep(0.25)
 
-            df = pd.DataFrame(results).drop(columns=["source", "confidence"], errors="ignore")
-            preferred_columns = ["sequence", "length", "probability", "threshold", "label"]
+            df = pd.DataFrame(results).drop(
+                columns=[
+                    "source",
+                    "confidence",
+                    "softvoting_gridoof_mcc_probability",
+                    "logistic_stacking_probability",
+                    "softvoting_equal_probability",
+                ],
+                errors="ignore",
+            )
+            df = df.dropna(axis=1, how="all")
+            if is_bitter:
+                preferred_columns = ["sequence", "length", "probability", "threshold", "label", "method"]
+            elif selected_method == "Umami_LoRA":
+                preferred_columns = [
+                    "sequence",
+                    "length",
+                    "probability",
+                    "threshold",
+                    "label",
+                    "method",
+                    "esm2_probability",
+                    "pepbert_probability",
+                    "prott5_probability",
+                    "umami_lora_probability",
+                ]
+            else:
+                preferred_columns = ["sequence", "length", "probability", "threshold", "label", "method"]
             df = df[[c for c in preferred_columns if c in df.columns] + [c for c in df.columns if c not in preferred_columns]]
             st.success(f"Prediction completed. Valid: {len(valid)}, invalid: {len(invalid)}.")
             if len(results) == 1:
