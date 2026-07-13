@@ -687,7 +687,7 @@ def predict_with_api_or_mock(
             resp = requests.post(
                 url,
                 json=payload,
-                timeout=90,
+                timeout=600,
             )
             resp.raise_for_status()
             data = resp.json()
@@ -713,6 +713,26 @@ def predict_with_api_or_mock(
             "label": label,
             "method": method,
         })
+        if task == "bitter" and method == "Bitter_Stacking":
+            branch_seed = deterministic_mock_score(seq + "AA", task)
+            fp_seed = deterministic_mock_score(seq + "FP", task)
+            plm_seed = deterministic_mock_score(seq + "PLM", task)
+            results[-1].update({
+                "aa_lgbm_probability": branch_seed,
+                "fp_catboost_probability": fp_seed,
+                "esm2_t33_mlp_probability": plm_seed,
+                "bitter_stacking_probability": prob,
+            })
+        if task == "umami" and method == "Umami_LoRA":
+            esm_seed = deterministic_mock_score(seq + "ESM2", task)
+            pep_seed = deterministic_mock_score(seq + "PepBERT", task)
+            prott5_seed = deterministic_mock_score(seq + "ProtT5", task)
+            results[-1].update({
+                "esm2_probability": esm_seed,
+                "pepbert_probability": pep_seed,
+                "prott5_probability": prott5_seed,
+                "umami_lora_probability": prob,
+            })
     return results, "mock"
 
 
@@ -1206,6 +1226,12 @@ def home_page() -> None:
 def prediction_page(task: str) -> None:
     is_bitter = task == "bitter"
     model_name = "Bitter-Fusion" if is_bitter else "Umami-LoRA"
+    method_options = (
+        ["ESM2_t33_MLP", "AA_LGBM", "FP_CatBoost", "Bitter_Stacking"]
+        if is_bitter else
+        ["ESM2_LoRA", "PepBERT_LoRA", "ProtT5_LoRA", "Umami_LoRA"]
+    )
+    default_method_index = 3
     task_name = "bitter peptide" if is_bitter else "umami peptide"
     subtitle = (
         "Bitter-Fusion predicts bitter peptide candidates from pasted sequences or uploaded FASTA, CSV, and TXT files. The workspace supports example loading, batch prediction, threshold control, and downloadable result tables."
@@ -1236,15 +1262,14 @@ def prediction_page(task: str) -> None:
         st.session_state[text_key] = ""
     selected_method = None
 
-    if not is_bitter:
-        st.markdown(f'<div class="predictor-model-label">{model_name} Prediction Model:</div>', unsafe_allow_html=True)
-        selected_method = st.selectbox(
-            "Prediction model",
-            ["ESM2_LoRA", "PepBERT_LoRA", "ProtT5_LoRA", "Umami_LoRA"],
-            index=3,
-            key=f"{task}_model",
-            label_visibility="collapsed",
-        )
+    st.markdown(f'<div class="predictor-model-label">{model_name} Prediction Model:</div>', unsafe_allow_html=True)
+    selected_method = st.selectbox(
+        "Prediction model",
+        method_options,
+        index=default_method_index,
+        key=f"{task}_model",
+        label_visibility="collapsed",
+    )
 
     section("Prediction Workspace")
     left, right = st.columns([1.12, .88], gap="large")
@@ -1350,7 +1375,20 @@ def prediction_page(task: str) -> None:
                 errors="ignore",
             )
             df = df.dropna(axis=1, how="all")
-            if is_bitter:
+            if is_bitter and selected_method == "Bitter_Stacking":
+                preferred_columns = [
+                    "sequence",
+                    "length",
+                    "probability",
+                    "threshold",
+                    "label",
+                    "method",
+                    "aa_lgbm_probability",
+                    "fp_catboost_probability",
+                    "esm2_t33_mlp_probability",
+                    "bitter_stacking_probability",
+                ]
+            elif is_bitter:
                 preferred_columns = ["sequence", "length", "probability", "threshold", "label", "method"]
             elif selected_method == "Umami_LoRA":
                 preferred_columns = [
