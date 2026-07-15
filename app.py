@@ -2771,7 +2771,7 @@ def virtual_screening_page() -> None:
                 color=alt.Color(
                     "Frequency per 1,000:Q",
                     title="Frequency per 1,000",
-                    scale=alt.Scale(scheme="blues" if task_label == "Umami" else "reds"),
+                    scale=alt.Scale(scheme="blues" if task_label == "Bitter" else "reds"),
                 ),
                 tooltip=[
                     alt.Tooltip("Dipeptide:N"),
@@ -2928,7 +2928,7 @@ def virtual_screening_page() -> None:
             overlap_y_limit = nice_axis_limit(float(overlap_df["Count"].max()))
             overlap_bars = (
                 alt.Chart(overlap_df)
-                .mark_bar(cornerRadiusTopLeft=3, cornerRadiusTopRight=3, color="#F59E0B", size=38)
+                .mark_bar(cornerRadiusTopLeft=3, cornerRadiusTopRight=3, color=secondary_color, size=38)
                 .encode(
                     x=alt.X(
                         "Method count label:N",
@@ -3026,25 +3026,7 @@ def virtual_screening_page() -> None:
             unsafe_allow_html=True,
         )
 
-        umami_default_tier = "Pro >= 0.95"
-        umami_tier_labels = list(umami_confidence_options.keys())
-        umami_default_tier_index = umami_tier_labels.index(umami_default_tier) if umami_default_tier in umami_tier_labels else len(umami_tier_labels) - 1
-
-        st.markdown("#### Umami Prediction")
-        umami_filter_left, umami_filter_center, umami_filter_right = st.columns([0.23, 0.54, 0.23])
-        with umami_filter_center:
-            umami_tier = st.radio(
-                "Umami chart filter",
-                umami_tier_labels,
-                index=umami_default_tier_index,
-                horizontal=True,
-                label_visibility="collapsed",
-                key="virtual_overview_umami_confidence_tier",
-            )
-        render_confidence_chart("Umami Prediction", method_summary, reported_summary, umami_tier, "#2F9AD6", umami_confidence_options, show_title=False)
-
-        st.divider()
-        bitter_default_tier = "Pro >= 0.90"
+        bitter_default_tier = "No reported"
         bitter_tier_labels = list(bitter_confidence_options.keys())
         bitter_default_tier_index = bitter_tier_labels.index(bitter_default_tier) if bitter_default_tier in bitter_tier_labels else len(bitter_tier_labels) - 1
 
@@ -3059,7 +3041,25 @@ def virtual_screening_page() -> None:
                 label_visibility="collapsed",
                 key="virtual_overview_bitter_confidence_tier",
             )
-        render_confidence_chart("Bitter Prediction", bitter_method_summary, bitter_reported_summary, bitter_tier, "#D65A66", bitter_confidence_options, show_title=False)
+        render_confidence_chart("Bitter Prediction", bitter_method_summary, bitter_reported_summary, bitter_tier, "#2F9AD6", bitter_confidence_options, show_title=False)
+
+        st.divider()
+        umami_default_tier = "No reported"
+        umami_tier_labels = list(umami_confidence_options.keys())
+        umami_default_tier_index = umami_tier_labels.index(umami_default_tier) if umami_default_tier in umami_tier_labels else len(umami_tier_labels) - 1
+
+        st.markdown("#### Umami Prediction")
+        umami_filter_left, umami_filter_center, umami_filter_right = st.columns([0.23, 0.54, 0.23])
+        with umami_filter_center:
+            umami_tier = st.radio(
+                "Umami chart filter",
+                umami_tier_labels,
+                index=umami_default_tier_index,
+                horizontal=True,
+                label_visibility="collapsed",
+                key="virtual_overview_umami_confidence_tier",
+            )
+        render_confidence_chart("Umami Prediction", method_summary, reported_summary, umami_tier, "#D65A66", umami_confidence_options, show_title=False)
 
         with st.expander("Workflow used for this release", expanded=False):
             st.markdown(
@@ -3118,7 +3118,7 @@ def virtual_screening_page() -> None:
                 aa_df = analysis_data["amino_acids"]
                 aa_chart = (
                     alt.Chart(aa_df)
-                    .mark_bar(cornerRadiusTopLeft=3, cornerRadiusTopRight=3, color="#2F9AD6", size=28)
+                    .mark_bar(cornerRadiusTopLeft=3, cornerRadiusTopRight=3, color="#D65A66", size=28)
                     .encode(
                         x=alt.X(
                             "Residue:N",
@@ -3164,7 +3164,7 @@ def virtual_screening_page() -> None:
                         color=alt.Color(
                             "Frequency per 1,000:Q",
                             title="Frequency per 1,000",
-                            scale=alt.Scale(scheme="blues"),
+                            scale=alt.Scale(scheme="reds"),
                         ),
                         tooltip=[
                             alt.Tooltip("Dipeptide:N"),
@@ -3201,7 +3201,7 @@ def virtual_screening_page() -> None:
                             title=None,
                             scale=alt.Scale(
                                 domain=["N-terminal", "C-terminal"],
-                                range=["#2F9AD6", "#EF6F6C"],
+                                range=["#D65A66", "#F59E0B"],
                             ),
                             legend=alt.Legend(orient="top", labelFontSize=13),
                         ),
@@ -3282,7 +3282,7 @@ def virtual_screening_page() -> None:
                     method_y_limit = nice_axis_limit(float(method_df["Count"].max()))
                     method_bars = (
                         alt.Chart(method_df)
-                        .mark_bar(cornerRadiusTopLeft=3, cornerRadiusTopRight=3, color="#2F9AD6", size=36)
+                        .mark_bar(cornerRadiusTopLeft=3, cornerRadiusTopRight=3, color="#D65A66", size=36)
                         .encode(
                             x=alt.X(
                                 "Enzyme:N",
@@ -3392,8 +3392,8 @@ def virtual_screening_page() -> None:
                 analysis_file_name="high_confidence_bitter_gte_0.93.csv.gz",
                 summary_file_name="high_confidence_bitter_gte_0.93_summary.json",
                 cutoff_label="Final_Prob >= 0.93",
-                primary_color="#D65A66",
-                secondary_color="#F59E0B",
+                primary_color="#2F9AD6",
+                secondary_color="#EF6F6C",
             )
 
     with tab_downloads:
@@ -3535,39 +3535,6 @@ def virtual_screening_page() -> None:
                     unsafe_allow_html=True,
                 )
                 render_virtual_download_table(task_df)
-
-def tools_page() -> None:
-    render_hero(
-        "Tools",
-        "Auxiliary tools for peptide sequence validation, amino acid composition and basic sequence statistics.",
-        ["Sequence check", "AAC", "Batch parser"]
-    )
-
-    tab_check, tab_aac = st.tabs(["Sequence validation", "Amino acid composition"])
-    with tab_check:
-        seq = st.text_area("Input sequences", height=180, placeholder="One sequence per line or FASTA format")
-        if st.button("Validate sequences", use_container_width=True):
-            seqs = parse_fasta_or_lines(seq)
-            rows = []
-            for s in seqs:
-                ok, msg = validate_sequence(s)
-                rows.append({"sequence": s, "length": len(s), "valid": ok, "message": msg})
-            if rows:
-                st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
-            else:
-                st.warning("No sequence found.")
-
-    with tab_aac:
-        seq = st.text_input("Peptide sequence", value="GLLGFLG")
-        seq = clean_sequence(seq)
-        ok, msg = validate_sequence(seq)
-        if not ok:
-            st.error(msg)
-        else:
-            aa = list("ACDEFGHIKLMNPQRSTVWY")
-            data = pd.DataFrame({"AA": aa, "Frequency": [seq.count(a) / len(seq) for a in aa]})
-            st.bar_chart(data.set_index("AA"))
-            st.dataframe(data, use_container_width=True, hide_index=True)
 
 def help_page() -> None:
     render_hero(
@@ -3784,7 +3751,6 @@ def sidebar() -> str:
         "Database",
         "Download",
         "Virtual Screening",
-        "Tools",
         "Help",
         "Contact",
     ]
@@ -3821,8 +3787,6 @@ elif page == "Download":
     download_page()
 elif page == "Virtual Screening":
     virtual_screening_page()
-elif page == "Tools":
-    tools_page()
 elif page == "Help":
     help_page()
 elif page == "Contact":
