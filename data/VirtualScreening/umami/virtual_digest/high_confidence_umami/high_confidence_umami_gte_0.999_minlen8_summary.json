@@ -1,0 +1,30 @@
+{
+  "created_at": "2026-07-13T21:31:36",
+  "prediction_file": "results\\predict\\unreported_fragments_all_fasta\\predictions.parquet",
+  "source_map": "data\\anoxpp_hydrolysis_sources\\peptide_hydrolysis_sources.parquet",
+  "threshold": 0.999,
+  "comparison": "gte",
+  "min_length": 8,
+  "filter": "Final_Prob >= 0.999 and Final_Pred == 1",
+  "total_prediction_rows": 2321342,
+  "high_confidence_rows_before_length_filter": 107203,
+  "high_confidence_rows": 24290,
+  "min_final_prob": 0.9990000128746033,
+  "max_final_prob": 0.9994812607765198,
+  "mean_final_prob": 0.9991374015808105,
+  "mean_length": 9.128283244133389,
+  "outputs": {
+    "csv_gz": "results\\virtual_digest_analysis\\high_confidence_umami\\high_confidence_umami_gte_0.999_minlen8.csv.gz",
+    "parquet": "results\\virtual_digest_analysis\\high_confidence_umami\\high_confidence_umami_gte_0.999_minlen8.parquet",
+    "fasta": "results\\virtual_digest_analysis\\high_confidence_umami\\high_confidence_umami_gte_0.999_minlen8.fasta",
+    "simple_headers_fasta": "results\\virtual_digest_analysis\\high_confidence_umami\\high_confidence_umami_gte_0.999_minlen8_simple_headers.fasta",
+    "sequences_txt": "results\\virtual_digest_analysis\\high_confidence_umami\\high_confidence_umami_gte_0.999_minlen8_sequences.txt",
+    "by_method_csv": "results\\virtual_digest_analysis\\high_confidence_umami\\high_confidence_umami_gte_0.999_minlen8_by_method.csv",
+    "meme_input": {
+      "top5000": "results\\virtual_digest_analysis\\high_confidence_umami\\meme_input\\high_confidence_umami_gte_0.999_minlen8_top5000.fasta",
+      "top5000_simple_headers": "results\\virtual_digest_analysis\\high_confidence_umami\\meme_input\\high_confidence_umami_gte_0.999_minlen8_top5000_simple_headers.fasta",
+      "top10000": "results\\virtual_digest_analysis\\high_confidence_umami\\meme_input\\high_confidence_umami_gte_0.999_minlen8_top10000.fasta",
+      "top10000_simple_headers": "results\\virtual_digest_analysis\\high_confidence_umami\\meme_input\\high_confidence_umami_gte_0.999_minlen8_top10000_simple_headers.fasta"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "output_dir": "results\\virtual_digest_analysis",
+  "download_files": 36,
+  "download_manifest": "results\\virtual_digest_analysis\\tables\\web_download_manifest.csv",
+  "tables_dir": "results\\virtual_digest_analysis\\tables",
+  "figures_dir": "results\\virtual_digest_analysis\\figures"
+}

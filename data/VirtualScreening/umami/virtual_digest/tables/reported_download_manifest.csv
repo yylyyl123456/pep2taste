@@ -1,0 +1,19 @@
+﻿Task,Hydrolysis_Method,Hydrolysis_Method_ID,Probability group,Unique sequences,Filtered file,Status
+Umami,Chymotrypsin + Trypsin + Pepsin (pH=1.3),ChyTryPep,Reported,192,umami/virtual_digest/download_files/by_hydrolysis_method/umami_reported_ChyTryPep.csv.gz,Ready
+Umami,Chymotrypsin + Trypsin + Pepsin (pH=1.3),ChyTryPep,No reported,312957,umami/virtual_digest/download_files/by_hydrolysis_method/umami_no_reported_ChyTryPep.csv.gz,Ready
+Umami,Thermolysin + Papain,ThePap,Reported,120,umami/virtual_digest/download_files/by_hydrolysis_method/umami_reported_ThePap.csv.gz,Ready
+Umami,Thermolysin + Papain,ThePap,No reported,154446,umami/virtual_digest/download_files/by_hydrolysis_method/umami_no_reported_ThePap.csv.gz,Ready
+Umami,Pepsin + Pancreatic,PepPan,Reported,98,umami/virtual_digest/download_files/by_hydrolysis_method/umami_reported_PepPan.csv.gz,Ready
+Umami,Pepsin + Pancreatic,PepPan,No reported,138281,umami/virtual_digest/download_files/by_hydrolysis_method/umami_no_reported_PepPan.csv.gz,Ready
+Umami,Proteinase K,ProteinaseK,Reported,72,umami/virtual_digest/download_files/by_hydrolysis_method/umami_reported_ProteinaseK.csv.gz,Ready
+Umami,Proteinase K,ProteinaseK,No reported,188846,umami/virtual_digest/download_files/by_hydrolysis_method/umami_no_reported_ProteinaseK.csv.gz,Ready
+Umami,Thermolysin,Thermolysin,Reported,91,umami/virtual_digest/download_files/by_hydrolysis_method/umami_reported_Thermolysin.csv.gz,Ready
+Umami,Thermolysin,Thermolysin,No reported,431133,umami/virtual_digest/download_files/by_hydrolysis_method/umami_no_reported_Thermolysin.csv.gz,Ready
+Umami,Papain,Papain,Reported,131,umami/virtual_digest/download_files/by_hydrolysis_method/umami_reported_Papain.csv.gz,Ready
+Umami,Papain,Papain,No reported,335899,umami/virtual_digest/download_files/by_hydrolysis_method/umami_no_reported_Papain.csv.gz,Ready
+Umami,Pepsin (pH=1.3),Pepsin,Reported,204,umami/virtual_digest/download_files/by_hydrolysis_method/umami_reported_Pepsin.csv.gz,Ready
+Umami,Pepsin (pH=1.3),Pepsin,No reported,437192,umami/virtual_digest/download_files/by_hydrolysis_method/umami_no_reported_Pepsin.csv.gz,Ready
+Umami,Chymotrypsin,Chymotrypsin,Reported,141,umami/virtual_digest/download_files/by_hydrolysis_method/umami_reported_Chymotrypsin.csv.gz,Ready
+Umami,Chymotrypsin,Chymotrypsin,No reported,458214,umami/virtual_digest/download_files/by_hydrolysis_method/umami_no_reported_Chymotrypsin.csv.gz,Ready
+Umami,Trypsin,Trypsin,Reported,160,umami/virtual_digest/download_files/by_hydrolysis_method/umami_reported_Trypsin.csv.gz,Ready
+Umami,Trypsin,Trypsin,No reported,385944,umami/virtual_digest/download_files/by_hydrolysis_method/umami_no_reported_Trypsin.csv.gz,Ready

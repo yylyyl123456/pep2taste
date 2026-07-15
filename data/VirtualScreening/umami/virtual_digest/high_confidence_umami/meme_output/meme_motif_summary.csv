@@ -1,0 +1,6 @@
+motif_id,motif_name,alt_id,regular_expression,width,sites,llr,information_content,relative_entropy,p_value,e_value,bayes_threshold,elapsed_time_sec
+motif_1,QMH,MEME-1,QMH,3,2,26.0,13.0,18.8,2.4e-07,27.0,16.4016,1322.77207
+motif_2,LHK,MEME-2,LHK,3,2,23.0,13.0,16.7,1.7e-05,1900.0,16.4016,1329.874224
+motif_3,PCD,MEME-3,PCD,3,7,76.0,13.0,15.6,2e-05,2200.0,15.8166,1336.967737
+motif_4,DPDG,MEME-4,DPDG,4,2,21.0,17.3,15.2,2.3e-05,2300.0,16.1835,1344.059222
+motif_5,DPDG,MEME-5,DPDG,4,2,21.0,17.3,15.2,2.3e-05,2300.0,16.1835,1351.12185
