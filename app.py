@@ -10,7 +10,7 @@ import re
 import time
 import zipfile
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 import altair as alt
 import pandas as pd
@@ -2182,7 +2182,7 @@ def virtual_screening_page() -> None:
     render_hero(
         "Virtual Screening",
         "A focused workspace for screening the same virtual hydrolysate peptide library with umami and bitter prediction models.",
-        ["Umami ready", "Bitter pending", "High-confidence analysis", "Separate downloads"],
+        ["Umami ready", "Bitter ready", "High-confidence analysis", "Separate downloads"],
     )
 
     manifest_path = VIRTUAL_SCREENING_DIR / "virtual_screening_manifest.csv"
@@ -2195,7 +2195,9 @@ def virtual_screening_page() -> None:
     reported_summary_path = umami_tables_dir / "hydrolysis_method_umami_reported_summary.csv"
     reported_download_manifest_path = umami_tables_dir / "reported_download_manifest.csv"
     bitter_method_summary_path = bitter_tables_dir / "hydrolysis_method_bitter_summary.csv"
+    bitter_reported_summary_path = bitter_tables_dir / "hydrolysis_method_bitter_reported_summary.csv"
     source_count_path = umami_tables_dir / "hydrolysis_source_count_umami_summary.csv"
+    bitter_source_count_path = bitter_tables_dir / "hydrolysis_source_count_bitter_summary.csv"
 
     def load_csv(path: Path) -> pd.DataFrame:
         return pd.read_csv(path) if path.exists() else pd.DataFrame()
@@ -2233,7 +2235,9 @@ def virtual_screening_page() -> None:
     reported_summary = load_csv(reported_summary_path)
     reported_download_manifest = load_csv(reported_download_manifest_path)
     bitter_method_summary = load_csv(bitter_method_summary_path)
+    bitter_reported_summary = load_csv(bitter_reported_summary_path)
     source_count_summary = load_csv(source_count_path)
+    bitter_source_count_summary = load_csv(bitter_source_count_path)
 
     numeric_cols = [
         "Count",
@@ -2261,18 +2265,26 @@ def virtual_screening_page() -> None:
     else:
         method_count = 9
     peptide_pool = int(source_count_summary["N"].sum()) if "N" in source_count_summary.columns else 0
+    if not peptide_pool and "N" in bitter_source_count_summary.columns:
+        peptide_pool = int(bitter_source_count_summary["N"].sum())
     umami_999_ready = "Final_gte_0_999" in source_count_summary.columns
-    bitter_999_ready = "Final_gte_0_999" in bitter_method_summary.columns
     umami_high_conf_999 = int(source_count_summary["Final_gte_0_999"].sum()) if umami_999_ready else 0
-    bitter_high_conf_999 = int(pd.to_numeric(bitter_method_summary["Final_gte_0_999"], errors="coerce").fillna(0).sum()) if bitter_999_ready else 0
 
-    confidence_options = {
+    umami_confidence_options = {
         "Reported": "Reported",
         "No reported": "No_reported",
         "Pro < 0.50": "Final_lt_0_50",
         "Pro >= 0.50": "Final_gte_0_50",
         "Pro >= 0.90": "Final_gte_0_90",
         "Pro >= 0.95": "Final_gte_0_95",
+    }
+    bitter_confidence_options = {
+        "Reported": "Reported",
+        "No reported": "No_reported",
+        "Pro < 0.50": "Final_lt_0_50",
+        "Pro >= 0.50": "Final_gte_0_50",
+        "Pro >= 0.85": "Final_gte_0_85",
+        "Pro >= 0.90": "Final_gte_0_90",
     }
     enzyme_display_names = {
         "Chymotrypsin + Trypsin + Pepsin (pH=1.3)": "Chymotrypsin+Trypsin+Pepsin",
@@ -2298,8 +2310,17 @@ def virtual_screening_page() -> None:
     ]
     fixed_enzyme_order = [enzyme_display_names[name] for name in enzyme_order_source]
 
+    def file_cache_signature(path: Path) -> str:
+        if not path.exists():
+            return "missing"
+        try:
+            stat = path.stat()
+        except OSError:
+            return "unreadable"
+        return f"{stat.st_size}:{int(stat.st_mtime)}"
+
     @st.cache_data(show_spinner=False)
-    def load_high_confidence_analysis(csv_path_text: str) -> Dict[str, pd.DataFrame]:
+    def load_high_confidence_analysis(csv_path_text: str, file_signature: str = "") -> Dict[str, pd.DataFrame]:
         csv_path = Path(csv_path_text)
         if not csv_path.exists():
             return {}
@@ -2319,7 +2340,10 @@ def virtual_screening_page() -> None:
             "from_Chymotrypsin",
             "from_Trypsin",
         }
-        raw = pd.read_csv(csv_path, usecols=lambda col: col in wanted_cols)
+        try:
+            raw = pd.read_csv(csv_path, usecols=lambda col: col in wanted_cols)
+        except (OSError, ValueError, pd.errors.ParserError):
+            return {}
         if raw.empty or "sequence" not in raw.columns:
             return {}
 
@@ -2478,6 +2502,7 @@ def virtual_screening_page() -> None:
         reported_df: pd.DataFrame,
         tier_label: str,
         color: str,
+        confidence_options: Dict[str, str],
         show_title: bool = True,
     ) -> None:
         tier_col = confidence_options[tier_label]
@@ -2651,6 +2676,324 @@ def virtual_screening_page() -> None:
             unsafe_allow_html=True,
         )
 
+    def render_high_confidence_panel(
+        task_label: str,
+        high_conf_dir: Path,
+        analysis_file_name: str,
+        summary_file_name: str,
+        cutoff_label: str,
+        primary_color: str,
+        secondary_color: str,
+        minlen_summary_file_name: Optional[str] = None,
+    ) -> None:
+        task_lower = task_label.lower()
+        meme_output_dir = high_conf_dir / "meme_output"
+        summary = load_json_file(high_conf_dir / summary_file_name)
+        minlen_summary = load_json_file(high_conf_dir / minlen_summary_file_name) if minlen_summary_file_name else {}
+        meme_motif_summary = load_csv(meme_output_dir / "meme_motif_summary.csv")
+        analysis_file = high_conf_dir / analysis_file_name
+        analysis_data = load_high_confidence_analysis(str(analysis_file), file_cache_signature(analysis_file))
+
+        summary_stats = analysis_data.get("summary", pd.DataFrame())
+        computed_rows = int(summary_stats["Peptides"].iloc[0]) if not summary_stats.empty and "Peptides" in summary_stats.columns else 0
+        high_conf_rows = int(summary.get("high_confidence_rows", computed_rows or 0))
+        meme_ready_rows = int(
+            minlen_summary.get(
+                "high_confidence_rows",
+                summary.get("high_confidence_minlen8_rows", 0),
+            )
+            or 0
+        )
+        mean_prob = float(summary.get("mean_final_prob", summary_stats["Mean probability"].iloc[0] if not summary_stats.empty else 0.0) or 0.0)
+        mean_len = float(summary.get("mean_length", summary_stats["Mean length"].iloc[0] if not summary_stats.empty else 0.0) or 0.0)
+
+        st.markdown(f"##### {task_label} peptide high-confidence set")
+        u1, u2, u3, u4 = st.columns(4)
+        with u1:
+            metric_box("Confidence cutoff", cutoff_label)
+        with u2:
+            metric_box("High-confidence peptides", f"{high_conf_rows:,}" if high_conf_rows else "Pending")
+        with u3:
+            metric_box("MEME-ready peptides", f"{meme_ready_rows:,}" if meme_ready_rows else "Pending")
+        with u4:
+            metric_box("Mean length", f"{mean_len:.2f} aa" if mean_len else "Pending")
+
+        if not analysis_data:
+            st.info(f"High-confidence {task_lower} analysis data are not available yet.")
+            return
+
+        aa_df = analysis_data["amino_acids"]
+        aa_chart = (
+            alt.Chart(aa_df)
+            .mark_bar(cornerRadiusTopLeft=3, cornerRadiusTopRight=3, color=primary_color, size=28)
+            .encode(
+                x=alt.X(
+                    "Residue:N",
+                    sort=AA_LIST,
+                    title="Amino acid",
+                    axis=alt.Axis(labelFontSize=13, titleFontSize=15, labelAngle=0),
+                ),
+                y=alt.Y(
+                    "Frequency (%):Q",
+                    title="Frequency (%)",
+                    axis=alt.Axis(format=".1f", tickCount=6, labelFontSize=13, titleFontSize=15, grid=True),
+                ),
+                tooltip=[
+                    alt.Tooltip("Residue:N"),
+                    alt.Tooltip("Count:Q", format=","),
+                    alt.Tooltip("Frequency (%):Q", format=".2f"),
+                ],
+            )
+            .properties(height=340)
+            .configure_view(strokeWidth=0)
+        )
+        chart_heading("Amino acid composition", f"Residue frequencies among high-confidence {task_lower} peptides.")
+        render_centered_chart(aa_chart, width=760)
+
+        st.divider()
+        dipeptide_df = analysis_data["dipeptides"]
+        dipeptide_chart = (
+            alt.Chart(dipeptide_df)
+            .mark_rect()
+            .encode(
+                x=alt.X(
+                    "Second residue:N",
+                    sort=AA_LIST,
+                    title="Second residue",
+                    axis=alt.Axis(labelAngle=0, labelFontSize=12, titleFontSize=14),
+                ),
+                y=alt.Y(
+                    "First residue:N",
+                    sort=AA_LIST,
+                    title="First residue",
+                    axis=alt.Axis(labelFontSize=12, titleFontSize=14),
+                ),
+                color=alt.Color(
+                    "Frequency per 1,000:Q",
+                    title="Frequency per 1,000",
+                    scale=alt.Scale(scheme="blues" if task_label == "Umami" else "reds"),
+                ),
+                tooltip=[
+                    alt.Tooltip("Dipeptide:N"),
+                    alt.Tooltip("Count:Q", format=","),
+                    alt.Tooltip("Frequency per 1,000:Q", format=".2f"),
+                ],
+            )
+            .properties(height=620)
+            .configure_view(strokeWidth=0)
+        )
+        chart_heading("Dipeptide composition", "Heatmap of all 400 amino-acid pairs in the high-confidence set.")
+        render_centered_chart(dipeptide_chart, width=620)
+
+        st.divider()
+        terminal_df = analysis_data["terminals"]
+        terminal_chart = (
+            alt.Chart(terminal_df)
+            .mark_bar(cornerRadiusTopLeft=2, cornerRadiusTopRight=2)
+            .encode(
+                x=alt.X(
+                    "Residue:N",
+                    sort=AA_LIST,
+                    title="Terminal residue",
+                    axis=alt.Axis(labelAngle=0, labelFontSize=13, titleFontSize=15),
+                ),
+                xOffset=alt.XOffset("Terminal:N"),
+                y=alt.Y(
+                    "Frequency (%):Q",
+                    title="Frequency (%)",
+                    axis=alt.Axis(format=".1f", tickCount=6, labelFontSize=13, titleFontSize=15, grid=True),
+                ),
+                color=alt.Color(
+                    "Terminal:N",
+                    title=None,
+                    scale=alt.Scale(
+                        domain=["N-terminal", "C-terminal"],
+                        range=[primary_color, secondary_color],
+                    ),
+                    legend=alt.Legend(orient="top", labelFontSize=13),
+                ),
+                tooltip=[
+                    alt.Tooltip("Terminal:N"),
+                    alt.Tooltip("Residue:N"),
+                    alt.Tooltip("Count:Q", format=","),
+                    alt.Tooltip("Frequency (%):Q", format=".2f"),
+                ],
+            )
+            .properties(height=350)
+            .configure_view(strokeWidth=0)
+        )
+        chart_heading("N/C-terminal residue preference", "Paired frequencies of residues at the N-terminus and C-terminus.")
+        render_centered_chart(terminal_chart, width=760)
+
+        st.divider()
+        length_df = analysis_data["lengths"]
+        length_labels = length_df["Length label"].tolist()
+        length_chart = (
+            alt.Chart(length_df)
+            .mark_bar(cornerRadiusTopLeft=3, cornerRadiusTopRight=3, color="#39A78E", size=30)
+            .encode(
+                x=alt.X(
+                    "Length label:N",
+                    sort=length_labels,
+                    title="Peptide length (aa)",
+                    axis=alt.Axis(labelAngle=0, labelFontSize=13, titleFontSize=15),
+                ),
+                y=alt.Y(
+                    "Count:Q",
+                    title="Count",
+                    axis=alt.Axis(format=",.0f", tickCount=6, labelFontSize=13, titleFontSize=15, grid=True),
+                ),
+                tooltip=[
+                    alt.Tooltip("Length:Q", format=".0f"),
+                    alt.Tooltip("Count:Q", format=","),
+                ],
+            )
+            .properties(height=330)
+            .configure_view(strokeWidth=0)
+        )
+        chart_heading("Peptide length distribution", f"Length distribution of all high-confidence {task_lower} peptides.")
+        render_centered_chart(length_chart, width=700)
+
+        st.divider()
+        probability_df = analysis_data["probabilities"]
+        if not probability_df.empty:
+            probability_chart = (
+                alt.Chart(probability_df)
+                .mark_bar(cornerRadiusTopLeft=3, cornerRadiusTopRight=3, color="#6C8AE4")
+                .encode(
+                    x=alt.X(
+                        "Probability bin:N",
+                        sort=probability_df["Probability bin"].tolist(),
+                        title="Final_Prob range",
+                        axis=alt.Axis(labelAngle=-35, labelFontSize=10, titleFontSize=15, labelLimit=120),
+                    ),
+                    y=alt.Y(
+                        "Count:Q",
+                        title="Count",
+                        axis=alt.Axis(format=",.0f", tickCount=6, labelFontSize=13, titleFontSize=15, grid=True),
+                    ),
+                    tooltip=[
+                        alt.Tooltip("Probability bin:N"),
+                        alt.Tooltip("Count:Q", format=","),
+                    ],
+                )
+                .properties(height=330)
+                .configure_view(strokeWidth=0)
+            )
+            chart_heading("Prediction probability distribution", f"Final model probabilities within the high-confidence set; mean Final_Prob = {mean_prob:.6f}.")
+            render_centered_chart(probability_chart, width=760)
+
+        st.divider()
+        method_df = analysis_data["methods"]
+        if not method_df.empty:
+            method_y_limit = nice_axis_limit(float(method_df["Count"].max()))
+            method_bars = (
+                alt.Chart(method_df)
+                .mark_bar(cornerRadiusTopLeft=3, cornerRadiusTopRight=3, color=primary_color, size=36)
+                .encode(
+                    x=alt.X(
+                        "Enzyme:N",
+                        sort=fixed_enzyme_order,
+                        title="Enzyme",
+                        axis=alt.Axis(labelAngle=-35, labelFontSize=12, titleFontSize=15, labelLimit=260),
+                    ),
+                    y=alt.Y(
+                        "Count:Q",
+                        title="Count",
+                        scale=alt.Scale(domain=[0, method_y_limit], nice=False),
+                        axis=alt.Axis(format=",.0f", tickCount=6, labelFontSize=13, titleFontSize=15, grid=True),
+                    ),
+                    tooltip=[
+                        alt.Tooltip("Enzyme:N"),
+                        alt.Tooltip("Count:Q", format=","),
+                    ],
+                )
+            )
+            method_text = (
+                alt.Chart(method_df)
+                .mark_text(align="center", baseline="bottom", dy=-8, color="#1f2937", fontSize=12, fontWeight="bold")
+                .encode(
+                    x=alt.X("Enzyme:N", sort=fixed_enzyme_order),
+                    y=alt.Y("Count:Q", scale=alt.Scale(domain=[0, method_y_limit], nice=False)),
+                    text=alt.Text("Count:Q", format=","),
+                )
+            )
+            method_chart = (method_bars + method_text).properties(height=390).configure_view(strokeWidth=0)
+            chart_heading("Hydrolysis-source contribution", "Number of high-confidence peptides generated by each hydrolysis method.")
+            render_centered_chart(method_chart, width=760)
+
+        st.divider()
+        overlap_df = analysis_data["overlap"]
+        if not overlap_df.empty:
+            overlap_y_limit = nice_axis_limit(float(overlap_df["Count"].max()))
+            overlap_bars = (
+                alt.Chart(overlap_df)
+                .mark_bar(cornerRadiusTopLeft=3, cornerRadiusTopRight=3, color="#F59E0B", size=38)
+                .encode(
+                    x=alt.X(
+                        "Method count label:N",
+                        sort=overlap_df["Method count label"].tolist(),
+                        title="Hydrolysis methods per peptide",
+                        axis=alt.Axis(labelAngle=0, labelFontSize=13, titleFontSize=15),
+                    ),
+                    y=alt.Y(
+                        "Count:Q",
+                        title="Count",
+                        scale=alt.Scale(domain=[0, overlap_y_limit], nice=False),
+                        axis=alt.Axis(format=",.0f", tickCount=6, labelFontSize=13, titleFontSize=15, grid=True),
+                    ),
+                    tooltip=[
+                        alt.Tooltip("Hydrolysis methods per peptide:Q", format=".0f"),
+                        alt.Tooltip("Count:Q", format=","),
+                    ],
+                )
+            )
+            overlap_text = (
+                alt.Chart(overlap_df)
+                .mark_text(align="center", baseline="bottom", dy=-8, color="#1f2937", fontSize=12, fontWeight="bold")
+                .encode(
+                    x=alt.X("Method count label:N", sort=overlap_df["Method count label"].tolist()),
+                    y=alt.Y("Count:Q", scale=alt.Scale(domain=[0, overlap_y_limit], nice=False)),
+                    text=alt.Text("Count:Q", format=","),
+                )
+            )
+            overlap_chart = (overlap_bars + overlap_text).properties(height=330).configure_view(strokeWidth=0)
+            chart_heading("Hydrolysis-source overlap", "How many hydrolysis methods produced the same high-confidence peptide.")
+            render_centered_chart(overlap_chart, width=560)
+
+        st.divider()
+        chart_heading(
+            "MEME motif logos",
+            f"Non-redundant MEME motif logos from high-confidence {task_lower} peptides with length >= 8 aa.",
+        )
+        if meme_motif_summary.empty:
+            st.info("MEME motif logo files have not been added yet.")
+            return
+
+        motif_view = meme_motif_summary.copy()
+        motif_view["e_value"] = pd.to_numeric(motif_view.get("e_value"), errors="coerce")
+        motif_view["sites"] = pd.to_numeric(motif_view.get("sites"), errors="coerce")
+        motif_view["width"] = pd.to_numeric(motif_view.get("width"), errors="coerce")
+        motif_view = motif_view.sort_values(["e_value", "regular_expression"]).drop_duplicates("regular_expression")
+
+        logo_items = []
+        for _, motif_row in motif_view.iterrows():
+            motif_name = str(motif_row.get("regular_expression") or motif_row.get("motif_name") or "").strip()
+            if not motif_name:
+                continue
+            logo_path = meme_output_dir / f"{motif_name}.png"
+            if not logo_path.exists():
+                continue
+            e_value = motif_row.get("e_value")
+            sites = motif_row.get("sites")
+            width = motif_row.get("width")
+            e_label = f"{float(e_value):.2g}" if pd.notna(e_value) else "NA"
+            sites_label = f"{int(sites)}" if pd.notna(sites) else "NA"
+            width_label = f"{int(width)}" if pd.notna(width) else "NA"
+            caption = f"{motif_name} | width {width_label} | sites {sites_label} | E-value {e_label}"
+            logo_items.append((logo_path, caption, f"MEME motif logo {motif_name}"))
+        render_meme_logo_grid(logo_items)
+
     section("Screening Overview")
     c1, c2, c3, c4 = st.columns(4)
     with c1:
@@ -2675,44 +3018,48 @@ def virtual_screening_page() -> None:
                 <strong>21,249 proteins from 60 species</strong>. Different enzymes and enzyme combinations
                 are used to generate hydrolyzed fragments, illegal sequences are removed, and the remaining
                 peptides serve as the shared screening pool for both umami and bitter prediction models.
-                <strong>Reported</strong> indicates peptides matched to entries in Database.csv whose Taste
-                label contains <strong>Umami</strong>; <strong>No reported</strong> indicates peptides not
-                found in those reported umami records.
+                <strong>Reported</strong> indicates peptides already matched to Database.csv records for the
+                corresponding taste task; <strong>No reported</strong> indicates candidates not found in those
+                reported task-specific records.
             </div>
             """,
             unsafe_allow_html=True,
         )
 
-        default_tier = "Pro >= 0.95"
-        tier_labels = list(confidence_options.keys())
-        default_tier_index = tier_labels.index(default_tier) if default_tier in tier_labels else len(tier_labels) - 1
+        umami_default_tier = "Pro >= 0.95"
+        umami_tier_labels = list(umami_confidence_options.keys())
+        umami_default_tier_index = umami_tier_labels.index(umami_default_tier) if umami_default_tier in umami_tier_labels else len(umami_tier_labels) - 1
 
         st.markdown("#### Umami Prediction")
         umami_filter_left, umami_filter_center, umami_filter_right = st.columns([0.23, 0.54, 0.23])
         with umami_filter_center:
             umami_tier = st.radio(
                 "Umami chart filter",
-                tier_labels,
-                index=default_tier_index,
+                umami_tier_labels,
+                index=umami_default_tier_index,
                 horizontal=True,
                 label_visibility="collapsed",
                 key="virtual_overview_umami_confidence_tier",
             )
-        render_confidence_chart("Umami Prediction", method_summary, reported_summary, umami_tier, "#2F9AD6", show_title=False)
+        render_confidence_chart("Umami Prediction", method_summary, reported_summary, umami_tier, "#2F9AD6", umami_confidence_options, show_title=False)
 
         st.divider()
+        bitter_default_tier = "Pro >= 0.90"
+        bitter_tier_labels = list(bitter_confidence_options.keys())
+        bitter_default_tier_index = bitter_tier_labels.index(bitter_default_tier) if bitter_default_tier in bitter_tier_labels else len(bitter_tier_labels) - 1
+
         st.markdown("#### Bitter Prediction")
         bitter_filter_left, bitter_filter_center, bitter_filter_right = st.columns([0.23, 0.54, 0.23])
         with bitter_filter_center:
             bitter_tier = st.radio(
                 "Bitter chart filter",
-                tier_labels,
-                index=default_tier_index,
+                bitter_tier_labels,
+                index=bitter_default_tier_index,
                 horizontal=True,
                 label_visibility="collapsed",
                 key="virtual_overview_bitter_confidence_tier",
             )
-        render_confidence_chart("Bitter Prediction", bitter_method_summary, pd.DataFrame(), bitter_tier, "#D65A66", show_title=False)
+        render_confidence_chart("Bitter Prediction", bitter_method_summary, bitter_reported_summary, bitter_tier, "#D65A66", bitter_confidence_options, show_title=False)
 
         with st.expander("Workflow used for this release", expanded=False):
             st.markdown(
@@ -2745,7 +3092,7 @@ def virtual_screening_page() -> None:
             umami_minlen8_summary = load_json_file(high_conf_dir / "high_confidence_umami_gte_0.999_minlen8_summary.json")
             meme_motif_summary = load_csv(meme_output_dir / "meme_motif_summary.csv")
             analysis_file = high_conf_dir / "high_confidence_umami_gte_0.999.csv.gz"
-            analysis_data = load_high_confidence_analysis(str(analysis_file))
+            analysis_data = load_high_confidence_analysis(str(analysis_file), file_cache_signature(analysis_file))
 
             summary_stats = analysis_data.get("summary", pd.DataFrame())
             computed_rows = int(summary_stats["Peptides"].iloc[0]) if not summary_stats.empty and "Peptides" in summary_stats.columns else 0
@@ -3039,11 +3386,14 @@ def virtual_screening_page() -> None:
                         logo_items.append((logo_path, caption, f"MEME motif logo {motif_name}"))
                     render_meme_logo_grid(logo_items)
         else:
-            st.markdown("##### Bitter peptide high-confidence set")
-            st.info(
-                "Bitter peptide prediction will use the same virtual hydrolysate peptide library. "
-                "After bitter model screening is completed, this section can reuse the same analysis structure: "
-                "composition, dipeptides, N/C terminals, hydrolysis-source strata, and MEME motifs."
+            render_high_confidence_panel(
+                task_label="Bitter",
+                high_conf_dir=bitter_root / "high_confidence_bitter",
+                analysis_file_name="high_confidence_bitter_gte_0.93.csv.gz",
+                summary_file_name="high_confidence_bitter_gte_0.93_summary.json",
+                cutoff_label="Final_Prob >= 0.93",
+                primary_color="#D65A66",
+                secondary_color="#F59E0B",
             )
 
     with tab_downloads:
@@ -3136,7 +3486,16 @@ def virtual_screening_page() -> None:
         if manifest.empty and reported_download_manifest.empty:
             st.info("No virtual screening download records are available yet.")
         else:
-            manifest_parts = [part for part in [manifest, reported_download_manifest] if not part.empty]
+            manifest_parts = [manifest] if not manifest.empty else []
+            manifest_has_reported = (
+                not manifest.empty
+                and "Task" in manifest.columns
+                and "Probability group" in manifest.columns
+                and manifest["Task"].astype(str).eq("Umami").any()
+                and manifest["Probability group"].astype(str).isin(["Reported", "No reported"]).any()
+            )
+            if not reported_download_manifest.empty and not manifest_has_reported:
+                manifest_parts.append(reported_download_manifest)
             download_manifest = pd.concat(manifest_parts, ignore_index=True, sort=False)
             download_manifest["Task"] = download_manifest["Task"].fillna("Task").astype(str)
             method_order_map = {name: order for order, name in enumerate(enzyme_order_source)}
@@ -3145,8 +3504,9 @@ def virtual_screening_page() -> None:
                 "No reported": 1,
                 "< 0.50": 2,
                 ">= 0.50": 3,
-                ">= 0.90": 4,
-                ">= 0.95": 5,
+                ">= 0.85": 4,
+                ">= 0.90": 5,
+                ">= 0.95": 6,
                 "Coming soon": 99,
             }
             task_order_map = {"Bitter": 0, "Umami": 1}

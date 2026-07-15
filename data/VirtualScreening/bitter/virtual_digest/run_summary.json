@@ -1,0 +1,132 @@
+{
+  "script": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\predict_virtual_digest.py",
+  "model": {
+    "combo_id": "COMBO_037",
+    "final_model_name": "COMBO037_LinearSVM",
+    "meta_feature_order": [
+      "PLM",
+      "AA",
+      "FP"
+    ],
+    "base_prediction_aggregation": "arithmetic mean of five fold-model probabilities"
+  },
+  "start_time": "2026-07-15T19:35:50",
+  "end_time": "2026-07-15T21:51:41",
+  "elapsed_seconds": 8150.5459859371185,
+  "elapsed_minutes": 135.84243309895197,
+  "host": "yyl",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "python": "3.10.20 | packaged by conda-forge | (main, Jun 11 2026, 03:28:51) [MSC v.1944 64 bit (AMD64)]",
+  "torch_version": "2.5.1+cu124",
+  "cuda_available": true,
+  "device": "cuda",
+  "input": {
+    "fasta": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\data\\unreported_fragments_all.fasta",
+    "bytes": 59882270,
+    "records": 2321342,
+    "valid_records": 2321342,
+    "skipped_empty": 0,
+    "skipped_invalid": 0,
+    "skipped_short": 0,
+    "min_length": 2,
+    "max_length": 20,
+    "mean_length": 8.275048657199155,
+    "max_records_limit": null,
+    "min_length_filter": 2
+  },
+  "prediction": {
+    "threshold": 0.5,
+    "output_format": "parquet",
+    "chunk_size": 2048,
+    "esm_batch_size": 32,
+    "mlp_batch_size": 32,
+    "n_folds": 5,
+    "top_k": 1000,
+    "prediction_file": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\virtual_digest_bitter_combo037\\predictions\\predictions.parquet",
+    "hits_file": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\virtual_digest_bitter_combo037\\predictions\\predicted_bitter_hits.csv.gz",
+    "top_candidates_file": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\virtual_digest_bitter_combo037\\predictions\\top_candidates.csv",
+    "skipped_records_file": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\virtual_digest_bitter_combo037\\predictions\\skipped_records.csv.gz",
+    "summary_file": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\virtual_digest_bitter_combo037\\tables\\prediction_summary.csv",
+    "predicted_records": 2321342,
+    "summary_rows": [
+      {
+        "Model": "AA_LightGBM",
+        "Threshold": 0.5,
+        "N": 2321342,
+        "Predicted_Bitter": 436830,
+        "Recognition_Rate": 0.18817994074117472,
+        "Mean_Prob": 0.255992205712218,
+        "Min_Prob": 0.002005700813922424,
+        "Max_Prob": 0.9988839326505519
+      },
+      {
+        "Model": "FP_CatBoost",
+        "Threshold": 0.5,
+        "N": 2321342,
+        "Predicted_Bitter": 507172,
+        "Recognition_Rate": 0.21848224001461225,
+        "Mean_Prob": 0.2906374485865448,
+        "Min_Prob": 0.00010978506063159335,
+        "Max_Prob": 0.999685107277638
+      },
+      {
+        "Model": "PLM_MLP",
+        "Threshold": 0.5,
+        "N": 2321342,
+        "Predicted_Bitter": 578000,
+        "Recognition_Rate": 0.2489939009417828,
+        "Mean_Prob": 0.29962113306335675,
+        "Min_Prob": 0.008291130745783448,
+        "Max_Prob": 0.9968340516090393
+      },
+      {
+        "Model": "COMBO037_LinearSVM",
+        "Threshold": 0.5,
+        "N": 2321342,
+        "Predicted_Bitter": 522735,
+        "Recognition_Rate": 0.22518655157232326,
+        "Mean_Prob": 0.30951382049843196,
+        "Min_Prob": 0.08267374610630733,
+        "Max_Prob": 0.9374624512583353
+      }
+    ]
+  },
+  "model_paths": {
+    "model_dir": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\combo037_reproduced\\models",
+    "feature_dir": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\feature",
+    "esm_model_dir": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\pretrain\\esm2_t33_650M_UR50D",
+    "fold_models": {
+      "fold_1": {
+        "aa_lgbm": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\combo037_reproduced\\models\\aa_lgbm_fold1.joblib",
+        "fp_catboost": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\combo037_reproduced\\models\\fp_catboost_fold1.cbm",
+        "plm_scaler": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\combo037_reproduced\\models\\plm_scaler_fold1.joblib",
+        "plm_mlp": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\combo037_reproduced\\models\\plm_mlp_fold1.pt"
+      },
+      "fold_2": {
+        "aa_lgbm": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\combo037_reproduced\\models\\aa_lgbm_fold2.joblib",
+        "fp_catboost": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\combo037_reproduced\\models\\fp_catboost_fold2.cbm",
+        "plm_scaler": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\combo037_reproduced\\models\\plm_scaler_fold2.joblib",
+        "plm_mlp": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\combo037_reproduced\\models\\plm_mlp_fold2.pt"
+      },
+      "fold_3": {
+        "aa_lgbm": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\combo037_reproduced\\models\\aa_lgbm_fold3.joblib",
+        "fp_catboost": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\combo037_reproduced\\models\\fp_catboost_fold3.cbm",
+        "plm_scaler": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\combo037_reproduced\\models\\plm_scaler_fold3.joblib",
+        "plm_mlp": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\combo037_reproduced\\models\\plm_mlp_fold3.pt"
+      },
+      "fold_4": {
+        "aa_lgbm": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\combo037_reproduced\\models\\aa_lgbm_fold4.joblib",
+        "fp_catboost": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\combo037_reproduced\\models\\fp_catboost_fold4.cbm",
+        "plm_scaler": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\combo037_reproduced\\models\\plm_scaler_fold4.joblib",
+        "plm_mlp": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\combo037_reproduced\\models\\plm_mlp_fold4.pt"
+      },
+      "fold_5": {
+        "aa_lgbm": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\combo037_reproduced\\models\\aa_lgbm_fold5.joblib",
+        "fp_catboost": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\combo037_reproduced\\models\\fp_catboost_fold5.cbm",
+        "plm_scaler": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\combo037_reproduced\\models\\plm_scaler_fold5.joblib",
+        "plm_mlp": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\combo037_reproduced\\models\\plm_mlp_fold5.pt"
+      }
+    },
+    "meta_linear_svm": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\combo037_reproduced\\models\\meta_linear_svm_plm_aa_fp.joblib"
+  }
+}

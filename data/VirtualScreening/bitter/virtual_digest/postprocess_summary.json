@@ -1,0 +1,36 @@
+{
+  "task": "Bitter",
+  "prediction_file": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\virtual_digest_bitter_combo037\\predictions\\predictions.parquet",
+  "source_map": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\data\\anoxpp_hydrolysis_sources\\peptide_hydrolysis_sources.parquet",
+  "database": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\data\\Database.csv",
+  "output_dir": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\virtual_digest_bitter_combo037",
+  "merged_prediction_file": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\virtual_digest_bitter_combo037\\predictions\\predictions_with_sources.parquet",
+  "probability_manifest": "data/VirtualScreening/bitter/virtual_digest/tables/web_download_manifest.csv",
+  "reported_manifest": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\virtual_digest_bitter_combo037\\tables\\reported_download_manifest.csv",
+  "combined_manifest": "data/VirtualScreening/virtual_screening_manifest.csv",
+  "download_files": 36,
+  "tables": {
+    "method_summary": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\virtual_digest_bitter_combo037\\tables\\hydrolysis_method_bitter_summary.csv",
+    "reported_summary": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\virtual_digest_bitter_combo037\\tables\\hydrolysis_method_bitter_reported_summary.csv",
+    "source_count_summary": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\virtual_digest_bitter_combo037\\tables\\hydrolysis_source_count_bitter_summary.csv"
+  },
+  "high_confidence": {
+    "summary_path": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\virtual_digest_bitter_combo037\\high_confidence_bitter\\high_confidence_bitter_gte_0.93_summary.json",
+    "task": "Bitter",
+    "threshold": 0.93,
+    "high_confidence_rows": 6749,
+    "high_confidence_minlen8_rows": 2719,
+    "reported_rows": 73,
+    "no_reported_rows": 6676,
+    "mean_final_prob": 0.9329453144917719,
+    "median_final_prob": 0.9327885233155659,
+    "mean_length": 7.293376796562454,
+    "csv_file": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\virtual_digest_bitter_combo037\\high_confidence_bitter\\high_confidence_bitter_gte_0.93.csv.gz",
+    "parquet_file": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\virtual_digest_bitter_combo037\\high_confidence_bitter\\high_confidence_bitter_gte_0.93.parquet",
+    "fasta_file": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\virtual_digest_bitter_combo037\\high_confidence_bitter\\high_confidence_bitter_gte_0.93.fasta",
+    "minlen8_csv_file": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\virtual_digest_bitter_combo037\\high_confidence_bitter\\high_confidence_bitter_gte_0.93_minlen8.csv.gz",
+    "minlen8_fasta_file": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\virtual_digest_bitter_combo037\\high_confidence_bitter\\high_confidence_bitter_gte_0.93_minlen8.fasta",
+    "by_method_file": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\virtual_digest_bitter_combo037\\high_confidence_bitter\\high_confidence_bitter_gte_0.93_by_method.csv"
+  },
+  "readme": "D:\\Desktop\\BitterUmami_Code\\Bitter-Stack\\results\\virtual_digest_bitter_combo037\\README.md"
+}
