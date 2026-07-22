@@ -21,7 +21,6 @@ import streamlit.components.v1 as components
 
 # ==========================================================
 # Pep2Taste Streamlit Rebuild
-# Cloud inference is enabled through BITTER_API_URL and UMAMI_API_URL.
 # Mock prediction is only used as a fallback when the backend is unavailable.
 # ==========================================================
 
@@ -31,6 +30,8 @@ DATABASE_PATH = APP_DIR / "data" / "Database.csv"
 VIRTUAL_SCREENING_DIR = DATA_DIR / "VirtualScreening"
 USER_SUBMISSION_DIR = DATA_DIR / "UserSubmissions"
 CONTACT_FIGURE_DIR = APP_DIR / "figure"
+MODEL_FIGURE_DIR = CONTACT_FIGURE_DIR / "model_architectures"
+HELP_WORKFLOW_FIGURE = CONTACT_FIGURE_DIR / "pep2taste_workflow.png"
 AA_PATTERN = re.compile(r"^[ACDEFGHIKLMNPQRSTVWY]+$", re.IGNORECASE)
 
 AA_LIST = list("ACDEFGHIKLMNPQRSTVWY")
@@ -62,12 +63,16 @@ DESCRIPTOR_LABELS = {
     "Stability Index": "Stability Index",
 }
 SPLIT_LABEL_ORDER = ["train_pos", "train_neg", "test_pos", "test_neg"]
+MODEL_DISPLAY_NAMES = {
+    "Bitter_Stacking": "BPPred",
+    "Umami_LoRA": "UPPred",
+}
 
 st.set_page_config(
     page_title="Pep2Taste | Peptide Taste Prediction",
     page_icon="🧬",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="auto",
 )
 
 
@@ -155,7 +160,7 @@ html, body, [class*="css"] {
 .hero-content {
     position: relative;
     z-index: 1;
-    max-width: min(1360px, calc(100vw - 23rem));
+    max-width: 100%;
 }
 .hero:after {
     content: "";
@@ -432,11 +437,11 @@ div[data-testid="stFullScreenFrame"] > div {
 }
 .meme-logo-grid {
     display:grid;
-    grid-template-columns:repeat(4, minmax(150px, 178px));
+    grid-template-columns:repeat(4, minmax(180px, 230px));
     justify-content:center;
     align-items:start;
     gap:1.15rem;
-    width:min(100%, 790px);
+    width:min(100%, 1010px);
 }
 .meme-logo-item {
     text-align:center;
@@ -444,8 +449,8 @@ div[data-testid="stFullScreenFrame"] > div {
 .meme-logo-item img {
     display:block;
     margin:0 auto;
-    max-width:150px;
-    max-height:225px;
+    max-width:210px;
+    max-height:240px;
     width:auto;
     height:auto;
 }
@@ -681,9 +686,81 @@ div[role="radiogroup"][aria-label="High-confidence analysis target"] label:has(i
     color:#64748b;
     line-height:1.62;
 }
+.help-workflow-figure {
+    margin:.5rem 0 1.2rem;
+    border:1px solid rgba(15,23,42,.10);
+    border-radius:8px;
+    overflow:hidden;
+    background:#ffffff;
+    box-shadow:0 12px 32px rgba(15,23,42,.07);
+}
+.help-workflow-figure img {
+    display:block;
+    width:100%;
+    height:auto;
+}
+.help-workflow-caption {
+    padding:.7rem 1rem .8rem;
+    color:#64748b;
+    font-size:.9rem;
+    line-height:1.5;
+    border-top:1px solid rgba(15,23,42,.08);
+}
+.help-guide-grid {
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+    gap:1rem;
+    margin:.35rem 0 1.15rem;
+}
+.help-guide-item {
+    border:1px solid rgba(15,23,42,.10);
+    border-left:5px solid var(--guide-color, #2563eb);
+    border-radius:8px;
+    background:#ffffff;
+    padding:1rem 1.05rem;
+}
+.help-guide-item h3 {
+    margin:0 0 .35rem;
+    color:#0f172a;
+    font-size:1.05rem;
+}
+.help-guide-item p {
+    margin:0;
+    color:#64748b;
+    line-height:1.62;
+}
+.help-reference-grid {
+    display:grid;
+    grid-template-columns:repeat(3, minmax(0, 1fr));
+    gap:1rem;
+    margin:.45rem 0 1rem;
+}
+.help-reference-item {
+    border-top:3px solid var(--ref-color, #2563eb);
+    background:#f8fafc;
+    padding:.9rem 1rem;
+    min-height:150px;
+}
+.help-reference-item h4 {
+    margin:0 0 .45rem;
+    color:#0f172a;
+    font-size:1rem;
+}
+.help-reference-item p {
+    margin:.25rem 0;
+    color:#475569;
+    line-height:1.55;
+    font-size:.92rem;
+}
+.help-reference-item code {
+    color:#0f172a;
+    font-weight:750;
+}
 @media (max-width: 980px) {
     .contact-profile-grid,
-    .contact-action-strip {
+    .contact-action-strip,
+    .help-guide-grid,
+    .help-reference-grid {
         grid-template-columns:1fr;
     }
     .contact-profile-card {
@@ -691,6 +768,34 @@ div[role="radiogroup"][aria-label="High-confidence analysis target"] label:has(i
     }
 }
 @media (max-width: 620px) {
+    .block-container {
+        padding:1rem .85rem 2rem;
+    }
+    .hero {
+        padding:1.7rem 1.35rem;
+        border-radius:18px;
+    }
+    .hero h1 {
+        font-size:2.05rem;
+        line-height:1.12;
+    }
+    .hero p {
+        font-size:.95rem;
+        line-height:1.55;
+    }
+    .hero .actions {
+        gap:.5rem;
+        margin-top:1.1rem;
+    }
+    .badge {
+        font-size:.78rem;
+        padding:.36rem .62rem;
+    }
+    .module-card {
+        min-height:190px;
+        padding:1.45rem;
+        border-radius:18px;
+    }
     .contact-profile-card {
         grid-template-columns:1fr;
     }
@@ -1048,11 +1153,20 @@ def split_taste_labels(value: Any) -> List[str]:
     return labels or ["Unspecified"]
 
 
+def normalize_doi_text(value: Any) -> str:
+    text = str(value or "").strip()
+    if not text or text.lower() == "nan":
+        return "Not reported"
+    text = re.sub(r"\bDOI\d*\s*:\s*", "", text, flags=re.IGNORECASE)
+    doi_values = re.findall(r"10\.\d{4,9}/[^\s;,]+", text)
+    return "; ".join(dict.fromkeys(doi_values)) if doi_values else text
+
+
 def doi_to_url(value: Any) -> str:
-    doi = str(value or "").strip()
+    doi = normalize_doi_text(value)
     if not doi or doi.lower() == "nan" or doi == "Not reported":
         return ""
-    doi = re.sub(r"^doi:\s*", "", doi, flags=re.IGNORECASE).strip()
+    doi = doi.split(";", 1)[0].strip()
     if doi.startswith("http://") or doi.startswith("https://"):
         return doi
     return f"https://doi.org/{doi}"
@@ -1143,8 +1257,10 @@ def infer_split_from_file(path: Path) -> str:
 
 
 def dataset_display_name(name: str) -> str:
-    if name in {"Bitter(Ours)", "Umami(Ours)"}:
-        return name
+    if name == "Bitter(Ours)":
+        return "BTP1160"
+    if name == "Umami(Ours)":
+        return "UMP1916"
     if name.endswith(" / UMP789_balance"):
         return "UMP789(1:1)"
     if name.endswith(" / UMP789_imbalance"):
@@ -1366,7 +1482,7 @@ def load_database() -> pd.DataFrame:
     df["Taste"] = df["Taste"].fillna("Unspecified").astype(str).str.strip().replace("", "Unspecified")
     df["Len"] = pd.to_numeric(df["Len"], errors="coerce").fillna(df["Sequence"].str.len()).astype(int)
     df["Source"] = df["Source"].fillna("Not reported").astype(str).str.strip().replace("", "Not reported")
-    df["DOI"] = df["DOI"].fillna("Not reported").astype(str).str.strip().replace("", "Not reported")
+    df["DOI"] = df["DOI"].map(normalize_doi_text)
 
     missing_descriptor = False
     for col in DESCRIPTOR_COLUMNS:
@@ -1400,8 +1516,8 @@ def load_database_with_properties() -> pd.DataFrame:
 def home_page() -> None:
     render_hero(
         "Pep2Taste",
-        "Pep2Taste is an artificial intelligence platform for peptide taste prediction. The system is designed to support sequence-based identification of taste-active peptides, including bitter and umami peptides, by integrating machine learning models, peptide feature representations, and cloud-based inference services. Users can submit single or batch peptide sequences, obtain prediction probabilities and class labels, and access dataset visualization, download templates, and auxiliary analysis tools through a unified web interface.",
-        ["Peptide taste prediction", "Bitter peptide", "Umami peptide", "Database", "Download"]
+        "Pep2Taste is an integrated platform for the computational discovery of taste peptides. It combines bitter and umami peptide prediction with a curated database, benchmark datasets, physicochemical analysis, and virtual-hydrolysate screening in one research workspace.",
+        ["Bitter peptide", "Umami peptide", "Virtual hydrolysis", "Database", "Download"]
     )
 
     section("Function Modules")
@@ -1410,14 +1526,14 @@ def home_page() -> None:
         module_card(
             "module-bitter",
             "Bitter Peptide Prediction",
-            "Predict whether a submitted peptide sequence is likely to exhibit bitter taste. The module supports sequence input, file upload, probability output, and downloadable prediction results.",
+            "Classify bitter and non-bitter peptides with BPPred or its three constituent feature branches, using pasted sequences or batch files.",
             "Bitter Prediction"
         )
     with c2:
         module_card(
             "module-umami",
             "Umami Peptide Prediction",
-            "Identify potential umami peptides from user-submitted sequences or uploaded files. The module supports threshold control, batch prediction, and downloadable prediction results.",
+            "Screen umami peptide candidates with UPPred or individual ESM2-LoRA, PepBERT-LoRA, and ProtT5-LoRA branches.",
             "Umami Prediction"
         )
 
@@ -1427,25 +1543,20 @@ def home_page() -> None:
         module_card(
             "module-db",
             "Taste Peptide Database",
-            "Explore peptide datasets, taste-category statistics, sequence-length distributions, amino acid composition patterns, and interactive visualization outputs.",
+            "Search curated taste peptide records and examine sequence, source, literature, and physicochemical patterns across taste classes.",
             "Database"
         )
     with c4:
         module_card(
             "module-download",
             "Dataset Download",
-            "Download CSV and FASTA templates for peptide prediction workflows, and review the standard result table format used by Pep2Taste.",
+            "Download taste peptide binary-classification benchmarks and compare their peptide-length and amino acid composition profiles.",
             "Download"
         )
 
-    st.markdown(
-        '<div class="note-box"><strong>Cloud inference is enabled.</strong> Bitter and umami peptide predictions are served through the configured Hugging Face backend API, with local mock output used only when the backend is unavailable.</div>',
-        unsafe_allow_html=True,
-    )
-
 def prediction_page(task: str) -> None:
     is_bitter = task == "bitter"
-    model_name = "Bitter-Fusion" if is_bitter else "Umami-LoRA"
+    model_name = "BPPred" if is_bitter else "UPPred"
     method_options = (
         ["ESM2_t33_MLP", "AA_LGBM", "FP_CatBoost", "Bitter_Stacking"]
         if is_bitter else
@@ -1454,11 +1565,11 @@ def prediction_page(task: str) -> None:
     default_method_index = 3
     task_name = "bitter peptide" if is_bitter else "umami peptide"
     subtitle = (
-        "Bitter-Fusion predicts bitter peptide candidates from pasted sequences or uploaded FASTA, CSV, and TXT files. The workspace supports example loading, batch prediction, threshold control, and downloadable result tables."
+        "BPPred combines ESM-2 sequence representations, amino acid descriptors, and FCFP4 fingerprints through a probability-stacking classifier. Submit individual or batch peptide sequences for binary prediction and downloadable results."
         if is_bitter else
-        "Umami-LoRA predicts umami peptide candidates from pasted sequences or uploaded FASTA, CSV, and TXT files. The workspace supports example loading, batch prediction, threshold control, and downloadable result tables."
+        "UPPred integrates ESM2-LoRA, PepBERT-LoRA, and ProtT5-LoRA branch probabilities through weighted soft voting. Submit individual or batch peptide sequences for binary prediction and downloadable results."
     )
-    badges = [model_name, "Binary classification", "FASTA / CSV / TXT", "Downloadable results"]
+    badges = ["Binary classification", "FASTA / CSV / TXT", "Downloadable results"]
 
     render_hero(model_name, subtitle, badges)
     st.write("")
@@ -1482,13 +1593,25 @@ def prediction_page(task: str) -> None:
         st.session_state[text_key] = ""
     selected_method = None
 
-    st.markdown(f'<div class="predictor-model-label">{model_name} Prediction Model:</div>', unsafe_allow_html=True)
+    architecture_path = MODEL_FIGURE_DIR / ("bppred_architecture.jpg" if is_bitter else "uppred_architecture.jpg")
+    with st.expander("Model architecture", expanded=False):
+        if architecture_path.exists():
+            st.image(
+                str(architecture_path),
+                caption=f"{model_name} model architecture",
+                use_container_width=True,
+            )
+        else:
+            st.info(f"{model_name} architecture figure is not available.")
+
+    st.markdown('<div class="predictor-model-label">Prediction Model:</div>', unsafe_allow_html=True)
     selected_method = st.selectbox(
         "Prediction model",
         method_options,
         index=default_method_index,
         key=f"{task}_model",
         label_visibility="collapsed",
+        format_func=lambda method: MODEL_DISPLAY_NAMES.get(method, method),
     )
 
     section("Prediction Workspace")
@@ -1579,7 +1702,7 @@ def prediction_page(task: str) -> None:
         if not valid:
             st.error("No valid peptide sequence found. Paste FASTA/list input or upload a CSV, FASTA, or TXT file.")
         else:
-            run_name = selected_method if selected_method else model_name
+            run_name = MODEL_DISPLAY_NAMES.get(selected_method, selected_method or model_name)
             with st.spinner(f"Running {run_name} prediction for {len(valid)} valid sequence(s)..."):
                 results, source = predict_with_api_or_mock(valid, task, threshold, selected_method)
                 time.sleep(0.25)
@@ -1595,6 +1718,8 @@ def prediction_page(task: str) -> None:
                 errors="ignore",
             )
             df = df.dropna(axis=1, how="all")
+            if "method" in df.columns:
+                df["method"] = df["method"].replace(MODEL_DISPLAY_NAMES)
             if is_bitter and selected_method == "Bitter_Stacking":
                 preferred_columns = [
                     "sequence",
@@ -1632,7 +1757,7 @@ def prediction_page(task: str) -> None:
             st.dataframe(df, use_container_width=True, hide_index=True)
 
             csv = df.to_csv(index=False).encode("utf-8-sig")
-            file_name = "bitter_fusion_prediction_results.csv" if is_bitter else "umami_lora_prediction_results.csv"
+            file_name = "bppred_prediction_results.csv" if is_bitter else "uppred_prediction_results.csv"
             st.download_button(
                 "Download results CSV",
                 csv,
@@ -1664,8 +1789,8 @@ def prediction_page(task: str) -> None:
 def database_page() -> None:
     render_hero(
         "Taste Peptide Database",
-        "Explore curated taste-active peptide records and compare physicochemical descriptor patterns across taste classes.",
-        ["Database explorer", "Physicochemical analysis", "Taste classes", "Descriptor fingerprint"]
+        "Search curated taste peptide sequences with reported taste classes, biological or food sources, literature references, and computed physicochemical descriptors, then compare sequence-property patterns across taste categories.",
+        ["Database explorer", "Physicochemical analysis", "Taste peptide classes", "Descriptor fingerprint"]
     )
 
     df = load_database_with_properties()
@@ -1766,14 +1891,14 @@ def database_page() -> None:
     with tab_analysis:
         section("Physicochemical Analysis")
         left, right = st.columns([.32, .68], gap="large")
-        category_options = ["All taste-active peptides"] + all_tastes
+        category_options = ["All taste peptides"] + all_tastes
         with left:
             selected_category = st.radio(
                 "Taste category",
                 category_options,
                 key="physchem_category",
             )
-            if selected_category == "All taste-active peptides":
+            if selected_category == "All taste peptides":
                 analysis_df = df.copy()
             else:
                 analysis_df = df[df["Taste labels"].map(lambda labels: selected_category in labels)].copy()
@@ -1792,7 +1917,7 @@ def database_page() -> None:
 
         with right:
             minmax = df[ANALYSIS_COLUMNS].agg(["min", "max"])
-            selected_label = selected_category.replace("All taste-active peptides", "All taste-active peptides")
+            selected_label = selected_category
             selected_means = analysis_df[ANALYSIS_COLUMNS].mean()
             all_means = df[ANALYSIS_COLUMNS].mean()
             fingerprint_rows = []
@@ -1887,7 +2012,7 @@ def database_page() -> None:
 def download_page() -> None:
     render_hero(
         "Download Datasets",
-        "提供呈味肽基准二分类数据集下载，并支持序列长度分布与氨基酸组成分析。",
+        "Download benchmark binary-classification datasets for taste peptide research and inspect their peptide-length distributions and amino acid composition patterns.",
         ["Dataset download", "Dataset analysis", "Benchmark datasets", "Binary classification"]
     )
 
@@ -1986,13 +2111,11 @@ def download_page() -> None:
     with tab_analyze:
         section("Dataset Analysis")
         display_to_dataset = dict(zip(summary["Display dataset"], summary["Dataset"]))
-        select_col, _ = st.columns([.36, .64])
-        with select_col:
-            selected_display = st.selectbox(
-                "Select dataset for length violin plot",
-                summary["Display dataset"].tolist(),
-                key="analysis_length_dataset_select",
-            )
+        dataset_display_options = summary["Display dataset"].tolist()
+        selector_key = "analysis_length_dataset_select"
+        if selector_key not in st.session_state or st.session_state[selector_key] not in dataset_display_options:
+            st.session_state[selector_key] = dataset_display_options[0]
+        selected_display = st.session_state[selector_key]
         selected_analysis = display_to_dataset[selected_display]
         selected_records = records[records["Dataset"] == selected_analysis].copy()
 
@@ -2046,11 +2169,20 @@ def download_page() -> None:
                         alt.Tooltip("Density:Q", format=".4f"),
                     ],
                 )
-                .properties(width=720, height=360)
+                .properties(width=620, height=360)
             )
-            v_left, v_center, v_right = st.columns([.17, .66, .17])
+            v_left, v_center, v_right = st.columns([.20, .60, .20])
             with v_center:
-                st.altair_chart(violin, use_container_width=False)
+                st.altair_chart(violin, use_container_width=True)
+
+        selector_left, selector_center, selector_right = st.columns([.33, .34, .33])
+        with selector_center:
+            st.selectbox(
+                "Dataset",
+                dataset_display_options,
+                key=selector_key,
+                label_visibility="collapsed",
+            )
 
         heatmap_data, heatmap_row_order = dataset_split_aa_heatmap_data(records, summary["Dataset"].tolist())
         if heatmap_data.empty:
@@ -2083,11 +2215,11 @@ def download_page() -> None:
                         alt.Tooltip("Frequency:Q", format=".2%"),
                     ],
                 )
-                .properties(width=820, height=heatmap_height)
+                .properties(width=680, height=heatmap_height)
             )
-            h_left, h_center, h_right = st.columns([.12, .76, .12])
+            h_left, h_center, h_right = st.columns([.14, .72, .14])
             with h_center:
-                st.altair_chart(heatmap, use_container_width=False)
+                st.altair_chart(heatmap, use_container_width=True)
 
 
 def _virtual_screening_page_legacy() -> None:
@@ -2181,8 +2313,8 @@ def _virtual_screening_page_legacy() -> None:
 def virtual_screening_page() -> None:
     render_hero(
         "Virtual Screening",
-        "A focused workspace for screening the same virtual hydrolysate peptide library with umami and bitter prediction models.",
-        ["Umami ready", "Bitter ready", "High-confidence analysis", "Separate downloads"],
+        "Explore bitter and umami peptide candidates identified from virtual enzymatic hydrolysates, compare screening outcomes, analyze high-confidence sequence patterns, and download filtered peptide libraries.",
+        ["Bitter peptide", "Umami peptide", "High-confidence analysis", "Candidate downloads"],
     )
 
     manifest_path = VIRTUAL_SCREENING_DIR / "virtual_screening_manifest.csv"
@@ -2967,7 +3099,11 @@ def virtual_screening_page() -> None:
             f"Non-redundant MEME motif logos from high-confidence {task_lower} peptides with length >= 8 aa.",
         )
         if meme_motif_summary.empty:
-            st.info("MEME motif logo files have not been added yet.")
+            logo_items = [
+                (logo_path, logo_path.stem, f"MEME motif logo {logo_path.stem}")
+                for logo_path in sorted(meme_output_dir.glob("*.png"), key=lambda path: (len(path.stem), path.stem))
+            ]
+            render_meme_logo_grid(logo_items)
             return
 
         motif_view = meme_motif_summary.copy()
@@ -3538,43 +3674,119 @@ def virtual_screening_page() -> None:
 
 def help_page() -> None:
     render_hero(
-        "Help",
-        "Guidelines for using the Pep2Taste Streamlit platform.",
-        ["Input guide", "Prediction explanation", "Deployment"]
+        "Help & Documentation",
+        "A practical guide to peptide prediction, database exploration, benchmark dataset analysis, virtual screening, and result interpretation across Pep2Taste.",
+        ["Quick start", "Input formats", "Result guide", "Platform map"]
     )
 
-    section("How to use")
+    section("Prediction Workflow")
+    workflow_uri = image_data_uri(HELP_WORKFLOW_FIGURE)
+    if workflow_uri:
+        st.markdown(
+            f"""
+            <div class="help-workflow-figure">
+                <img src="{workflow_uri}" alt="Four-step Pep2Taste peptide prediction workflow">
+                <div class="help-workflow-caption">From peptide input to a probability-based classification and downloadable result table.</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    else:
+        st.info("The prediction workflow figure is not available.")
+
+    section("Platform Guide")
     st.markdown(
         """
-        1. 在侧边栏选择 **苦味肽预测** 或 **鲜味肽预测**。
-        2. 输入单条肽序列，或上传 CSV/FASTA/TXT 文件进行批量预测。
-        3. 点击 Predict / Run batch prediction。
-        4. 查看预测类别、概率、置信度，并下载 CSV 结果。
-
-        **注意：当前版本暂未接入最终模型，预测输出为模拟结果，仅用于页面开发。**
-        """
+        <div class="help-guide-grid">
+            <div class="help-guide-item" style="--guide-color:#d97706">
+                <h3>Bitter Prediction</h3>
+                <p>Use BPPred or one of its constituent models to classify bitter and non-bitter peptide sequences.</p>
+            </div>
+            <div class="help-guide-item" style="--guide-color:#dc2626">
+                <h3>Umami Prediction</h3>
+                <p>Use UPPred or an individual PLM-LoRA branch to classify umami and non-umami peptide sequences.</p>
+            </div>
+            <div class="help-guide-item" style="--guide-color:#2563eb">
+                <h3>Database & Physicochemical Analysis</h3>
+                <p>Search curated taste peptide records, filter taste classes, and compare computed sequence descriptors.</p>
+            </div>
+            <div class="help-guide-item" style="--guide-color:#16a34a">
+                <h3>Datasets & Virtual Screening</h3>
+                <p>Download benchmark datasets or inspect enzyme-level screening results, high-confidence candidates, and filtered libraries.</p>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
 
-    section("Backend API connection")
-    st.markdown("后续接入真实模型时，在 `.streamlit/secrets.toml` 中配置：")
-    st.code(
-        """BITTER_API_URL = "https://your-bitter-api/predict"
-UMAMI_API_URL = "https://your-umami-api/predict" """,
-        language="toml",
-    )
+    section("Input And Result Reference")
+    input_tab, result_tab, screening_tab = st.tabs([
+        "Prediction input",
+        "Prediction results",
+        "Virtual screening",
+    ])
+    with input_tab:
+        st.markdown(
+            """
+            <div class="help-reference-grid">
+                <div class="help-reference-item" style="--ref-color:#2563eb">
+                    <h4>Sequence list</h4>
+                    <p>Enter one peptide per line using the 20 standard amino acid letters.</p>
+                    <p><code>GLLGFLG</code><br><code>RRPPGF</code></p>
+                </div>
+                <div class="help-reference-item" style="--ref-color:#d97706">
+                    <h4>FASTA</h4>
+                    <p>Use a header beginning with <code>&gt;</code>, followed by the peptide sequence.</p>
+                    <p><code>&gt;pep_001</code><br><code>EEEEEL</code></p>
+                </div>
+                <div class="help-reference-item" style="--ref-color:#16a34a">
+                    <h4>CSV / TXT</h4>
+                    <p>CSV files should contain a <code>sequence</code> column. TXT files may contain FASTA records or one sequence per line.</p>
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+        st.caption("Valid sequences contain 2-80 residues selected from A, C, D, E, F, G, H, I, K, L, M, N, P, Q, R, S, T, V, W, and Y.")
 
-    section("API format")
-    st.code(
-        json.dumps({
-            "request": {"sequences": ["GLLGFLG", "EEEEE"], "task": "bitter", "threshold": 0.5},
-            "response": {
-                "results": [
-                    {"sequence": "GLLGFLG", "length": 7, "probability": 0.8123, "label": "Bitter"}
-                ]
-            }
-        }, indent=2, ensure_ascii=False),
-        language="json"
-    )
+    with result_tab:
+        st.markdown(
+            """
+            <div class="help-reference-grid">
+                <div class="help-reference-item" style="--ref-color:#dc2626">
+                    <h4>Probability</h4>
+                    <p>A continuous model score from 0 to 1 for the selected taste class.</p>
+                </div>
+                <div class="help-reference-item" style="--ref-color:#64748b">
+                    <h4>Threshold & label</h4>
+                    <p>A peptide is assigned the positive class when its probability is greater than or equal to the selected threshold.</p>
+                </div>
+                <div class="help-reference-item" style="--ref-color:#7c3aed">
+                    <h4>Branch probabilities</h4>
+                    <p>Ensemble results also report constituent-model probabilities so the final decision can be inspected.</p>
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+        st.info("Prediction scores support candidate prioritization and should be interpreted together with experimental validation.")
+
+    with screening_tab:
+        st.markdown(
+            """
+            1. Use **Overview** to compare candidate counts by enzyme and probability tier.
+            2. Use **High-confidence Analysis** to examine composition, terminal preference, length, probability, and motif summaries.
+            3. Use **Downloads** to retrieve filtered bitter or umami peptide libraries by hydrolysis method.
+            """
+        )
+
+    section("Common Questions")
+    with st.expander("Which prediction model should I use?", expanded=False):
+        st.markdown("Use **BPPred** for the final bitter peptide ensemble and **UPPred** for the final umami peptide ensemble. Select an individual branch when you need model-level comparison.")
+    with st.expander("Why did the same sequence receive a different label after I changed the threshold?", expanded=False):
+        st.markdown("The probability does not change, but the classification boundary does. Raising the threshold applies a stricter positive-class criterion.")
+    with st.expander("Where can I inspect the model structures?", expanded=False):
+        st.markdown("Open **Model architecture** above the prediction-model selector on either prediction page.")
 
 
 def legacy_contact_page() -> None:
@@ -3603,7 +3815,7 @@ def legacy_contact_page() -> None:
 def contact_page() -> None:
     render_hero(
         "Contact",
-        "Contact the Pep2Taste supervisor and developer, share suggestions for improving the platform, or contribute newly reported taste-active peptide sequences for future database curation.",
+        "Contact the Pep2Taste supervisor and developer, share suggestions for improving the platform, or contribute newly reported taste peptide sequences for future database curation.",
         []
     )
 
@@ -3651,7 +3863,7 @@ def contact_page() -> None:
             </div>
             <div class="contact-action">
                 <h3>New peptide records</h3>
-                <p>Submit taste-active peptide sequences with optional taste labels, literature sources, DOI information, or batch files for later manual curation.</p>
+                <p>Submit taste peptide sequences with optional taste labels, literature sources, DOI information, or batch files for later manual curation.</p>
             </div>
         </div>
         """,

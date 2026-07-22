@@ -1,0 +1,5 @@
+motif_id,motif_name,alt_id,regular_expression,width,sites,llr,information_content,relative_entropy,p_value,e_value,bayes_threshold,elapsed_time_sec
+motif_1,WWW,MEME-1,WWW,3,5,,,,,41.0,,
+motif_2,LAPDH,MEME-2,LAPDH,5,3,,,,,44.0,,
+motif_3,ECW,MEME-3,ECW,3,2,,,,,84.0,,
+motif_4,HHR,MEME-4,HHR,3,6,,,,,110.0,,
