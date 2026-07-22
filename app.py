@@ -1466,8 +1466,16 @@ def make_zip_for_files(paths: List[Path]) -> bytes:
     return buffer.getvalue()
 
 
+def database_file_signature() -> tuple[int, int]:
+    if not DATABASE_PATH.exists():
+        return (0, 0)
+    stat = DATABASE_PATH.stat()
+    return stat.st_mtime_ns, stat.st_size
+
+
 @st.cache_data(show_spinner=False)
-def load_database() -> pd.DataFrame:
+def load_database(file_signature: tuple[int, int]) -> pd.DataFrame:
+    _ = file_signature
     if not DATABASE_PATH.exists():
         return pd.DataFrame(columns=["Sequence", "Taste", "Len", *DESCRIPTOR_COLUMNS, "Source", "DOI"])
 
@@ -1505,9 +1513,8 @@ def load_database() -> pd.DataFrame:
     return df[required + ["Taste labels", "DOI link"]]
 
 
-@st.cache_data(show_spinner=False)
 def load_database_with_properties() -> pd.DataFrame:
-    return load_database().copy()
+    return load_database(database_file_signature()).copy()
 
 
 # -------------------------
@@ -1856,6 +1863,9 @@ def database_page() -> None:
                 filtered["DOI"].astype(str)
             ).str.lower()
             filtered = filtered[haystack.str.contains(re.escape(query_l), na=False)]
+
+        # Keep display and exported data normalized even across a warm Streamlit session.
+        filtered["DOI"] = filtered["DOI"].map(normalize_doi_text)
 
         m1, m2, m3 = st.columns(3)
         with m1:
