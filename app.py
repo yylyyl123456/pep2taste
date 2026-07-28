@@ -18,6 +18,11 @@ import requests
 import streamlit as st
 import streamlit.components.v1 as components
 
+try:
+    from Bio.SeqUtils.ProtParam import ProteinAnalysis
+except Exception:
+    ProteinAnalysis = None
+
 
 # ==========================================================
 # Pep2Taste Streamlit Rebuild
@@ -1205,6 +1210,20 @@ def hydrophobic_moment(seq: str) -> float:
     return round(math.sqrt(x * x + y * y) / len(seq), 3)
 
 
+def compute_stability_index(seq: str) -> float:
+    seq = clean_sequence(seq)
+    if not seq:
+        return 0.0
+    if ProteinAnalysis is None:
+        return math.nan
+    try:
+        # Biopython names this descriptor instability_index. Pep2Taste keeps the
+        # database column label "Stability Index" for continuity with the site UI.
+        return round(float(ProteinAnalysis(seq).instability_index()), 3)
+    except Exception:
+        return math.nan
+
+
 def peptide_properties(seq: str) -> Dict[str, float]:
     seq = clean_sequence(seq)
     length = len(seq)
@@ -1215,6 +1234,8 @@ def peptide_properties(seq: str) -> Dict[str, float]:
             "Hydrophobicity": 0.0,
             "Amphipathicity": 0.0,
             "Isoelectric point": 0.0,
+            "Aromaticity": 0.0,
+            "Stability Index": 0.0,
         }
     mw = 18.01528 + sum(AA_MASS.get(aa, 0.0) for aa in seq)
     hydrophobicity = sum(AA_HYDROPATHY.get(aa, 0.0) for aa in seq) / length
@@ -1224,6 +1245,8 @@ def peptide_properties(seq: str) -> Dict[str, float]:
         "Hydrophobicity": round(hydrophobicity, 3),
         "Amphipathicity": hydrophobic_moment(seq),
         "Isoelectric point": estimate_isoelectric_point(seq),
+        "Aromaticity": round(sum(seq.count(aa) for aa in "FWY") / length, 3),
+        "Stability Index": compute_stability_index(seq),
     }
 
 
@@ -1502,8 +1525,8 @@ def load_database(file_signature: tuple[int, int]) -> pd.DataFrame:
             "Mw": props["Molecular weight (Da)"],
             "pI": props["Isoelectric point"],
             "GRAVY": props["Hydrophobicity"],
-            "Aromaticity": [sum(clean_sequence(seq).count(aa) for aa in "FWY") / len(clean_sequence(seq)) if clean_sequence(seq) else 0.0 for seq in df["Sequence"]],
-            "Stability Index": df["Stability Index"].fillna(0.0),
+            "Aromaticity": props["Aromaticity"],
+            "Stability Index": props["Stability Index"],
         })
         for col in DESCRIPTOR_COLUMNS:
             df[col] = df[col].fillna(fallback[col]).round(3)
@@ -1885,7 +1908,11 @@ def database_page() -> None:
                 "pI": st.column_config.NumberColumn("pI", format="%.3f"),
                 "GRAVY": st.column_config.NumberColumn("GRAVY", format="%.3f"),
                 "Aromaticity": st.column_config.NumberColumn("Aromaticity", format="%.3f"),
-                "Stability Index": st.column_config.NumberColumn("Stability Index", format="%.3f"),
+                "Stability Index": st.column_config.NumberColumn(
+                    "Stability Index",
+                    format="%.3f",
+                    help="Computed with Biopython ProteinAnalysis.instability_index(); higher values indicate lower predicted sequence stability.",
+                ),
             },
         )
         csv = filtered[DATABASE_DISPLAY_COLUMNS].to_csv(index=False).encode("utf-8-sig")
@@ -1896,6 +1923,17 @@ def database_page() -> None:
             mime="text/csv",
             use_container_width=True,
             key="db_download_filtered",
+        )
+        st.markdown(
+            """
+            <div class="note-box">
+                <strong>Descriptor note.</strong> Stability Index is computed from the Biopython
+                <code>ProteinAnalysis.instability_index()</code> descriptor. Higher values indicate lower predicted
+                sequence stability in this empirical index; single-residue peptides have a value of 0 because no
+                dipeptide term is available.
+            </div>
+            """,
+            unsafe_allow_html=True,
         )
 
     with tab_analysis:
@@ -1920,6 +1958,7 @@ def database_page() -> None:
                 """
                 <div class="note-box">
                     <strong>View logic.</strong> Choose one taste class to inspect its physicochemical fingerprint. Multi-label peptides are counted in every matching taste class.
+                    <br><strong>Descriptor note.</strong> Stability Index is computed with Biopython <code>ProteinAnalysis.instability_index()</code>; higher values indicate lower predicted sequence stability.
                 </div>
                 """,
                 unsafe_allow_html=True,
