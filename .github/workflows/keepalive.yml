@@ -11,17 +11,39 @@ jobs:
     steps:
       - name: Ping Streamlit frontend
         run: |
-          curl -L --fail --silent --show-error \
+          set +e
+          status=$(curl --silent --show-error \
+            --output /tmp/pep2taste_frontend.out \
+            --write-out "%{http_code}" \
             --max-time 120 \
             --retry 3 \
             --retry-delay 10 \
-            https://cqu-pep2taste.streamlit.app/ \
-            > /dev/null
+            https://cqu-pep2taste.streamlit.app/)
+          exit_code=$?
+          echo "Streamlit curl exit code: ${exit_code}"
+          echo "Streamlit HTTP status: ${status}"
+          if [[ "${status}" =~ ^(2|3) ]]; then
+            echo "Streamlit frontend was reached."
+          else
+            echo "::warning::Streamlit frontend ping did not return 2xx/3xx. The keepalive job will continue."
+          fi
 
       - name: Ping Hugging Face backend health endpoint
         run: |
-          curl -L --fail --silent --show-error \
+          set +e
+          status=$(curl --silent --show-error \
+            --output /tmp/pep2taste_backend.out \
+            --write-out "%{http_code}" \
             --max-time 180 \
             --retry 3 \
             --retry-delay 15 \
-            https://yylcqu123-pep2taste-api.hf.space/health
+            https://yylcqu123-pep2taste-api.hf.space/health)
+          exit_code=$?
+          echo "Hugging Face curl exit code: ${exit_code}"
+          echo "Hugging Face HTTP status: ${status}"
+          cat /tmp/pep2taste_backend.out || true
+          if [[ "${status}" =~ ^2 ]]; then
+            echo "Hugging Face backend was reached."
+          else
+            echo "::warning::Hugging Face backend ping did not return 2xx. The keepalive job will continue."
+          fi
