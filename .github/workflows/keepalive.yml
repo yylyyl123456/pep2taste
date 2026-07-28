@@ -1,0 +1,27 @@
+name: Keep Pep2Taste Awake
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Streamlit frontend
+        run: |
+          curl -L --fail --silent --show-error \
+            --max-time 120 \
+            --retry 3 \
+            --retry-delay 10 \
+            https://cqu-pep2taste.streamlit.app/ \
+            > /dev/null
+
+      - name: Ping Hugging Face backend health endpoint
+        run: |
+          curl -L --fail --silent --show-error \
+            --max-time 180 \
+            --retry 3 \
+            --retry-delay 15 \
+            https://yylcqu123-pep2taste-api.hf.space/health

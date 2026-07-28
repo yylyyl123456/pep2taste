@@ -72,6 +72,9 @@ MODEL_DISPLAY_NAMES = {
     "Bitter_Stacking": "BPPred",
     "Umami_LoRA": "UPPred",
 }
+PREDICTION_CHUNK_SIZE = 100
+PREDICTION_REQUEST_TIMEOUT = 600
+PREDICTION_MAX_ATTEMPTS = 2
 METHOD_PROBABILITY_LABELS = {
     "Bitter_Stacking": "BPPred probability",
     "ESM2_t33_MLP": "ESM2-MLP probability",
@@ -944,6 +947,53 @@ def get_secret_or_env(key: str, default: str = "") -> str:
     return os.getenv(key, default)
 
 
+def get_prediction_api_url(task: str) -> str:
+    api_key = "BITTER_API_URL" if task == "bitter" else "UMAMI_API_URL"
+    return get_secret_or_env(api_key, "").strip()
+
+
+def derive_health_url(predict_url: str) -> str:
+    url = (predict_url or "").strip()
+    if not url:
+        return ""
+    base = url.split("?", 1)[0].rstrip("/")
+    if base.endswith("/predict"):
+        return f"{base[:-len('/predict')]}/health"
+    return f"{base}/health"
+
+
+@st.cache_data(ttl=120, show_spinner=False)
+def check_backend_health(health_url: str) -> Dict[str, Any]:
+    if not health_url:
+        return {"configured": False, "ok": False, "status_code": None, "elapsed": None, "message": "Backend URL is not configured."}
+    start = time.perf_counter()
+    try:
+        resp = requests.get(health_url, timeout=25)
+        elapsed = time.perf_counter() - start
+        message = ""
+        try:
+            data = resp.json()
+            message = str(data.get("status") or data.get("message") or "") if isinstance(data, dict) else ""
+        except Exception:
+            message = resp.text[:120]
+        return {
+            "configured": True,
+            "ok": resp.status_code == 200,
+            "status_code": resp.status_code,
+            "elapsed": elapsed,
+            "message": message,
+        }
+    except Exception as exc:
+        elapsed = time.perf_counter() - start
+        return {
+            "configured": True,
+            "ok": False,
+            "status_code": None,
+            "elapsed": elapsed,
+            "message": str(exc),
+        }
+
+
 def clean_sequence(seq: str) -> str:
     seq = (seq or "").strip().upper()
     seq = re.sub(r"\s+", "", seq)
@@ -1037,26 +1087,75 @@ def predict_with_api_or_mock(
     threshold: float,
     method: str | None = None,
 ) -> Tuple[List[Dict[str, Any]], str]:
-    api_key = "BITTER_API_URL" if task == "bitter" else "UMAMI_API_URL"
-    url = get_secret_or_env(api_key, "")
+    url = get_prediction_api_url(task)
     if url:
+        progress_bar = None
+        status_box = None
         try:
-            payload = {"sequences": sequences, "task": task, "threshold": threshold}
-            if method:
-                payload["method"] = method
-            resp = requests.post(
-                url,
-                json=payload,
-                timeout=600,
-            )
-            resp.raise_for_status()
-            data = resp.json()
-            if isinstance(data, dict) and "results" in data:
-                return data["results"], "api"
-            if isinstance(data, list):
-                return data, "api"
-            st.error("The backend API returned an unexpected format. Mock prediction is used instead.")
+            chunks = [
+                sequences[start:start + PREDICTION_CHUNK_SIZE]
+                for start in range(0, len(sequences), PREDICTION_CHUNK_SIZE)
+            ]
+            all_results: List[Dict[str, Any]] = []
+            if len(chunks) > 1:
+                status_box = st.empty()
+                progress_bar = st.progress(0)
+                status_box.caption(
+                    f"Automatic batch splitting enabled: {len(sequences)} sequences are being processed in {len(chunks)} chunks."
+                )
+
+            for chunk_index, chunk in enumerate(chunks, start=1):
+                if status_box is not None:
+                    status_box.caption(
+                        f"Processing chunk {chunk_index}/{len(chunks)} ({len(chunk)} sequences per request at most)."
+                    )
+                payload = {"sequences": chunk, "task": task, "threshold": threshold}
+                if method:
+                    payload["method"] = method
+
+                last_error: Exception | None = None
+                for attempt in range(1, PREDICTION_MAX_ATTEMPTS + 1):
+                    try:
+                        resp = requests.post(
+                            url,
+                            json=payload,
+                            timeout=PREDICTION_REQUEST_TIMEOUT,
+                        )
+                        resp.raise_for_status()
+                        data = resp.json()
+                        if isinstance(data, dict) and "results" in data:
+                            chunk_results = data["results"]
+                        elif isinstance(data, list):
+                            chunk_results = data
+                        else:
+                            raise ValueError("The backend API returned an unexpected format.")
+                        if len(chunk_results) != len(chunk):
+                            raise ValueError(
+                                f"The backend returned {len(chunk_results)} results for {len(chunk)} input sequences."
+                            )
+                        all_results.extend(chunk_results)
+                        last_error = None
+                        break
+                    except Exception as exc:
+                        last_error = exc
+                        if attempt < PREDICTION_MAX_ATTEMPTS:
+                            time.sleep(3 * attempt)
+                if last_error is not None:
+                    raise last_error
+
+                if progress_bar is not None:
+                    progress_bar.progress(chunk_index / len(chunks))
+
+            if status_box is not None:
+                status_box.empty()
+            if progress_bar is not None:
+                progress_bar.empty()
+            return all_results, "api"
         except Exception as exc:
+            if status_box is not None:
+                status_box.empty()
+            if progress_bar is not None:
+                progress_bar.empty()
             st.error(f"Backend API request failed: {exc}. Mock prediction is used instead.")
 
     results = []
@@ -1126,6 +1225,28 @@ def set_session_value(key: str, value: Any) -> None:
 def reset_prediction_inputs(text_key: str, threshold_key: str) -> None:
     st.session_state[text_key] = ""
     st.session_state[threshold_key] = 0.50
+
+
+def render_backend_status(task: str) -> None:
+    predict_url = get_prediction_api_url(task)
+    health_url = derive_health_url(predict_url)
+    status = check_backend_health(health_url)
+    task_name = "BPPred" if task == "bitter" else "UPPred"
+
+    left, right = st.columns([0.78, 0.22], gap="small")
+    with left:
+        if not status["configured"]:
+            st.warning(f"{task_name} backend is not configured. Mock output will be used for local UI testing.")
+        elif status["ok"]:
+            elapsed = status.get("elapsed")
+            elapsed_text = f" ({elapsed:.1f}s)" if isinstance(elapsed, (int, float)) else ""
+            st.success(f"{task_name} backend ready{elapsed_text}.")
+        else:
+            st.warning(f"{task_name} backend is waking up or temporarily unavailable. Try Refresh status, then submit again.")
+    with right:
+        if st.button("Refresh status", key=f"{task}_refresh_backend", use_container_width=True):
+            check_backend_health.clear()
+            st.rerun()
 
 
 def prediction_label(task: str, probability: Any, threshold: Any) -> str:
@@ -1736,6 +1857,7 @@ def prediction_page(task: str) -> None:
         label_visibility="collapsed",
         format_func=lambda method: MODEL_DISPLAY_NAMES.get(method, method),
     )
+    render_backend_status(task)
 
     section("Prediction Workspace")
     left, right = st.columns([1.12, .88], gap="large")
