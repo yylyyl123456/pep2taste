@@ -56,8 +56,8 @@ PKA = {
     "n_term": 7.50, "c_term": 3.55,
     "C": 8.50, "D": 3.90, "E": 4.10, "H": 6.00, "K": 10.50, "R": 12.50, "Y": 10.10,
 }
-DATABASE_DISPLAY_COLUMNS = ["Sequence", "Taste", "Mw", "pI", "GRAVY", "Aromaticity", "Stability Index", "Source", "DOI"]
-DESCRIPTOR_COLUMNS = ["Mw", "pI", "GRAVY", "Aromaticity", "Stability Index"]
+DATABASE_DISPLAY_COLUMNS = ["Sequence", "Taste", "Mw", "pI", "GRAVY", "Aromaticity", "Instability Index", "Source", "DOI"]
+DESCRIPTOR_COLUMNS = ["Mw", "pI", "GRAVY", "Aromaticity", "Instability Index"]
 ANALYSIS_COLUMNS = ["Len", *DESCRIPTOR_COLUMNS]
 DESCRIPTOR_LABELS = {
     "Len": "Length",
@@ -65,7 +65,7 @@ DESCRIPTOR_LABELS = {
     "pI": "pI",
     "GRAVY": "GRAVY",
     "Aromaticity": "Aromaticity",
-    "Stability Index": "Stability Index",
+    "Instability Index": "Instability Index",
 }
 SPLIT_LABEL_ORDER = ["train_pos", "train_neg", "test_pos", "test_neg"]
 MODEL_DISPLAY_NAMES = {
@@ -1303,15 +1303,13 @@ def hydrophobic_moment(seq: str) -> float:
     return round(math.sqrt(x * x + y * y) / len(seq), 3)
 
 
-def compute_stability_index(seq: str) -> float:
+def compute_instability_index(seq: str) -> float:
     seq = clean_sequence(seq)
     if not seq:
         return 0.0
     if ProteinAnalysis is None:
         return math.nan
     try:
-        # Biopython names this descriptor instability_index. Pep2Taste keeps the
-        # database column label "Stability Index" for continuity with the site UI.
         return round(float(ProteinAnalysis(seq).instability_index()), 3)
     except Exception:
         return math.nan
@@ -1328,7 +1326,7 @@ def peptide_properties(seq: str) -> Dict[str, float]:
             "Amphipathicity": 0.0,
             "Isoelectric point": 0.0,
             "Aromaticity": 0.0,
-            "Stability Index": 0.0,
+            "Instability Index": 0.0,
         }
     mw = 18.01528 + sum(AA_MASS.get(aa, 0.0) for aa in seq)
     hydrophobicity = sum(AA_HYDROPATHY.get(aa, 0.0) for aa in seq) / length
@@ -1339,7 +1337,7 @@ def peptide_properties(seq: str) -> Dict[str, float]:
         "Amphipathicity": hydrophobic_moment(seq),
         "Isoelectric point": estimate_isoelectric_point(seq),
         "Aromaticity": round(sum(seq.count(aa) for aa in "FWY") / length, 3),
-        "Stability Index": compute_stability_index(seq),
+        "Instability Index": compute_instability_index(seq),
     }
 
 
@@ -1597,6 +1595,8 @@ def load_database(file_signature: tuple[int, int]) -> pd.DataFrame:
 
     df = pd.read_csv(DATABASE_PATH)
     df.columns = [str(c).strip() for c in df.columns]
+    if "Instability Index" not in df.columns and "Stability Index" in df.columns:
+        df = df.rename(columns={"Stability Index": "Instability Index"})
     required = ["Sequence", "Taste", "Len", *DESCRIPTOR_COLUMNS, "Source", "DOI"]
     for col in required:
         if col not in df.columns:
@@ -1619,7 +1619,7 @@ def load_database(file_signature: tuple[int, int]) -> pd.DataFrame:
             "pI": props["Isoelectric point"],
             "GRAVY": props["Hydrophobicity"],
             "Aromaticity": props["Aromaticity"],
-            "Stability Index": props["Stability Index"],
+            "Instability Index": props["Instability Index"],
         })
         for col in DESCRIPTOR_COLUMNS:
             df[col] = df[col].fillna(fallback[col]).round(3)
@@ -1959,8 +1959,8 @@ def database_page() -> None:
                 "pI": st.column_config.NumberColumn("pI", format="%.3f"),
                 "GRAVY": st.column_config.NumberColumn("GRAVY", format="%.3f"),
                 "Aromaticity": st.column_config.NumberColumn("Aromaticity", format="%.3f"),
-                "Stability Index": st.column_config.NumberColumn(
-                    "Stability Index",
+                "Instability Index": st.column_config.NumberColumn(
+                    "Instability Index",
                     format="%.3f",
                     help="Computed with Biopython ProteinAnalysis.instability_index(); higher values indicate lower predicted sequence stability.",
                 ),
@@ -1978,7 +1978,7 @@ def database_page() -> None:
         st.markdown(
             """
             <div class="note-box">
-                <strong>Descriptor note.</strong> Stability Index is computed from the Biopython
+                <strong>Descriptor note.</strong> Instability Index is computed from the Biopython
                 <code>ProteinAnalysis.instability_index()</code> descriptor. Higher values indicate lower predicted
                 sequence stability in this empirical index; single-residue peptides have a value of 0 because no
                 dipeptide term is available.
@@ -2009,7 +2009,7 @@ def database_page() -> None:
                 """
                 <div class="note-box">
                     <strong>View logic.</strong> Choose one taste class to inspect its physicochemical fingerprint. Multi-label peptides are counted in every matching taste class.
-                    <br><strong>Descriptor note.</strong> Stability Index is computed with Biopython <code>ProteinAnalysis.instability_index()</code>; higher values indicate lower predicted sequence stability.
+                    <br><strong>Descriptor note.</strong> Instability Index is computed with Biopython <code>ProteinAnalysis.instability_index()</code>; higher values indicate lower predicted sequence stability.
                 </div>
                 """,
                 unsafe_allow_html=True,
@@ -2077,7 +2077,7 @@ def database_page() -> None:
                 "pI": "#10b981",
                 "GRAVY": "#f97316",
                 "Aromaticity": "#6366f1",
-                "Stability Index": "#14b8a6",
+                "Instability Index": "#14b8a6",
             }
             for row_start in range(0, len(ANALYSIS_COLUMNS), 3):
                 cols = st.columns(3, gap="large")
