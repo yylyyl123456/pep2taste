@@ -72,6 +72,36 @@ MODEL_DISPLAY_NAMES = {
     "Bitter_Stacking": "BPPred",
     "Umami_LoRA": "UPPred",
 }
+METHOD_PROBABILITY_LABELS = {
+    "Bitter_Stacking": "BPPred probability",
+    "ESM2_t33_MLP": "ESM2-MLP probability",
+    "AA_LGBM": "AA-LightGBM probability",
+    "FP_CatBoost": "FCFP4-CatBoost probability",
+    "Umami_LoRA": "UPPred probability",
+    "ESM2_LoRA": "ESM2-LoRA probability",
+    "PepBERT_LoRA": "PepBERT-LoRA probability",
+    "ProtT5_LoRA": "ProtT5-LoRA probability",
+}
+BPPRED_RESULT_COLUMNS = [
+    ("sequence", "Sequence"),
+    ("length", "Length"),
+    ("esm2_t33_mlp_probability", "ESM2-MLP probability"),
+    ("aa_lgbm_probability", "AA-LightGBM probability"),
+    ("fp_catboost_probability", "FCFP4-CatBoost probability"),
+    ("probability", "BPPred probability"),
+    ("threshold", "Threshold"),
+    ("label", "Prediction"),
+]
+UPPRED_RESULT_COLUMNS = [
+    ("sequence", "Sequence"),
+    ("length", "Length"),
+    ("esm2_probability", "ESM2-LoRA probability"),
+    ("pepbert_probability", "PepBERT-LoRA probability"),
+    ("prott5_probability", "ProtT5-LoRA probability"),
+    ("probability", "UPPred probability"),
+    ("threshold", "Threshold"),
+    ("label", "Prediction"),
+]
 
 st.set_page_config(
     page_title="Pep2Taste | Peptide Taste Prediction",
@@ -1029,19 +1059,16 @@ def predict_with_api_or_mock(
         except Exception as exc:
             st.error(f"Backend API request failed: {exc}. Mock prediction is used instead.")
 
-    positive = "Bitter" if task == "bitter" else "Umami"
-    negative = "Non-bitter" if task == "bitter" else "Non-umami"
     results = []
     for seq in sequences:
         prob = deterministic_mock_score(seq, task)
-        label = positive if prob >= threshold else negative
+        label = prediction_label(task, prob, threshold)
         results.append({
             "sequence": seq,
             "length": len(seq),
             "probability": prob,
             "threshold": threshold,
             "label": label,
-            "method": method,
         })
         if task == "bitter" and method == "Bitter_Stacking":
             branch_seed = deterministic_mock_score(seq + "AA", task)
@@ -1051,7 +1078,6 @@ def predict_with_api_or_mock(
                 "aa_lgbm_probability": branch_seed,
                 "fp_catboost_probability": fp_seed,
                 "esm2_t33_mlp_probability": plm_seed,
-                "bitter_stacking_probability": prob,
             })
         if task == "umami" and method == "Umami_LoRA":
             esm_seed = deterministic_mock_score(seq + "ESM2", task)
@@ -1061,7 +1087,6 @@ def predict_with_api_or_mock(
                 "esm2_probability": esm_seed,
                 "pepbert_probability": pep_seed,
                 "prott5_probability": prott5_seed,
-                "umami_lora_probability": prob,
             })
     return results, "mock"
 
@@ -1103,6 +1128,74 @@ def reset_prediction_inputs(text_key: str, threshold_key: str) -> None:
     st.session_state[threshold_key] = 0.50
 
 
+def prediction_label(task: str, probability: Any, threshold: Any) -> str:
+    try:
+        prob = float(probability)
+        cutoff = float(threshold)
+    except (TypeError, ValueError):
+        prob = 0.0
+        cutoff = 0.5
+    if task == "bitter":
+        return "Bitter peptide" if prob >= cutoff else "Non-bitter peptide"
+    return "Umami peptide" if prob >= cutoff else "Non-umami peptide"
+
+
+def format_prediction_results(df: pd.DataFrame, task: str, selected_method: str | None) -> pd.DataFrame:
+    is_bitter = task == "bitter"
+    df = df.copy()
+    df = df.drop(
+        columns=[
+            "source",
+            "confidence",
+            "method",
+            "bitter_stacking_probability",
+            "umami_lora_probability",
+            "softvoting_gridoof_mcc_probability",
+            "logistic_stacking_probability",
+            "softvoting_equal_probability",
+        ],
+        errors="ignore",
+    )
+
+    if "threshold" not in df.columns:
+        df["threshold"] = 0.5
+    if "probability" in df.columns:
+        df["label"] = df.apply(lambda row: prediction_label(task, row.get("probability"), row.get("threshold")), axis=1)
+
+    if is_bitter and selected_method == "Bitter_Stacking":
+        column_pairs = BPPRED_RESULT_COLUMNS
+    elif (not is_bitter) and selected_method == "Umami_LoRA":
+        column_pairs = UPPRED_RESULT_COLUMNS
+    else:
+        probability_label = METHOD_PROBABILITY_LABELS.get(
+            selected_method or "",
+            "Bitter probability" if is_bitter else "Umami probability",
+        )
+        column_pairs = [
+            ("sequence", "Sequence"),
+            ("length", "Length"),
+            ("probability", probability_label),
+            ("threshold", "Threshold"),
+            ("label", "Prediction"),
+        ]
+
+    existing_pairs = [(source, label) for source, label in column_pairs if source in df.columns]
+    display_df = df[[source for source, _ in existing_pairs]].rename(columns=dict(existing_pairs))
+
+    probability_columns = [label for _, label in existing_pairs if "probability" in label.lower()]
+    for col in probability_columns:
+        display_df[col] = pd.to_numeric(display_df[col], errors="coerce").map(
+            lambda value: "" if pd.isna(value) else f"{value:.3f}"
+        )
+    if "Threshold" in display_df.columns:
+        display_df["Threshold"] = pd.to_numeric(display_df["Threshold"], errors="coerce").map(
+            lambda value: "" if pd.isna(value) else f"{value:.2f}"
+        )
+    if "Length" in display_df.columns:
+        display_df["Length"] = pd.to_numeric(display_df["Length"], errors="coerce").astype("Int64")
+    return display_df
+
+
 def metric_box(title: str, value: str) -> None:
     st.markdown(
         f'<div class="metric-box"><div class="metric-title">{title}</div><div class="metric-value">{value}</div></div>',
@@ -1120,7 +1213,7 @@ def image_data_uri(path: Path) -> str:
 
 def render_result(res: Dict[str, Any], task: str, threshold: float) -> None:
     prob = float(res.get("probability", 0.0))
-    label = str(res.get("label", "Unknown"))
+    label = prediction_label(task, prob, threshold)
     length = int(res.get("length", len(res.get("sequence", ""))))
 
     is_positive = prob >= threshold
@@ -1737,56 +1830,14 @@ def prediction_page(task: str) -> None:
                 results, source = predict_with_api_or_mock(valid, task, threshold, selected_method)
                 time.sleep(0.25)
 
-            df = pd.DataFrame(results).drop(
-                columns=[
-                    "source",
-                    "confidence",
-                    "softvoting_gridoof_mcc_probability",
-                    "logistic_stacking_probability",
-                    "softvoting_equal_probability",
-                ],
-                errors="ignore",
-            )
-            df = df.dropna(axis=1, how="all")
-            if "method" in df.columns:
-                df["method"] = df["method"].replace(MODEL_DISPLAY_NAMES)
-            if is_bitter and selected_method == "Bitter_Stacking":
-                preferred_columns = [
-                    "sequence",
-                    "length",
-                    "probability",
-                    "threshold",
-                    "label",
-                    "method",
-                    "aa_lgbm_probability",
-                    "fp_catboost_probability",
-                    "esm2_t33_mlp_probability",
-                    "bitter_stacking_probability",
-                ]
-            elif is_bitter:
-                preferred_columns = ["sequence", "length", "probability", "threshold", "label", "method"]
-            elif selected_method == "Umami_LoRA":
-                preferred_columns = [
-                    "sequence",
-                    "length",
-                    "probability",
-                    "threshold",
-                    "label",
-                    "method",
-                    "esm2_probability",
-                    "pepbert_probability",
-                    "prott5_probability",
-                    "umami_lora_probability",
-                ]
-            else:
-                preferred_columns = ["sequence", "length", "probability", "threshold", "label", "method"]
-            df = df[[c for c in preferred_columns if c in df.columns] + [c for c in df.columns if c not in preferred_columns]]
+            df = pd.DataFrame(results)
+            display_df = format_prediction_results(df, task, selected_method)
             st.success(f"Prediction completed. Valid: {len(valid)}, invalid: {len(invalid)}.")
             if len(results) == 1:
                 render_result(results[0], task, threshold)
-            st.dataframe(df, use_container_width=True, hide_index=True)
+            st.dataframe(display_df, use_container_width=True, hide_index=True)
 
-            csv = df.to_csv(index=False).encode("utf-8-sig")
+            csv = display_df.to_csv(index=False).encode("utf-8-sig")
             file_name = "bppred_prediction_results.csv" if is_bitter else "uppred_prediction_results.csv"
             st.download_button(
                 "Download results CSV",
