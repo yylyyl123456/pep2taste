@@ -2755,18 +2755,9 @@ def virtual_screening_page() -> None:
         chart_df["Enzyme"] = pd.Categorical(chart_df["Enzyme"], categories=enzyme_order, ordered=True)
         chart_df = chart_df.sort_values("Enzyme")
 
-        if tier_label.startswith("Pro"):
-            tier_cols = [
-                col for label, col in confidence_options.items()
-                if label.startswith("Pro") and col in summary_df.columns
-            ]
-            all_tier_max = pd.to_numeric(summary_df[tier_cols].stack(), errors="coerce").max() if tier_cols else chart_df["Count"].max()
-            y_limit = nice_axis_limit(float(all_tier_max))
-        else:
-            y_limit = nice_axis_limit(float(chart_df["Count"].max()))
-
         max_count = chart_df["Count"].max()
         min_count = chart_df["Count"].min()
+        y_limit = nice_axis_limit(float(max_count))
         label_df = pd.concat([
             chart_df[chart_df["Count"].eq(max_count)].head(1),
             chart_df[chart_df["Count"].eq(min_count)].head(1),
