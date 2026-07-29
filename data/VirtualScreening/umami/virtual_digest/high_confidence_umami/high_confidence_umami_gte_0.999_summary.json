@@ -9,7 +9,7 @@
   "high_confidence_rows": 107203,
   "min_final_prob": 0.9990000128746033,
   "max_final_prob": 0.9995746612548828,
-  "mean_final_prob": 0.9991629719734192,
+  "mean_final_prob": 0.9991629567826461,
   "mean_length": 6.4659477813120905,
   "outputs": {
     "csv_gz": "results\\virtual_digest_analysis\\high_confidence_umami\\high_confidence_umami_gte_0.999.csv.gz",
@@ -23,5 +23,8 @@
       "top10000": "results\\virtual_digest_analysis\\high_confidence_umami\\meme_input\\high_confidence_umami_gte_0.999_top10000.fasta",
       "top10000_simple_headers": "results\\virtual_digest_analysis\\high_confidence_umami\\meme_input\\high_confidence_umami_gte_0.999_top10000_simple_headers.fasta"
     }
-  }
+  },
+  "reported_rows": 83,
+  "no_reported_rows": 107120,
+  "median_final_prob": 0.99914515
 }
