@@ -1449,16 +1449,27 @@ def peptide_properties(seq: str) -> Dict[str, float]:
             "Aromaticity": 0.0,
             "Instability Index": 0.0,
         }
-    mw = 18.01528 + sum(AA_MASS.get(aa, 0.0) for aa in seq)
-    hydrophobicity = sum(AA_HYDROPATHY.get(aa, 0.0) for aa in seq) / length
+    if ProteinAnalysis is not None:
+        analysis = ProteinAnalysis(seq)
+        mw = round(float(analysis.molecular_weight()), 3)
+        hydrophobicity = round(float(analysis.gravy()), 3)
+        p_i = round(float(analysis.isoelectric_point()), 3)
+        aromaticity = round(float(analysis.aromaticity()), 3)
+        instability_value = round(float(analysis.instability_index()), 3)
+    else:
+        mw = round(18.01528 + sum(AA_MASS.get(aa, 0.0) for aa in seq), 3)
+        hydrophobicity = round(sum(AA_HYDROPATHY.get(aa, 0.0) for aa in seq) / length, 3)
+        p_i = estimate_isoelectric_point(seq)
+        aromaticity = round(sum(seq.count(aa) for aa in "FWY") / length, 3)
+        instability_value = compute_instability_index(seq)
     return {
         "Length": length,
-        "Molecular weight (Da)": round(mw, 2),
-        "Hydrophobicity": round(hydrophobicity, 3),
+        "Molecular weight (Da)": mw,
+        "Hydrophobicity": hydrophobicity,
         "Amphipathicity": hydrophobic_moment(seq),
-        "Isoelectric point": estimate_isoelectric_point(seq),
-        "Aromaticity": round(sum(seq.count(aa) for aa in "FWY") / length, 3),
-        "Instability Index": compute_instability_index(seq),
+        "Isoelectric point": p_i,
+        "Aromaticity": aromaticity,
+        "Instability Index": instability_value,
     }
 
 

@@ -1359,7 +1359,7 @@ KETLEQEKSG,Umami; Sour,10,1148.221,4.786,-1.99,0,47.52,Clam,10.1016/j.foodchem.2
 LFEQHPEYRK,Umami; Sour,10,1346.49,6.756,-1.84,0.2,25.85,Yeast; Yeast proteins,10.1016/j.foodchem.2024.141138
 LHLPLPLLQS,Bitter,10,1130.379,6.741,0.83,0,124.06,Not reported,10.1080/10408398.2023.2220792
 LLDAFFFDNK,Umami; Sweet,10,1229.38,4.208,0.34,0.3,45.02,Sauce; Chinese Anchovy Sauce,10.1002/jsfa.10943
-LLVTVEDELRV,Umami; Salty,10,1285.486,4.137,0.755,0,36.391,Pleurotus citrinopileatus Singer,10.1016/j.foodchem.2025.147653
+LLVTVEDELRV,Umami; Salty,11,1285.486,4.137,0.755,0,36.391,Pleurotus citrinopileatus Singer,10.1016/j.foodchem.2025.147653
 LLYGKVVKKT,Umami; Sweet; Sour; Kokumi,10,1148.438,10.001,0.19,0.1,-19.35,Soybean paste,10.1016/j.foodchem.2025.143621
 LPKILLLQLV,Bitter,10,1149.509,8.75,1.87,0,71.63,Not reported,10.1039/d2fo01389d
 LSSPATLNSR,Salty,10,1045.148,9.75,-0.33,0,110.72,Mushroom,Not reported
@@ -1560,3 +1560,236 @@ AQTQSLVYPFPGPIPNSLPQNIPPLTQ,Bitter,27,2918.301,5.569,-0.285,0.074,71.904,Not rep
 ASCNGVCSPFDIPPCGSPLCRCIPVGLVIGKCRNPYG,Bitter,37,3794.495,8.353,0.395,0.054,49.259,Pea,10.1016/j.foodchem.2022.134812
 QDKIHPFAQTQSLVYPFPGPIPNSLPQNIPPLTQTPVVV,Bitter,39,4279.888,6.743,-0.149,0.077,65.744,Not reported,10.1051/lait:1992426
 QNDKIHPFAQTQSLVYPFGPIPNSLPQNIPPLTQTPVVV,Bitter,39,4296.876,6.743,-0.197,0.077,55.867,Not reported,10.3390/foods11223742
+AP,Bitter,2,186.208,5.57,0.1,0,101.3,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+FR,Bitter,2,321.375,9.75,-0.85,0.5,5,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+FT,Bitter,2,266.293,5.525,1.05,0.5,5,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+HF,Bitter,2,302.328,6.741,-0.2,0.5,-46.85,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+KA,Bitter,2,217.266,8.75,-1.05,0,5,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+ML,Bitter,2,262.369,5.275,2.85,0,5,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+RW,Bitter,2,360.411,9.75,-2.7,0.5,291.4,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+RY,Bitter,2,337.374,8.748,-2.9,0.5,-32.7,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+WR,Bitter,2,360.411,9.75,-2.7,0.5,5,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+YR,Bitter,2,337.374,8.748,-2.9,0.5,-79.55,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+YV,Bitter,2,280.319,5.524,1.45,0.5,5,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+EEV,Bitter,3,375.374,4.05,-0.933,0,115.333,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+FPG,Bitter,3,319.356,5.525,0.267,0.333,70.867,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+GII,Bitter,3,301.382,5.525,2.867,0,-21.633,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+HPI,Bitter,3,365.427,6.741,-0.1,0,-2.933,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+IGI,Bitter,3,301.382,5.525,2.867,0,-21.633,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+IIR,Bitter,3,400.516,9.75,1.5,0,6.667,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+ILR,Bitter,3,400.516,9.75,1.267,0,135.067,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+IQW,Bitter,3,445.512,5.525,0.033,0.333,6.667,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+LAL,Bitter,3,315.408,5.525,3.133,0,6.667,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+LCR,Bitter,3,390.502,8.25,0.6,0,6.667,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+LIR,Bitter,3,400.516,9.75,1.267,0,6.667,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+LKP,Bitter,3,356.46,8.75,-0.567,0,-46.767,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+LLQ,Bitter,3,372.46,5.525,1.367,0,115.333,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+LPL,Bitter,3,341.446,5.525,2,0,70.867,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+PLL,Bitter,3,341.446,5.955,2,0,6.667,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+RLL,Bitter,3,400.516,9.75,1.033,0,6.667,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+SVP,Bitter,3,301.339,5.24,0.6,0,70.867,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+YFL,Bitter,3,441.52,5.524,1.767,0.667,6.667,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+DAPL,Bitter,4,414.453,4.05,0.125,0,55.65,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+DGFP,Bitter,4,434.443,4.05,-0.675,0.25,55.65,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+DGML,Bitter,4,434.508,4.05,0.45,0,7.5,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+PQVF,Bitter,4,489.565,5.955,0.475,0.25,36.8,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+QIQP,Bitter,4,484.546,5.525,-1.025,0,55.65,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+QLQP,Bitter,4,484.546,5.525,-1.2,0,137.15,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+SKGL,Bitter,4,403.474,8.465,-0.325,0,-13.725,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+IAMEK,Bitter,5,590.733,6.001,0.16,0,8,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+NAMFV,Bitter,5,580.697,5.525,1.44,0.2,8,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+PPPPP,Bitter,5,503.591,5.955,-1.6,0,162.08,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+SIIDT,Bitter,5,547.599,4.05,0.8,0,-22.06,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+SPPPG,Bitter,5,453.49,5.24,-1.2,0,172.92,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+HNIGQT,Bitter,6,668.699,6.741,-1.133,0,121.033,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+IYPGCP,Bitter,6,648.771,5.517,0.35,0.167,61,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+NALKPD,Bitter,6,656.728,6.087,-1.15,0,-30.95,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+TTMPLW,Bitter,6,747.902,5.185,0.3,0.167,121.033,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+YFYPEL,Bitter,6,830.922,4.05,-0.183,0.5,112.202,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+YPFPGP,Bitter,6,676.759,5.524,-0.617,0.333,93.1,Cheddar,10.1080/10408398.2023.2220792
+FILLEGV,Bitter,7,789.958,4.05,2.171,0.143,36.086,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+LPWIQPK,Bitter,7,881.072,8.75,-0.457,0.143,59.486,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+NAMFVPH,Bitter,7,814.951,6.741,0.343,0.143,36.086,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+YFYPELF,Bitter,7,978.096,4.05,0.243,0.571,97.601,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+APFPQVFG,Bitter,8,861.983,5.57,0.562,0.25,95.625,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+AYFYPELF,Bitter,8,1049.174,4.05,0.437,0.5,86.651,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+IYPGCPST,Bitter,8,836.952,5.517,0.075,0.125,72.325,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+RGPPFFIV,Bitter,8,932.119,9.75,0.775,0.25,35.675,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+VAPFPEVF,Bitter,8,905.047,4.05,1.137,0.25,102.7,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+VEVFAPPF,Bitter,8,905.047,4.05,1.137,0.25,80.975,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+YYVPLGTQ,Bitter,8,940.05,5.524,-0.1,0.25,28.212,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+FVAPFPEVF,Bitter,9,1052.221,4.05,1.322,0.333,92.4,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+RINKKIEKF,Bitter,9,1175.424,10.29,-1.267,0.111,74.589,Cheddar,10.1080/10408398.2023.2220792
+FFVAPFPQVF,Bitter,10,1198.41,5.525,1.47,0.4,78.5,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+QLFNPSTNPW,Bitter,10,1203.303,5.525,-0.95,0.2,4.59,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+LYQTPIVLNPW,Bitter,11,1343.568,5.524,0.291,0.182,-3.864,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+FFVAPFPQVFGK,Bitter,12,1383.634,8.75,0.867,0.333,60.008,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+PVVVPPFLQPEVM,Bitter,13,1451.771,4.05,0.915,0.077,121.754,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+IHPFAQTQSLVYPFPGPIPN,Bitter,20,2223.527,6.74,-0.025,0.15,62.28,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+QDKIHPFAQTQSLVYPFGPIP,Bitter,21,2383.698,6.743,-0.3,0.143,51.705,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+FPQYLQYLYQGPIVLNPWNQVK,Bitter,22,2709.102,8.431,-0.355,0.227,25.986,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+LSQSKVLPVPQKAVPYPQRDMPIQA,Bitter,25,2791.271,9.7,-0.42,0.04,100.22,Cheddar,10.1080/10408398.2023.2220792
+QDKIHPFAQTQSLVYPFGPIPNSLPQNIPPLTQTPVVV,Bitter,38,4182.773,6.743,-0.111,0.079,62.142,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+IHPFAQTQSLVYPFPGPIPNSLPQNIPPLTQTPVVVPPFLQPEVMGVSK,Bitter,49,5319.178,6.748,0.104,0.082,79.824,BPS 1000 (source not reported),10.1021/acs.jafc.5c01195
+LGLDGF,Umami,6,620.694,4.05,1.017,0.167,8.333,Lager beer [Computational screening + flavor-perception validation],10.1016/j.jfca.2025.107338
+ELEEELEAERAA,Umami,12,1388.434,4.05,-1.042,0,63.5,Oyster (Crassostrea gigas) hydrolysate (in silico) [Peptidomics + iUmami-SCM computational screening; no peptide-level validation],10.1021/acs.jafc.3c06859
+KE,Umami; Sour,2,275.302,6.217,-3.7,0,5,In silico dipeptide library [Pharmacophore/docking screening + experimental validation],10.1016/j.biomaterials.2022.121697
+EEDMERSEER,Umami,10,1309.317,4.143,-2.89,0,156.66,Oyster (Crassostrea gigas) hydrolysate (in silico) [Peptidomics + iUmami-SCM computational screening; no peptide-level validation],10.1021/acs.jafc.3c06859
+SVRIQELEDL,Umami,10,1201.327,4.137,-0.3,0,47.52,Oyster (Crassostrea gigas) hydrolysate (in silico) [Peptidomics + iUmami-SCM computational screening; no peptide-level validation],10.1021/acs.jafc.3c06859
+DDALR,Umami,5,588.611,4.208,-1.18,0,46.52,Wuding chicken (in silico) [Fraction sensory association + computational screening; no peptide-level validation],10.1016/j.foodchem.2023.137051
+QNQLDQMPR,Umami,9,1129.247,5.836,-1.989,0,40.956,Tauco (Indonesian fermented soybean product) (in silico) [Peptidomics-sensomics association + computational docking; no synthetic-peptide validation],10.1111/ijfs.17060
+HDVDFH,Umami; Bitter,6,768.773,5.049,-1.067,0.167,-29.283,Lager beer [Computational screening + flavor-perception validation],10.1016/j.jfca.2025.107338
+LVNNDDRDSY,Umami,10,1210.207,4.05,-1.61,0.1,20.72,Tauco (Indonesian fermented soybean product) (in silico) [Peptidomics-sensomics association + computational docking; no synthetic-peptide validation],10.1111/ijfs.17060
+EVVLQ,Umami,5,586.678,4.05,1.04,0,73.2,Termitomyces albuminosus soup (in silico) [Computational prediction; no peptide-level validation],10.1021/acs.jafc.3c04281
+RADSYNPR,Umami; Bitter; Sweet,8,978.02,8.745,-2.237,0.125,9.188,Huangjiu lees protein hydrolysate [Virtual screening + sensory validation],10.1093/fqsafe/fyae011
+EMQK,Umami,4,534.627,6.101,-2.25,0,-11.35,Rainbow trout (Oncorhynchus mykiss) [Virtual screening + electronic-tongue validation],10.1016/j.fshw.2022.07.026
+DKYHPGY,Umami,7,878.927,6.742,-2.171,0.286,-2.171,Bay scallop (Argopecten irradians) [Detected in an umami fraction; no peptide-level validation],10.1016/j.lwt.2024.116645
+KDRTIDEDEF,Umami,10,1267.299,4.105,-1.93,0.1,20.72,Oyster (Crassostrea gigas) hydrolysate (in silico) [Peptidomics + iUmami-SCM computational screening; no peptide-level validation],10.1021/acs.jafc.3c06859
+DNLELEDAVHT,Umami,11,1255.288,4.05,-0.709,0,19.745,Oyster (Crassostrea gigas) hydrolysate (in silico) [Peptidomics + iUmami-SCM computational screening; no peptide-level validation],10.1021/acs.jafc.3c06859
+GYLIRK,Umami,6,748.913,9.994,-0.3,0.167,-5.817,Bay scallop (Argopecten irradians) [Detected in an umami fraction; no peptide-level validation],10.1016/j.lwt.2024.116645
+TPIVGQPSIPGGPVR,Umami,15,1474.703,9.41,0.02,0,42.84,Chikso beef hydrolysate (in silico) [Computational screening: LC-MS/MS + molecular docking; no peptide-level validation],Not reported
+EEAKFN,Umami; Bitter; Sweet; Salty; Sour,6,736.77,4.532,-1.633,0.167,62.667,Stropharia rugosoannulata [Virtual screening + experimental sensory validation],10.1016/j.foodchem.2024.142385
+EANK,Umami,4,460.482,6.101,-2.275,0,66.7,Rainbow trout (Oncorhynchus mykiss) [Virtual screening + electronic-tongue validation],10.1016/j.fshw.2022.07.026
+TEALA,Umami; Salty,5,503.547,4.05,0.64,0,46.52,Lager beer [Computational screening + flavor-perception validation],10.1016/j.jfca.2025.107338
+LDIDDGF,Umami; Sweet,7,793.818,4.05,0.029,0.143,8.571,Yeast protein hydrolysate [Machine-learning screening + sensory validation],10.1021/acs.jafc.3c08346
+AFDPNDPDMK,Umami,10,1149.23,4.05,-1.46,0.1,13.8,Oyster (Crassostrea gigas) hydrolysate (in silico) [Peptidomics + iUmami-SCM computational screening; no peptide-level validation],10.1021/acs.jafc.3c06859
+KIDE,Umami,4,503.547,4.749,-1.6,0,-13.725,Wuding chicken (in silico) [Fraction sensory association + computational screening; no peptide-level validation],10.1016/j.foodchem.2023.137051
+FEEPQQPQQRG,Umami,11,1343.401,4.531,-2.391,0.091,136.064,Tauco (Indonesian fermented soybean product) (in silico) [Peptidomics-sensomics association + computational docking; no synthetic-peptide validation],10.1111/ijfs.17060
+DVVF,Umami; Bitter,4,478.538,4.05,1.925,0.25,7.5,Lager beer [Computational screening + flavor-perception validation],10.1016/j.jfca.2025.107338
+HEEGKIL,Umami,7,824.921,5.399,-0.886,0,58.4,Wuding chicken (in silico) [Fraction sensory association + computational screening; no peptide-level validation],10.1016/j.foodchem.2023.137051
+NALKPDNRIES,Umami,11,1256.365,6.07,-1.336,0,45.118,Tauco (Indonesian fermented soybean product) (in silico) [Peptidomics-sensomics association + computational docking; no synthetic-peptide validation],10.1111/ijfs.17060
+EVPELN,Umami,6,699.75,4.05,-0.683,0,69.4,Termitomyces albuminosus soup (in silico) [Computational prediction; no peptide-level validation],10.1021/acs.jafc.3c04281
+FDFWDGR,Umami,7,941.985,4.208,-1.029,0.429,15.429,Bay scallop (Argopecten irradians) [Detected in an umami fraction; no peptide-level validation],10.1016/j.lwt.2024.116645
+EEEE,Umami,4,534.471,4.05,-3.5,0,252,Termitomyces albuminosus soup (in silico) [Computational prediction; no peptide-level validation],10.1021/acs.jafc.3c04281
+TDLMN,Umami,5,592.663,4.05,-0.4,0,8,Termitomyces albuminosus soup (in silico) [Computational prediction; no peptide-level validation],10.1021/acs.jafc.3c04281
+EEKNPLPDAT,Umami,10,1113.175,4.138,-1.62,0,50.44,Oyster (Crassostrea gigas) hydrolysate (in silico) [Peptidomics + iUmami-SCM computational screening; no peptide-level validation],10.1021/acs.jafc.3c06859
+ELEDLLEQTRL,Umami,11,1358.494,4.05,-0.682,0,44.109,Oyster (Crassostrea gigas) hydrolysate (in silico) [Peptidomics + iUmami-SCM computational screening; no peptide-level validation],10.1021/acs.jafc.3c06859
+EEQEHT,Umami; Bitter; Salty,6,771.73,4.244,-2.983,0,101.733,Douchi (fermented soybean) [Bioinformatics screening + electronic-tongue validation],10.1016/j.fbio.2024.104303
+QTDEYGNPVH,Umami,10,1159.162,4.353,-1.7,0.1,8.4,Tauco (Indonesian fermented soybean product) (in silico) [Peptidomics-sensomics association + computational docking; no synthetic-peptide validation],10.1111/ijfs.17060
+LEEEL,Umami,5,631.673,4.05,-0.58,0,138.4,Wuding chicken (in silico) [Fraction sensory association + computational screening; no peptide-level validation],10.1016/j.foodchem.2023.137051
+RDWPDARG,Umami,8,972.016,5.961,-2.138,0.125,-11.288,Chikso beef hydrolysate (in silico) [Computational screening: LC-MS/MS + molecular docking; no peptide-level validation],Not reported
+FDGF,Bitter,4,484.502,4.05,0.425,0.5,38.35,Huangjiu lees protein hydrolysate [Virtual screening + experimental testing; direct umami not confirmed],10.1093/fqsafe/fyae011
+KAELE,Umami,5,588.651,4.857,-1.06,0,8,Wuding chicken (in silico) [Fraction sensory association + computational screening; no peptide-level validation],10.1016/j.foodchem.2023.137051
+GFGPE,Umami; Sour,5,505.521,4.599,-0.62,0.2,42.76,Huangjiu lees protein hydrolysate [Virtual screening + sensory validation],10.1093/fqsafe/fyae011
+EDPFAED,Umami; Sweet; Sour,7,821.785,4.05,-1.571,0.143,91.114,Huangjiu lees protein hydrolysate [Virtual screening + sensory validation],10.1093/fqsafe/fyae011
+TRVKEELE,Umami,8,1003.108,5.003,-1.45,0,45.9,Termitomyces albuminosus soup (in silico) [Computational prediction; no peptide-level validation],10.1021/acs.jafc.3c04281
+LGKSEDDVSK,Umami; Bitter; Salty; Sour,10,1077.143,4.558,-1.23,0,39.03,Stropharia rugosoannulata [Virtual screening + experimental sensory validation],10.1016/j.foodchem.2024.142385
+YDTELKLPEESN,Umami,12,1437.504,4.05,-1.517,0.083,92.025,Oyster (Crassostrea gigas) hydrolysate (in silico) [Peptidomics + iUmami-SCM computational screening; no peptide-level validation],10.1021/acs.jafc.3c06859
+FCEIIAILK,Umami,9,1049.327,5.994,1.889,0.111,42.256,Chikso beef hydrolysate (in silico) [Computational screening: LC-MS/MS + molecular docking; no peptide-level validation],Not reported
+IDEQHPR,Umami; Bitter; Sweet,7,893.944,5.321,-2.186,0,21.2,Huangjiu lees protein hydrolysate [Virtual screening + sensory validation],10.1093/fqsafe/fyae011
+DAPLPHPNR,Umami; Salty,9,1016.111,6.745,-1.544,0,48.489,Lentinula edodes enzymolysis extract [Computational screening + sensory/electronic-tongue validation],10.1016/j.jfutfo.2024.07.017
+DHAEQDVR,Umami,8,968.967,4.537,-1.962,0,56.9,Antarctic krill (in silico) [Fraction-level sensory + computational taste prediction/docking; no individual validation],10.1016/j.fbio.2024.104836
+LELR,Umami,4,529.63,6.002,-0.1,0,55.65,Wuding chicken (in silico) [Fraction sensory association + computational screening; no peptide-level validation],10.1016/j.foodchem.2023.137051
+EGEEEWDREG,Umami,10,1235.171,4.05,-2.72,0.1,44.09,Oyster (Crassostrea gigas) hydrolysate (in silico) [Peptidomics + iUmami-SCM computational screening; no peptide-level validation],10.1021/acs.jafc.3c06859
+QLSELLRAGSSPNL,Umami; Sour,14,1484.653,6.002,-0.171,0,81.943,Chicken breast [LC-MS/MS identification + electronic-tongue validation],10.1016/j.foodchem.2024.139963
+SVYGSIYAIA,Umami,10,1043.17,5.24,1.22,0.2,16.65,Antarctic krill (in silico) [Fraction-level sensory + computational taste prediction/docking; no individual validation],10.1016/j.fbio.2024.104836
+DFWDGR,Umami,6,794.811,4.208,-1.667,0.333,-4.233,Bay scallop (Argopecten irradians) [Detected in an umami fraction; no peptide-level validation],10.1016/j.lwt.2024.116645
+HKIPVKY,Umami,7,884.076,9.703,-0.743,0.143,49.557,Chikso beef hydrolysate (in silico) [Computational screening: LC-MS/MS + molecular docking; no peptide-level validation],Not reported
+VEESRPGAIA,Umami,10,1028.117,4.531,-0.2,0,90.89,Tauco (Indonesian fermented soybean product) (in silico) [Peptidomics-sensomics association + computational docking; no synthetic-peptide validation],10.1111/ijfs.17060
+LGEYGFQNALIVR,Umami,13,1479.678,6.001,0.292,0.154,-9.631,Chikso beef hydrolysate (in silico) [Computational screening: LC-MS/MS + molecular docking; no peptide-level validation],Not reported
+ELQK,Umami,4,516.588,6.101,-1.775,0,89,Termitomyces albuminosus soup (in silico) [Computational prediction; no peptide-level validation],10.1021/acs.jafc.3c04281
+AEPE,Umami; Bitter; Salty,4,444.436,4.24,-1.7,0,99.1,Douchi (fermented soybean) [Bioinformatics screening + electronic-tongue validation],10.1016/j.fbio.2024.104303
+EQFPGAND,Umami; Sweet; Sour,8,876.867,4.05,-1.425,0.125,36.863,Huangjiu lees protein hydrolysate [Virtual screening + sensory validation],10.1093/fqsafe/fyae011
+LPDP,Umami; Sweet; Sour,4,440.491,4.05,-0.725,0,36.8,Yeast protein hydrolysate [Machine-learning screening + sensory validation],10.1021/acs.jafc.3c08346
+INLPIQTFSALNFR,Umami,14,1633.888,9.75,0.421,0.143,21.121,Chikso beef hydrolysate (in silico) [Computational screening: LC-MS/MS + molecular docking; no peptide-level validation],Not reported
+EDQVF,Umami,5,636.651,4.05,-0.7,0.2,31.44,Wuding chicken (in silico) [Fraction sensory association + computational screening; no peptide-level validation],10.1016/j.foodchem.2023.137051
+EEVPEDWDAKP,Umami,11,1314.354,4.05,-1.773,0.091,82.691,Oyster (Crassostrea gigas) hydrolysate (in silico) [Peptidomics + iUmami-SCM computational screening; no peptide-level validation],10.1021/acs.jafc.3c06859
+GNPWEKARP,Umami,9,1054.159,8.748,-2.011,0.111,14.456,Chikso beef hydrolysate (in silico) [Computational screening: LC-MS/MS + molecular docking; no peptide-level validation],Not reported
+GSDPLNEEERN,Umami,11,1259.237,4.05,-2.227,0,79.582,Oyster (Crassostrea gigas) hydrolysate (in silico) [Peptidomics + iUmami-SCM computational screening; no peptide-level validation],10.1021/acs.jafc.3c06859
+GHPVAITA,Umami; Bitter; Sweet,8,764.869,6.741,0.8,0,29.225,Pea protein hydrolysate [Virtual hydrolysis/computational screening + electronic-tongue validation],10.1016/j.fbio.2024.105620
+VNFDGEI,Umami; Sour,7,792.833,4.05,0.086,0.143,21.471,Chicken breast [LC-MS/MS identification + electronic-tongue validation],10.1016/j.foodchem.2024.139963
+AESHANKHKIPVKY,Umami,14,1621.837,9.53,-1.179,0.071,60.45,Chikso beef hydrolysate (in silico) [Computational screening: LC-MS/MS + molecular docking; no peptide-level validation],Not reported
+SIEDEQRSHSE,Umami,11,1316.288,4.602,-2.1,0,141.509,Oyster (Crassostrea gigas) hydrolysate (in silico) [Peptidomics + iUmami-SCM computational screening; no peptide-level validation],10.1021/acs.jafc.3c06859
+AVNPYR,Umami,6,718.801,8.793,-0.817,0.167,-24.65,Bay scallop (Argopecten irradians) [Detected in an umami fraction; no peptide-level validation],10.1016/j.lwt.2024.116645
+GGR,Umami,3,288.304,9.75,-1.767,0,47.8,Atlantic cod (Gadus morhua) (in silico) [Virtual screening/docking; experimental validation reported; supplied file is supporting information],10.1039/d2fo03776a
+HPHFVR,Umami,6,791.9,9.763,-0.917,0.167,-13.75,Bay scallop (Argopecten irradians) [Detected in an umami fraction; no peptide-level validation],10.1016/j.lwt.2024.116645
+KAKLSSGDV,Umami; Bitter; Sweet,9,904.02,8.591,-0.389,0,20.856,Pea protein hydrolysate [Virtual hydrolysis/computational screening + electronic-tongue validation],10.1016/j.fbio.2024.105620
+LAELK,Umami; Sour,5,572.695,6.001,0.4,0,-8.98,Watermelon soybean paste [Sensory/electronic-tongue validation; molecular docking],10.1016/j.fbio.2024.104155
+GKKRSEAPPHIF,Umami,12,1366.567,9.994,-1.192,0.083,150.642,Chikso beef hydrolysate (in silico) [Computational screening: LC-MS/MS + molecular docking; no peptide-level validation],Not reported
+TDDQVDEIIRN,Umami,11,1317.359,4.05,-1.182,0,17.3,Oyster (Crassostrea gigas) hydrolysate (in silico) [Peptidomics + iUmami-SCM computational screening; no peptide-level validation],10.1021/acs.jafc.3c06859
+DFWDGRDG,Umami,8,966.949,4.05,-1.738,0.25,-0.675,Bay scallop (Argopecten irradians) [Detected in an umami fraction; no peptide-level validation],10.1016/j.lwt.2024.116645
+DGKGKIPEEY,Umami,10,1135.224,4.679,-1.75,0.1,22.14,Oyster (Crassostrea gigas) hydrolysate (in silico) [Peptidomics + iUmami-SCM computational screening; no peptide-level validation],10.1021/acs.jafc.3c06859
+YSTHPHF,Umami,7,887.937,6.917,-1.143,0.286,-10.357,Bay scallop (Argopecten irradians) [Detected in an umami fraction; no peptide-level validation],10.1016/j.lwt.2024.116645
+EEAK,Umami,4,475.493,4.532,-2.275,0,89,Rainbow trout (Oncorhynchus mykiss) [Virtual screening + electronic-tongue validation],10.1016/j.fshw.2022.07.026
+DGEKVDF,Umami,7,808.832,4.05,-1.114,0.143,-46.571,Fermented mandarin fish (Chouguiyu) [Molecular docking + synthetic-peptide electronic-tongue validation],10.1039/d3fo02697c
+QRIPAGTTY,Umami,9,1006.113,8.748,-0.711,0.111,17.656,Tauco (Indonesian fermented soybean product) (in silico) [Peptidomics-sensomics association + computational docking; no synthetic-peptide validation],10.1111/ijfs.17060
+EGHDLPADLPDH,Umami,12,1315.345,4.213,-1.217,0,43.958,Oyster (Crassostrea gigas) hydrolysate (in silico) [Peptidomics + iUmami-SCM computational screening; no peptide-level validation],10.1021/acs.jafc.3c06859
+RIQELEDLLE,Umami,10,1257.39,4.244,-0.61,0,47.52,Oyster (Crassostrea gigas) hydrolysate (in silico) [Peptidomics + iUmami-SCM computational screening; no peptide-level validation],10.1021/acs.jafc.3c06859
+SVRIQELEDLLE,Umami,12,1443.598,4.244,-0.225,0,41.267,Oyster (Crassostrea gigas) hydrolysate (in silico) [Peptidomics + iUmami-SCM computational screening; no peptide-level validation],10.1021/acs.jafc.3c06859
+DQPHFPF,Umami,7,886.949,5.077,-1.114,0.286,76.3,Bay scallop (Argopecten irradians) [Detected in an umami fraction; no peptide-level validation],10.1016/j.lwt.2024.116645
+DVTDVTGDRGVTVT,Umami,14,1434.505,4.05,-0.129,0,-32.486,Tauco (Indonesian fermented soybean product) (in silico) [Peptidomics-sensomics association + computational docking; no synthetic-peptide validation],10.1111/ijfs.17060
+DFDDIQK,Umami,7,879.91,4.05,-1.514,0.143,15.429,Fermented mandarin fish (Chouguiyu) [Molecular docking + synthetic-peptide electronic-tongue validation],10.1039/d3fo02697c
+LTFVER,Umami,6,763.881,6.002,0.35,0.167,28.9,Watermelon soybean paste [Sensory/electronic-tongue validation; molecular docking],10.1016/j.fbio.2024.104155
+TEEMEEMRRKL,Umami,11,1451.668,4.942,-1.818,0,123.373,Oyster (Crassostrea gigas) hydrolysate (in silico) [Peptidomics + iUmami-SCM computational screening; no peptide-level validation],10.1021/acs.jafc.3c06859
+ESVIVEISKK,Umami,10,1131.32,6.241,0.1,0,39.03,Tauco (Indonesian fermented soybean product) (in silico) [Peptidomics-sensomics association + computational docking; no synthetic-peptide validation],10.1111/ijfs.17060
+LEEELEAERA,Umami,10,1188.242,4.05,-1.08,0,74.2,Oyster (Crassostrea gigas) hydrolysate (in silico) [Peptidomics + iUmami-SCM computational screening; no peptide-level validation],10.1021/acs.jafc.3c06859
+AITEVDLERAE,Umami,11,1245.336,4.244,-0.282,0,12.936,Oyster (Crassostrea gigas) hydrolysate (in silico) [Peptidomics + iUmami-SCM computational screening; no peptide-level validation],10.1021/acs.jafc.3c06859
+YRNTQAILK,Umami,9,1106.275,9.994,-0.811,0.111,-2.033,Chikso beef hydrolysate (in silico) [Computational screening: LC-MS/MS + molecular docking; no peptide-level validation],Not reported
+IEEAEHRADN,Umami,10,1183.186,4.397,-1.71,0,69.51,Oyster (Crassostrea gigas) hydrolysate (in silico) [Peptidomics + iUmami-SCM computational screening; no peptide-level validation],10.1021/acs.jafc.3c06859
+GAVEDLERVK,Umami,10,1115.237,4.679,-0.53,0,16.89,Oyster (Crassostrea gigas) hydrolysate (in silico) [Peptidomics + iUmami-SCM computational screening; no peptide-level validation],10.1021/acs.jafc.3c06859
+SVLGDVGITEVFSDR,Umami,15,1593.733,4.05,0.373,0.067,5.827,Chikso beef hydrolysate (in silico) [Computational screening: LC-MS/MS + molecular docking; no peptide-level validation],Not reported
+DAMDGWFRLE,Umami,10,1239.356,4.321,-0.6,0.2,21.34,Tauco (Indonesian fermented soybean product) (in silico) [Peptidomics-sensomics association + computational docking; no synthetic-peptide validation],10.1111/ijfs.17060
+PSIDD,Umami,5,545.54,4.05,-0.98,0,46.52,Wuding chicken (in silico) [Fraction sensory association + computational screening; no peptide-level validation],10.1016/j.foodchem.2023.137051
+DAFLGSFLYEYSR,Umami,13,1567.695,4.37,-0.085,0.308,18.246,Chikso beef hydrolysate (in silico) [Computational screening: LC-MS/MS + molecular docking; no peptide-level validation],Not reported
+DFWDGRD,Umami,7,909.898,4.17,-1.929,0.286,-2.2,Bay scallop (Argopecten irradians) [Detected in an umami fraction; no peptide-level validation],10.1016/j.lwt.2024.116645
+KAELDLH,Umami; Bitter; Salty; Sour,7,824.921,5.321,-0.671,0,8.571,Stropharia rugosoannulata [Virtual screening + experimental sensory validation],10.1016/j.foodchem.2024.142385
+SEFKQRY,Umami,7,957.041,8.31,-2.1,0.286,37.614,Bay scallop (Argopecten irradians) [Detected in an umami fraction; no peptide-level validation],10.1016/j.lwt.2024.116645
+RPPVVR,Umami; Bitter; Sweet,6,722.879,12,-0.633,0,104.633,Bay scallop (Argopecten irradians) [Computational screening + experimental validation],10.1016/j.lwt.2024.116645
+LADVEEDK,Umami; Bitter; Salty; Sour,8,917.957,4.05,-1.012,0,52.35,Stropharia rugosoannulata [Virtual screening + experimental sensory validation],10.1016/j.foodchem.2024.142385
+PGSVQEINRL,Umami; Bitter; Sweet,10,1112.237,6.431,-0.53,0,47.52,Pea protein hydrolysate [Virtual hydrolysis/computational screening + electronic-tongue validation],10.1016/j.fbio.2024.105620
+PRTDIPGVVEK,Umami,11,1210.38,6.493,-0.618,0,-0.382,Tauco (Indonesian fermented soybean product) (in silico) [Peptidomics-sensomics association + computational docking; no synthetic-peptide validation],10.1111/ijfs.17060
+DGKISIEDVE,Umami,10,1104.165,4.156,-0.59,0,55.22,Oyster (Crassostrea gigas) hydrolysate (in silico) [Peptidomics + iUmami-SCM computational screening; no peptide-level validation],10.1021/acs.jafc.3c06859
+RPIKPPGPPINPK,Umami,13,1410.706,11.166,-1.292,0,39.131,Chikso beef hydrolysate (in silico) [Computational screening: LC-MS/MS + molecular docking; no peptide-level validation],Not reported
+IPVNKPGRF,Umami,9,1027.22,11.001,-0.444,0.111,45.022,Tauco (Indonesian fermented soybean product) (in silico) [Peptidomics-sensomics association + computational docking; no synthetic-peptide validation],10.1111/ijfs.17060
+LVTGGDSGIGR,Umami,11,1031.121,5.836,0.127,0,14.664,Tauco (Indonesian fermented soybean product) (in silico) [Peptidomics-sensomics association + computational docking; no synthetic-peptide validation],10.1111/ijfs.17060
+EAAGL,Umami; Salty,5,459.494,4.05,0.7,0,8,Lager beer [Computational screening + flavor-perception validation],10.1016/j.jfca.2025.107338
+FADL,Umami; Sweet; Sour,4,464.512,4.05,1.225,0.25,-13.725,Yeast protein hydrolysate [Machine-learning screening + sensory validation],10.1021/acs.jafc.3c08346
+LVLPGELAK,Umami; Sour,9,939.15,6.001,0.889,0,21.911,Lager beer [Computational screening + flavor-perception validation],10.1016/j.jfca.2025.107338
+LGEETF,Umami; Sour,6,694.73,4.05,-0.25,0.167,70.667,Chicken breast [LC-MS/MS identification + electronic-tongue validation],10.1016/j.foodchem.2024.139963
+APPERKY,Umami,7,859.969,8.634,-2.086,0.143,88.429,Bay scallop (Argopecten irradians) [Detected in an umami fraction; no peptide-level validation],10.1016/j.lwt.2024.116645
+WFKDEEF,Umami,7,1000.06,4.137,-1.386,0.429,33.671,Fermented mandarin fish (Chouguiyu) [Molecular docking + synthetic-peptide electronic-tongue validation],10.1039/d3fo02697c
+GDVCRCLG,Umami,8,821.965,5.823,0.525,0,32.825,Bay scallop (Argopecten irradians) [Detected in an umami fraction; no peptide-level validation],10.1016/j.lwt.2024.116645
+APPERKYS,Umami,8,947.046,8.634,-1.925,0.125,78.625,Bay scallop (Argopecten irradians) [Detected in an umami fraction; no peptide-level validation],10.1016/j.lwt.2024.116645
+YPGIADRMQK,Umami,10,1178.361,8.59,-1.05,0.1,-10.72,Chikso beef hydrolysate (in silico) [Computational screening: LC-MS/MS + molecular docking; no peptide-level validation],Not reported
+DVNHDGKISIED,Umami,12,1341.38,4.405,-1.05,0,47.683,Oyster (Crassostrea gigas) hydrolysate (in silico) [Peptidomics + iUmami-SCM computational screening; no peptide-level validation],10.1021/acs.jafc.3c06859
+GTGSFFPK,Umami,8,839.934,8.75,-0.275,0.25,11.6,Chikso beef hydrolysate (in silico) [Computational screening: LC-MS/MS + molecular docking; no peptide-level validation],Not reported
+AETELGETSQ,Umami,10,1064.058,4.05,-1.1,0,39.98,Oyster (Crassostrea gigas) hydrolysate (in silico) [Peptidomics + iUmami-SCM computational screening; no peptide-level validation],10.1021/acs.jafc.3c06859
+VLALEELLAMPEN,Umami,13,1441.688,4.05,0.715,0,81.477,Antarctic krill (in silico) [Fraction-level sensory + computational taste prediction/docking; no individual validation],10.1016/j.fbio.2024.104836
+PDWEDWNPK,Umami,9,1186.229,4.05,-2.544,0.222,32.422,Oyster (Crassostrea gigas) hydrolysate (in silico) [Peptidomics + iUmami-SCM computational screening; no peptide-level validation],10.1021/acs.jafc.3c06859
+DVFRAIPSEV,Umami,10,1132.266,4.37,0.36,0.1,44.64,Tauco (Indonesian fermented soybean product) (in silico) [Peptidomics-sensomics association + computational docking; no synthetic-peptide validation],10.1111/ijfs.17060
+VDAMVH,Umami,6,670.778,5.076,0.9,0,-16.717,Lager beer [Computational screening + flavor-perception validation],10.1016/j.jfca.2025.107338
+ENRKPW,Umami,6,828.915,8.848,-2.983,0.167,-9.033,Bay scallop (Argopecten irradians) [Detected in an umami fraction; no peptide-level validation],10.1016/j.lwt.2024.116645
+EPVSL,Umami,5,543.61,4.05,0.42,0,85.04,Termitomyces albuminosus soup (in silico) [Computational prediction; no peptide-level validation],10.1021/acs.jafc.3c04281
+EEF,Umami,3,423.417,4.05,-1.4,0.333,115.333,Wuding chicken (in silico) [Fraction sensory association + computational screening; no peptide-level validation],10.1016/j.foodchem.2023.137051
+EEEKPKF,Umami,7,905.991,4.786,-2.443,0.143,90.943,Fermented mandarin fish (Chouguiyu) [Molecular docking + synthetic-peptide electronic-tongue validation],10.1039/d3fo02697c
+DALTN,Umami,5,532.545,4.05,-0.42,0,-22.06,Termitomyces albuminosus soup (in silico) [Computational prediction; no peptide-level validation],10.1021/acs.jafc.3c04281
+TEYSPGP,Umami; Sweet,7,749.765,4.05,-1.414,0.143,98.857,Lager beer [Computational screening + flavor-perception validation],10.1016/j.jfca.2025.107338
+AGPYPDK,Umami,7,746.808,5.879,-1.5,0.143,3.3,Bay scallop (Argopecten irradians) [Detected in an umami fraction; no peptide-level validation],10.1016/j.lwt.2024.116645
+KPPIHSGRTPVTGY,Umami,14,1509.708,9.994,-0.857,0.071,22.036,Chikso beef hydrolysate (in silico) [Computational screening: LC-MS/MS + molecular docking; no peptide-level validation],Not reported
+DESNIPDVSKFGY,Umami,13,1470.536,4.05,-0.869,0.154,43.3,Antarctic krill (in silico) [Fraction-level sensory + computational taste prediction/docking; no individual validation],10.1016/j.fbio.2024.104836
+GPPVGPIKF,Umami,9,911.098,8.75,0.222,0.111,32.822,Chikso beef hydrolysate (in silico) [Computational screening: LC-MS/MS + molecular docking; no peptide-level validation],Not reported
+TGLQQGKTYRF,Umami,11,1298.447,9.992,-1.118,0.182,25.427,Chikso beef hydrolysate (in silico) [Computational screening: LC-MS/MS + molecular docking; no peptide-level validation],Not reported
+PDSRIQDD,Umami; Bitter; Sweet,8,944.943,4.17,-2.05,0,71.55,Pea protein hydrolysate [Virtual hydrolysis/computational screening + electronic-tongue validation],10.1016/j.fbio.2024.105620
+AEDDWEAW,Umami; Sweet,8,1020.994,4.05,-1.525,0.25,32.825,Yeast protein hydrolysate [Machine-learning screening + sensory validation],10.1021/acs.jafc.3c08346
+FED,Umami; Bitter; Salty,3,409.391,4.05,-1.4,0.333,70.867,Douchi (fermented soybean) [Bioinformatics screening + electronic-tongue validation],10.1016/j.fbio.2024.104303
+FDRL,Umami; Sweet; Sour,4,549.62,5.836,-0.35,0.25,19.5,Yeast protein hydrolysate [Machine-learning screening + sensory validation],10.1021/acs.jafc.3c08346
+SPVFL,Umami,5,561.67,5.24,1.68,0.2,134.4,Bay scallop (Argopecten irradians) [Detected in an umami fraction; no peptide-level validation],10.1016/j.lwt.2024.116645
+KPGKPTRPN,Umami,9,994.149,11.166,-2.411,0,4.1,Bay scallop (Argopecten irradians) [Detected in an umami fraction; no peptide-level validation],10.1016/j.lwt.2024.116645
+GAEPVFR,Umami,7,774.864,6.002,-0.171,0.143,51.471,Bay scallop (Argopecten irradians) [Detected in an umami fraction; no peptide-level validation],10.1016/j.lwt.2024.116645
+IIAPPER,Umami,7,794.938,6.002,-0.057,0,88.429,Bay scallop (Argopecten irradians) [Detected in an umami fraction; no peptide-level validation],10.1016/j.lwt.2024.116645
+AHLDYGDGK,Umami; Salty; Sour,9,975.013,5.212,-1.178,0.111,-19.411,Stropharia rugosoannulata [Virtual screening + experimental sensory validation],10.1016/j.foodchem.2024.142385
+IKDPSAPHGL,Umami,10,1034.166,6.744,-0.49,0,28.66,Tauco (Indonesian fermented soybean product) (in silico) [Peptidomics-sensomics association + computational docking; no synthetic-peptide validation],10.1111/ijfs.17060
+MAMQKIFAR,Umami,9,1095.382,11,0.311,0.111,4.789,Chikso beef hydrolysate (in silico) [Computational screening: LC-MS/MS + molecular docking; no peptide-level validation],Not reported
+LDEVIERAN,Umami,9,1058.143,4.137,-0.467,0,57.711,Oyster (Crassostrea gigas) hydrolysate (in silico) [Peptidomics + iUmami-SCM computational screening; no peptide-level validation],10.1021/acs.jafc.3c06859
+GSEDPLPGAK,Umami; Salty,10,970.035,4.37,-1.01,0,58.29,Lentinula edodes enzymolysis extract [Computational screening + sensory/electronic-tongue validation],10.1016/j.jfutfo.2024.07.017
+AKEKFD,Umami; Sweet; Sour,6,736.813,6.236,-1.7,0.167,28.9,Watermelon soybean paste [Sensory/electronic-tongue validation; molecular docking],10.1016/j.fbio.2024.104155
+LPEGAF,Umami; Bitter,6,632.705,4.05,0.483,0.167,55.25,Lager beer [Computational screening + flavor-perception validation],10.1016/j.jfca.2025.107338
+GTVKIPPKRPP,Umami,11,1189.45,11.166,-1.009,0,70.582,Chikso beef hydrolysate (in silico) [Computational screening: LC-MS/MS + molecular docking; no peptide-level validation],Not reported
+LPFQRL,Umami,6,772.934,9.75,0.133,0.167,72.533,Bay scallop (Argopecten irradians) [Detected in an umami fraction; no peptide-level validation],10.1016/j.lwt.2024.116645
+LKEAHDVA,Umami; Bitter; Salty; Sour,8,881.973,5.321,-0.312,0,-12.475,Stropharia rugosoannulata [Virtual screening + experimental sensory validation],10.1016/j.foodchem.2024.142385
+GLEDEVSKQR,Umami,10,1160.235,4.679,-1.56,0,51.9,Oyster (Crassostrea gigas) hydrolysate (in silico) [Peptidomics + iUmami-SCM computational screening; no peptide-level validation],10.1021/acs.jafc.3c06859
+ITLEPGDMIH,Umami,10,1125.295,4.353,0.18,0,40.6,Tauco (Indonesian fermented soybean product) (in silico) [Peptidomics-sensomics association + computational docking; no synthetic-peptide validation],10.1111/ijfs.17060
+VDRL,Umami; Bitter; Sweet,4,501.577,5.807,0,0,-48.925,Pea protein hydrolysate [Virtual hydrolysis/computational screening + electronic-tongue validation],10.1016/j.fbio.2024.105620
+STHPHF,Umami,6,724.764,6.657,-1.117,0.167,-13.75,Bay scallop (Argopecten irradians) [Detected in an umami fraction; no peptide-level validation],10.1016/j.lwt.2024.116645
+DKDGKGKIPEEY,Umami,12,1378.484,4.783,-2.075,0.083,13.042,Oyster (Crassostrea gigas) hydrolysate (in silico) [Peptidomics + iUmami-SCM computational screening; no peptide-level validation],10.1021/acs.jafc.3c06859
+WDDMEKIWH,Umami,9,1259.389,4.536,-1.444,0.222,25.767,Chikso beef hydrolysate (in silico) [Computational screening: LC-MS/MS + molecular docking; no peptide-level validation],Not reported
