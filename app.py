@@ -75,6 +75,10 @@ MODEL_DISPLAY_NAMES = {
 PREDICTION_CHUNK_SIZE = 100
 PREDICTION_REQUEST_TIMEOUT = 600
 PREDICTION_MAX_ATTEMPTS = 2
+PREDICTION_LENGTH_LIMITS = {
+    "bitter": (2, 20),
+    "umami": (2, 24),
+}
 METHOD_PROBABILITY_LABELS = {
     "Bitter_Stacking": "BPPred probability",
     "ESM2_t33_MLP": "ESM2-MLP probability",
@@ -1000,6 +1004,10 @@ def clean_sequence(seq: str) -> str:
     return seq
 
 
+def prediction_length_limits(task: str) -> Tuple[int, int]:
+    return PREDICTION_LENGTH_LIMITS.get(task, (2, 80))
+
+
 def validate_sequence(seq: str, min_len: int = 2, max_len: int = 80) -> Tuple[bool, str]:
     seq = clean_sequence(seq)
     if not seq:
@@ -1007,7 +1015,7 @@ def validate_sequence(seq: str, min_len: int = 2, max_len: int = 80) -> Tuple[bo
     if len(seq) < min_len:
         return False, f"Sequence is too short: current length is {len(seq)}, minimum length is {min_len}."
     if len(seq) > max_len:
-        return False, f"Sequence is too long: current length is {len(seq)}, maximum recommended length is {max_len}."
+        return False, f"Sequence is outside the model domain: current length is {len(seq)}, allowed length is {min_len}-{max_len} aa."
     if not AA_PATTERN.match(seq):
         return False, "Sequence contains non-standard amino acid characters. Supported letters: A C D E F G H I K L M N P Q R S T V W Y."
     return True, "OK"
@@ -1819,6 +1827,8 @@ def prediction_page(task: str) -> None:
     )
     default_method_index = 3
     task_name = "bitter peptide" if is_bitter else "umami peptide"
+    min_len, max_len = prediction_length_limits(task)
+    domain_text = f"{model_name} model domain: {min_len}-{max_len} aa"
     subtitle = (
         "BPPred combines ESM-2 sequence representations, amino acid descriptors, and FCFP4 fingerprints through a probability-stacking classifier. Submit individual or batch peptide sequences for binary prediction and downloadable results."
         if is_bitter else
@@ -1900,7 +1910,7 @@ def prediction_page(task: str) -> None:
             height=330,
             placeholder=placeholder,
             key=text_key,
-            help="Use FASTA records or one peptide sequence per line. Only the 20 standard amino acid letters are accepted.",
+            help=f"Use FASTA records or one peptide sequence per line. Only the 20 standard amino acid letters are accepted. {domain_text}.",
         )
 
     with right:
@@ -1949,7 +1959,7 @@ def prediction_page(task: str) -> None:
 
         valid, invalid = [], []
         for s in seqs:
-            ok, msg = validate_sequence(s)
+            ok, msg = validate_sequence(s, min_len=min_len, max_len=max_len)
             if ok:
                 valid.append(s)
             else:
@@ -1957,6 +1967,9 @@ def prediction_page(task: str) -> None:
 
         if not valid:
             st.error("No valid peptide sequence found. Paste FASTA/list input or upload a CSV, FASTA, or TXT file.")
+            if invalid:
+                with st.expander("Invalid sequences", expanded=True):
+                    st.dataframe(pd.DataFrame(invalid), use_container_width=True, hide_index=True)
         else:
             run_name = MODEL_DISPLAY_NAMES.get(selected_method, selected_method or model_name)
             with st.spinner(f"Running {run_name} prediction for {len(valid)} valid sequence(s)..."):
@@ -1992,7 +2005,7 @@ def prediction_page(task: str) -> None:
     st.markdown(
         f"""
         <div class="note-box">
-            <strong>Input note.</strong> {model_name} accepts FASTA records, one peptide sequence per line, TXT files, and CSV files. CSV files should include a <code>sequence</code> column; otherwise the first column is used. Supported amino acid letters are A C D E F G H I K L M N P Q R S T V W Y.
+            <strong>Input note.</strong> {model_name} accepts FASTA records, one peptide sequence per line, TXT files, and CSV files. CSV files should include a <code>sequence</code> column; otherwise the first column is used. Supported amino acid letters are A C D E F G H I K L M N P Q R S T V W Y. The allowed sequence length for this model is <strong>{min_len}-{max_len} aa</strong>; sequences outside this domain are listed as invalid and are not sent for prediction.
             <br><strong>Result note.</strong> Probability ranges from 0 to 1. A sequence is labeled as {task_name} when its probability is greater than or equal to the selected threshold.
         </div>
         """,
@@ -3971,7 +3984,7 @@ def help_page() -> None:
             """,
             unsafe_allow_html=True,
         )
-        st.caption("Valid sequences contain 2-80 residues selected from A, C, D, E, F, G, H, I, K, L, M, N, P, Q, R, S, T, V, W, and Y.")
+        st.caption("Valid sequences must use the 20 standard amino acid letters. BPPred accepts 2-20 aa peptides, and UPPred accepts 2-24 aa peptides; out-of-domain sequences are not submitted for prediction.")
 
     with result_tab:
         st.markdown(
