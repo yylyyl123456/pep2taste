@@ -148,37 +148,39 @@ html, body, [class*="css"] {
 }
 
 section[data-testid="stSidebar"],
-[data-testid="stSidebar"],
+[data-testid="stSidebar"] {
+    background:
+      radial-gradient(circle at 20% 10%, rgba(217,119,6,0.14), transparent 24%),
+      radial-gradient(circle at 86% 34%, rgba(220,38,38,0.08), transparent 28%),
+      linear-gradient(180deg, #fff7ed 0%, #fffbeb 54%, #ffffff 100%) !important;
+    border-right: 1px solid rgba(217,119,6,0.18);
+}
+
 [data-testid="stSidebarContent"],
 [data-testid="stSidebarUserContent"],
 section[data-testid="stSidebar"] > div {
-    background:
-      radial-gradient(circle at 20% 10%, rgba(15,118,110,0.15), transparent 24%),
-      radial-gradient(circle at 85% 35%, rgba(220,38,38,0.08), transparent 28%),
-      linear-gradient(180deg, #ecfdf5 0%, #f0fdfa 54%, #ffffff 100%) !important;
-    border-right: 1px solid rgba(15,118,110,0.22);
+    background: transparent !important;
 }
 
 [data-testid="stSidebar"] * {
-    color: #064e3b !important;
+    color: #5b3414 !important;
 }
 
 [data-testid="stSidebar"] input[type="radio"] {
-    accent-color: #0f766e;
+    accent-color: #d97706;
 }
 
 [data-testid="stSidebar"] [role="radiogroup"] label:hover {
-    background: rgba(15,118,110,0.08) !important;
-    border-radius: 8px;
+    background: transparent !important;
 }
 
 [data-testid="stSidebar"] [role="radiogroup"] label:has(input:checked) {
-    background: #0f766e !important;
-    border-radius: 8px;
+    background: transparent !important;
+    font-weight: 800 !important;
 }
 
 [data-testid="stSidebar"] [role="radiogroup"] label:has(input:checked) * {
-    color: #ffffff !important;
+    color: #92400e !important;
 }
 
 .sidebar-logo {
