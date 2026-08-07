@@ -147,11 +147,15 @@ html, body, [class*="css"] {
     padding-bottom: 3rem;
 }
 
-[data-testid="stSidebar"] {
+section[data-testid="stSidebar"],
+[data-testid="stSidebar"],
+[data-testid="stSidebarContent"],
+[data-testid="stSidebarUserContent"],
+section[data-testid="stSidebar"] > div {
     background:
       radial-gradient(circle at 20% 10%, rgba(15,118,110,0.15), transparent 24%),
       radial-gradient(circle at 85% 35%, rgba(220,38,38,0.08), transparent 28%),
-      linear-gradient(180deg, #ecfdf5 0%, #f0fdfa 54%, #ffffff 100%);
+      linear-gradient(180deg, #ecfdf5 0%, #f0fdfa 54%, #ffffff 100%) !important;
     border-right: 1px solid rgba(15,118,110,0.22);
 }
 
@@ -166,6 +170,15 @@ html, body, [class*="css"] {
 [data-testid="stSidebar"] [role="radiogroup"] label:hover {
     background: rgba(15,118,110,0.08) !important;
     border-radius: 8px;
+}
+
+[data-testid="stSidebar"] [role="radiogroup"] label:has(input:checked) {
+    background: #0f766e !important;
+    border-radius: 8px;
+}
+
+[data-testid="stSidebar"] [role="radiogroup"] label:has(input:checked) * {
+    color: #ffffff !important;
 }
 
 .sidebar-logo {
