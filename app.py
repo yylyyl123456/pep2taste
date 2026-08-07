@@ -149,13 +149,23 @@ html, body, [class*="css"] {
 
 [data-testid="stSidebar"] {
     background:
-      radial-gradient(circle at 20% 10%, rgba(217,119,6,0.22), transparent 22%),
-      radial-gradient(circle at 85% 35%, rgba(220,38,38,0.18), transparent 26%),
-      linear-gradient(180deg, #0f172a 0%, #111827 58%, #020617 100%);
+      radial-gradient(circle at 20% 10%, rgba(15,118,110,0.15), transparent 24%),
+      radial-gradient(circle at 85% 35%, rgba(220,38,38,0.08), transparent 28%),
+      linear-gradient(180deg, #ecfdf5 0%, #f0fdfa 54%, #ffffff 100%);
+    border-right: 1px solid rgba(15,118,110,0.22);
 }
 
 [data-testid="stSidebar"] * {
-    color: #f8fafc !important;
+    color: #064e3b !important;
+}
+
+[data-testid="stSidebar"] input[type="radio"] {
+    accent-color: #0f766e;
+}
+
+[data-testid="stSidebar"] [role="radiogroup"] label:hover {
+    background: rgba(15,118,110,0.08) !important;
+    border-radius: 8px;
 }
 
 .sidebar-logo {
