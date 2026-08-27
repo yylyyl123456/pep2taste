@@ -11,6 +11,7 @@ import time
 import zipfile
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
+from urllib.parse import urlparse
 
 import altair as alt
 import pandas as pd
@@ -986,6 +987,19 @@ def get_prediction_api_url(task: str) -> str:
     return get_secret_or_env(api_key, "").strip()
 
 
+def get_backend_auth_headers(url: str) -> Dict[str, str]:
+    hostname = (urlparse(url).hostname or "").lower()
+    is_hugging_face = (
+        hostname == "huggingface.co"
+        or hostname.endswith(".huggingface.co")
+        or hostname.endswith(".hf.space")
+    )
+    token = get_secret_or_env("HF_TOKEN", "").strip()
+    if is_hugging_face and token:
+        return {"Authorization": f"Bearer {token}"}
+    return {}
+
+
 def derive_health_url(predict_url: str) -> str:
     url = (predict_url or "").strip()
     if not url:
@@ -1002,7 +1016,11 @@ def check_backend_health(health_url: str) -> Dict[str, Any]:
         return {"configured": False, "ok": False, "status_code": None, "elapsed": None, "message": "Backend URL is not configured."}
     start = time.perf_counter()
     try:
-        resp = requests.get(health_url, timeout=25)
+        resp = requests.get(
+            health_url,
+            headers=get_backend_auth_headers(health_url),
+            timeout=25,
+        )
         elapsed = time.perf_counter() - start
         message = ""
         try:
@@ -1157,6 +1175,7 @@ def predict_with_api_or_mock(
                         resp = requests.post(
                             url,
                             json=payload,
+                            headers=get_backend_auth_headers(url),
                             timeout=PREDICTION_REQUEST_TIMEOUT,
                         )
                         resp.raise_for_status()
