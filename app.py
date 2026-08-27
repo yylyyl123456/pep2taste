@@ -68,6 +68,7 @@ DESCRIPTOR_LABELS = {
     "Instability Index": "Instability Index",
 }
 SPLIT_LABEL_ORDER = ["train_pos", "train_neg", "test_pos", "test_neg"]
+DATASET_CACHE_VERSION = "positive-label-is-1-v1"
 TEST_ONLY_DATASETS = {
     "Bitter(Ours-External)",
     "Umami(Ours-External)",
@@ -1595,7 +1596,7 @@ def split_label(split: str, label: Any) -> str:
 
 
 @st.cache_data(show_spinner=False)
-def load_binary_dataset_records() -> pd.DataFrame:
+def load_binary_dataset_records(dataset_cache_version: str) -> pd.DataFrame:
     rows = []
     if not DATA_DIR.exists():
         return pd.DataFrame(columns=["Dataset", "Task", "File", "Split", "Split label", "Sequence", "Label", "Length"])
@@ -1646,8 +1647,8 @@ def load_binary_dataset_records() -> pd.DataFrame:
 
 
 @st.cache_data(show_spinner=False)
-def dataset_summary_table() -> pd.DataFrame:
-    records = load_binary_dataset_records()
+def dataset_summary_table(dataset_cache_version: str) -> pd.DataFrame:
+    records = load_binary_dataset_records(dataset_cache_version)
     if records.empty:
         return pd.DataFrame()
     rows = []
@@ -2308,8 +2309,8 @@ def download_page() -> None:
         ["Dataset download", "Dataset analysis", "Benchmark datasets", "Binary classification"]
     )
 
-    records = load_binary_dataset_records()
-    summary = dataset_summary_table()
+    records = load_binary_dataset_records(DATASET_CACHE_VERSION)
+    summary = dataset_summary_table(DATASET_CACHE_VERSION)
     if records.empty or summary.empty:
         st.warning("No binary peptide datasets were detected under the data directory.")
         return
@@ -2392,7 +2393,8 @@ def download_page() -> None:
                 <strong>Train positive:</strong> The number of positive peptides used for model training.<br>
                 <strong>Train negative:</strong> The number of negative peptides used for model training.<br>
                 <strong>Test positive:</strong> The number of positive peptides used for model evaluation.<br>
-                <strong>Test negative:</strong> The number of negative peptides used for model evaluation.
+                <strong>Test negative:</strong> The number of negative peptides used for model evaluation.<br>
+                <strong>Label encoding:</strong> Positive = <code>1</code>; Negative = <code>0</code> for all provided datasets.
             </div>
             """,
             unsafe_allow_html=True,
