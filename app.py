@@ -68,6 +68,10 @@ DESCRIPTOR_LABELS = {
     "Instability Index": "Instability Index",
 }
 SPLIT_LABEL_ORDER = ["train_pos", "train_neg", "test_pos", "test_neg"]
+LABEL_ONE_POSITIVE_DATASETS = {
+    "Bitter(Ours-External)",
+    "Umami(Ours-External)",
+}
 MODEL_DISPLAY_NAMES = {
     "Bitter_Stacking": "BPPred",
     "Umami_LoRA": "UPPred",
@@ -77,7 +81,7 @@ PREDICTION_REQUEST_TIMEOUT = 600
 PREDICTION_MAX_ATTEMPTS = 2
 PREDICTION_LENGTH_LIMITS = {
     "bitter": (2, 20),
-    "umami": (2, 24),
+    "umami": (2, 22),
 }
 METHOD_PROBABILITY_LABELS = {
     "Bitter_Stacking": "BPPred probability",
@@ -1538,8 +1542,12 @@ def infer_split_from_file(path: Path) -> str:
 def dataset_display_name(name: str) -> str:
     if name == "Bitter(Ours)":
         return "BTP1160"
+    if name == "Bitter(Ours-External)":
+        return "BTP112"
     if name == "Umami(Ours)":
         return "UMP1916"
+    if name == "Umami(Ours-External)":
+        return "UMP118"
     if name.endswith(" / UMP789_balance"):
         return "UMP789(1:1)"
     if name.endswith(" / UMP789_imbalance"):
@@ -1556,20 +1564,18 @@ def safe_filename(text: str) -> str:
     return re.sub(r"[^A-Za-z0-9_.-]+", "_", text).strip("_") or "dataset"
 
 
-def is_positive_label(label: Any) -> bool:
+def is_positive_label(label: Any, positive_numeric_label: int = 0) -> bool:
     text = str(label).strip().lower()
     try:
         numeric = float(text)
-        if numeric == 0:
-            return True
-        if numeric == 1:
-            return False
+        if numeric in {0, 1}:
+            return numeric == positive_numeric_label
     except Exception:
         pass
 
-    if text in {"0", "pos", "positive", "bioactive", "active", "true", "yes"}:
+    if text in {"pos", "positive", "bioactive", "active", "true", "yes"}:
         return True
-    if text in {"1", "neg", "negative", "non-bioactive", "nonbioactive", "inactive", "false", "no"}:
+    if text in {"neg", "negative", "non-bioactive", "nonbioactive", "inactive", "false", "no"}:
         return False
     return False
 
@@ -1583,8 +1589,8 @@ def normalized_label_value(label: Any) -> Any:
         return text
 
 
-def split_label(split: str, label: Any) -> str:
-    positive = is_positive_label(label)
+def split_label(split: str, label: Any, positive_numeric_label: int = 0) -> str:
+    positive = is_positive_label(label, positive_numeric_label=positive_numeric_label)
     return f"{split}_{'pos' if positive else 'neg'}"
 
 
@@ -1604,7 +1610,12 @@ def load_binary_dataset_records() -> pd.DataFrame:
         has_named_split = any(("train" in p.stem.lower() or "test" in p.stem.lower()) for p in csv_files)
         for path in csv_files:
             dataset_name = folder.name if has_named_split or len(csv_files) == 1 else f"{folder.name} / {path.stem}"
-            split = infer_split_from_file(path) if has_named_split else "train"
+            if dataset_name in LABEL_ONE_POSITIVE_DATASETS:
+                split = "test"
+            elif has_named_split:
+                split = infer_split_from_file(path)
+            else:
+                split = "train"
             try:
                 raw = pd.read_csv(path)
             except Exception:
@@ -1614,6 +1625,7 @@ def load_binary_dataset_records() -> pd.DataFrame:
                 continue
             seq_col = columns["sequence"]
             label_col = columns["label"]
+            positive_numeric_label = 1 if dataset_name in LABEL_ONE_POSITIVE_DATASETS else 0
             for _, record in raw[[seq_col, label_col]].dropna().iterrows():
                 seq = clean_sequence(record[seq_col])
                 if not seq:
@@ -1625,7 +1637,7 @@ def load_binary_dataset_records() -> pd.DataFrame:
                     "Task": infer_task_from_name(dataset_name),
                     "File": path.relative_to(APP_DIR).as_posix(),
                     "Split": split,
-                    "Split label": split_label(split, label),
+                    "Split label": split_label(split, label, positive_numeric_label=positive_numeric_label),
                     "Sequence": seq,
                     "Label": normalized_label_value(label),
                     "Length": len(seq),
@@ -1642,6 +1654,8 @@ def dataset_summary_table() -> pd.DataFrame:
     rows = []
     for dataset, group in records.groupby("Dataset", sort=True):
         counts = group["Split label"].value_counts().to_dict()
+        has_train_split = (group["Split"] == "train").any()
+        has_test_split = (group["Split"] == "test").any()
         rows.append({
             "Dataset": dataset,
             "Display dataset": dataset_display_name(dataset),
@@ -1649,12 +1663,20 @@ def dataset_summary_table() -> pd.DataFrame:
             "Sequences": len(group),
             "Min length": int(group["Length"].min()),
             "Max length": int(group["Length"].max()),
-            "train_pos": int(counts.get("train_pos", 0)),
-            "train_neg": int(counts.get("train_neg", 0)),
-            "test_pos": int(counts.get("test_pos", 0)),
-            "test_neg": int(counts.get("test_neg", 0)),
+            "train_pos": int(counts.get("train_pos", 0)) if has_train_split else None,
+            "train_neg": int(counts.get("train_neg", 0)) if has_train_split else None,
+            "test_pos": int(counts.get("test_pos", 0)) if has_test_split else None,
+            "test_neg": int(counts.get("test_neg", 0)) if has_test_split else None,
             "Files": ", ".join(sorted(group["File"].unique())),
         })
+    external_order = {
+        "Bitter(Ours-External)": 0,
+        "Umami(Ours-External)": 1,
+    }
+    rows.sort(key=lambda row: (
+        row["Dataset"] in external_order,
+        external_order.get(row["Dataset"], row["Dataset"]),
+    ))
     return pd.DataFrame(rows)
 
 
@@ -2335,7 +2357,8 @@ def download_page() -> None:
                     row["test_neg"],
                 ],
             ):
-                col.markdown(f'<div class="download-table-cell">{int(value):,}</div>', unsafe_allow_html=True)
+                display_value = "—" if pd.isna(value) else f"{int(value):,}"
+                col.markdown(f'<div class="download-table-cell">{display_value}</div>', unsafe_allow_html=True)
 
             dataset_files = [
                 APP_DIR / f
@@ -2367,13 +2390,11 @@ def download_page() -> None:
                 <strong>Dataset note.</strong><br>
                 <strong>Max length:</strong> The maximum length of any peptide sequence within the dataset.<br>
                 <strong>Min length:</strong> The minimum length of any peptide sequence within the dataset.<br>
-                <strong>Train positive:</strong> The number of bioactive peptides used for model training.<br>
-                <strong>Train negative:</strong> The number of non-bioactive peptides used for model training.<br>
-                <strong>Test positive:</strong> The number of bioactive peptides used for model evaluation.<br>
-                <strong>Test negative:</strong> The number of non-bioactive peptides used for model evaluation.<br>
-                <strong>Note:</strong> In the provided csv file, peptide bioactivity is encoded as follows:<br>
-                &middot; <code>0</code> = Bioactive (Positive)<br>
-                &middot; <code>1</code> = Non-bioactive (Negative)
+                <strong>Train positive:</strong> The number of positive peptides used for model training.<br>
+                <strong>Train negative:</strong> The number of negative peptides used for model training.<br>
+                <strong>Test positive:</strong> The number of positive peptides used for model evaluation.<br>
+                <strong>Test negative:</strong> The number of negative peptides used for model evaluation.<br>
+                <strong>Note:</strong> BTP112 and UMP118 use <code>1</code> = Positive and <code>0</code> = Negative. All other provided datasets use <code>0</code> = Positive and <code>1</code> = Negative.
             </div>
             """,
             unsafe_allow_html=True,
@@ -4009,7 +4030,7 @@ def help_page() -> None:
             """,
             unsafe_allow_html=True,
         )
-        st.caption("Valid sequences must use the 20 standard amino acid letters. BPPred accepts 2-20 aa peptides, and UPPred accepts 2-24 aa peptides; out-of-domain sequences are not submitted for prediction.")
+        st.caption("Valid sequences must use the 20 standard amino acid letters. BPPred accepts 2-20 aa peptides, and UPPred accepts 2-22 aa peptides; out-of-domain sequences are not submitted for prediction.")
 
     with result_tab:
         st.markdown(
