@@ -68,7 +68,7 @@ DESCRIPTOR_LABELS = {
     "Instability Index": "Instability Index",
 }
 SPLIT_LABEL_ORDER = ["train_pos", "train_neg", "test_pos", "test_neg"]
-LABEL_ONE_POSITIVE_DATASETS = {
+TEST_ONLY_DATASETS = {
     "Bitter(Ours-External)",
     "Umami(Ours-External)",
 }
@@ -1564,12 +1564,12 @@ def safe_filename(text: str) -> str:
     return re.sub(r"[^A-Za-z0-9_.-]+", "_", text).strip("_") or "dataset"
 
 
-def is_positive_label(label: Any, positive_numeric_label: int = 0) -> bool:
+def is_positive_label(label: Any) -> bool:
     text = str(label).strip().lower()
     try:
         numeric = float(text)
         if numeric in {0, 1}:
-            return numeric == positive_numeric_label
+            return numeric == 1
     except Exception:
         pass
 
@@ -1589,8 +1589,8 @@ def normalized_label_value(label: Any) -> Any:
         return text
 
 
-def split_label(split: str, label: Any, positive_numeric_label: int = 0) -> str:
-    positive = is_positive_label(label, positive_numeric_label=positive_numeric_label)
+def split_label(split: str, label: Any) -> str:
+    positive = is_positive_label(label)
     return f"{split}_{'pos' if positive else 'neg'}"
 
 
@@ -1610,7 +1610,7 @@ def load_binary_dataset_records() -> pd.DataFrame:
         has_named_split = any(("train" in p.stem.lower() or "test" in p.stem.lower()) for p in csv_files)
         for path in csv_files:
             dataset_name = folder.name if has_named_split or len(csv_files) == 1 else f"{folder.name} / {path.stem}"
-            if dataset_name in LABEL_ONE_POSITIVE_DATASETS:
+            if dataset_name in TEST_ONLY_DATASETS:
                 split = "test"
             elif has_named_split:
                 split = infer_split_from_file(path)
@@ -1625,7 +1625,6 @@ def load_binary_dataset_records() -> pd.DataFrame:
                 continue
             seq_col = columns["sequence"]
             label_col = columns["label"]
-            positive_numeric_label = 1 if dataset_name in LABEL_ONE_POSITIVE_DATASETS else 0
             for _, record in raw[[seq_col, label_col]].dropna().iterrows():
                 seq = clean_sequence(record[seq_col])
                 if not seq:
@@ -1637,7 +1636,7 @@ def load_binary_dataset_records() -> pd.DataFrame:
                     "Task": infer_task_from_name(dataset_name),
                     "File": path.relative_to(APP_DIR).as_posix(),
                     "Split": split,
-                    "Split label": split_label(split, label, positive_numeric_label=positive_numeric_label),
+                    "Split label": split_label(split, label),
                     "Sequence": seq,
                     "Label": normalized_label_value(label),
                     "Length": len(seq),
@@ -2393,8 +2392,7 @@ def download_page() -> None:
                 <strong>Train positive:</strong> The number of positive peptides used for model training.<br>
                 <strong>Train negative:</strong> The number of negative peptides used for model training.<br>
                 <strong>Test positive:</strong> The number of positive peptides used for model evaluation.<br>
-                <strong>Test negative:</strong> The number of negative peptides used for model evaluation.<br>
-                <strong>Note:</strong> BTP112 and UMP118 use <code>1</code> = Positive and <code>0</code> = Negative. All other provided datasets use <code>0</code> = Positive and <code>1</code> = Negative.
+                <strong>Test negative:</strong> The number of negative peptides used for model evaluation.
             </div>
             """,
             unsafe_allow_html=True,
