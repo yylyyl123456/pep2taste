@@ -49,12 +49,12 @@ DR,Umami; Bitter; Salty,2,289.288,5.836,-4,0,-32.7,Mackerels; Sauce,10.1016/j.fo
 DV,Sour; Bitter,2,232.234,4.05,0.35,0,5,Not reported,10.1271/bbb1961.52.91; 10.1038/s41598-022-25935-3
 DY,Bitter,2,296.276,4.05,-2.4,0.5,5,Not reported,10.1080/10408398.2023.2220792
 EA,Umami; Bitter; Sour; Sweet,2,218.207,4.05,-0.85,0,5,Aspergillus oryzae; Yeast; Cheese,10.1016/j.fbio.2024.103661; 10.1038/s41598-022-25935-3
-ED,Umami; Salty; Sour;,2,262.217,4.05,-3.5,0,101.3,Yeast; Cheese; Soybean,10.1080/00021369.1989.10869317
+ED,Umami; Salty; Sour,2,262.217,4.05,-3.5,0,101.3,Yeast; Cheese; Soybean,10.1080/00021369.1989.10869317
 EE,Umami; Salty; Bitter,2,276.243,4.24,-3.5,0,168,Cheese; Enzymatic Hydrolysate; Soybean,10.1038/s41598-022-25935-3
 EF,Bitter; Sour,2,294.303,4.05,-0.35,0.5,5,Soybean,10.1080/00021369.1987.10868574; 10.3390/ijms20235978
 EG,Umami; Bitter; Salty; Sour; Sweet,2,204.181,4.05,-1.95,0,5,Mushroom; Cheese,10.1271/bbb.60.1637; 10.1038/s41598-022-25935-3; 10.1021/acs.jafc.3c04479
 EI,Bitter,2,260.287,4.05,0.5,0,101.3,Soybean,10.3390/foods11223742
-EK,Umami; Sour;,2,275.302,6.101,-3.7,0,5,Cheese,10.1080/00021369.1989.10869317
+EK,Umami; Sour,2,275.302,6.101,-3.7,0,5,Cheese,10.1080/00021369.1989.10869317
 EL,Umami; Bitter; Sweet; Sour,2,260.287,4.05,0.15,0,5,Aspergillus oryzae; Yeast; Soybean,10.1080/00021369.1988.10868747; 10.3390/ijms20235978; 10.1016/j.foodchem.2022.134812
 EN,Umami,2,261.232,4.05,-3.5,0,5,Yeast,10.1038/s41598-022-25935-3
 EP,Umami,2,244.244,4.05,-2.55,0,101.3,A. oryzae HN 3.042,10.1016/j.foodres.2018.11.055
@@ -63,7 +63,7 @@ ES,Umami,2,234.207,4.05,-2.15,0,101.3,Yeast; Soybean,10.1038/s41598-022-25935-3
 ET,Umami;,2,248.233,4.05,-2.1,0,5,Cheese,10.1038/s41598-022-25935-3
 EV,Umami; Bitter; Sweet; Sour; Salty,2,246.26,4.05,0.35,0,5,Mushroom; Aspergillus oryzae; Yeast; Cheese; Enzymatic Hydrolysate,10.1271/bbb1961.52.91; 10.1271/bbb1961.52.871; 10.1080/00021369.1988.10868747; 10.3390/ijms20235978
 EW,Bitter;,2,333.339,4.05,-2.2,0.5,-70.15,Cheese,10.1016/j.foodchem.2023.137288
-EY,Umami; Bitter; Sour;,2,310.303,4.05,-2.4,0.5,5,Mushroom; Yeast; Cheese; Soybean,10.1038/s41598-022-25935-3
+EY,Umami; Bitter; Sour,2,310.303,4.05,-2.4,0.5,5,Mushroom; Yeast; Cheese; Soybean,10.1038/s41598-022-25935-3
 FE,Umami; Sweet; Sour,2,294.303,4.599,-0.35,0.5,5,Saccharomyces Cerevisiae; Yeast,Not reported
 FF,Bitter,2,312.363,5.525,2.8,1,5,Not reported,10.1080/00021369.1987.10868574
 FG,Bitter,2,222.24,5.525,1.2,0.5,5,Not reported,10.1080/00021369.1987.10868574
@@ -121,7 +121,7 @@ LM,Umami; Bitter; Sweet; Sour; Kokumi,2,262.369,5.525,2.85,0,5,Yeast; Bovine,10.
 LP,Sour,2,228.288,5.525,1.1,0,101.3,Not reported,10.3390/ijms20235978
 LQ,Bitter; Sweet,2,259.302,5.525,0.15,0,168,Yeast,10.1021/acs.jafc.3c04479; 10.1016/j.foodchem.2022.134812
 LR,Sour,2,287.359,9.75,-0.35,0,101.3,Yeast extract,10.1016/j.foodres.2024.115622
-LS,Bitter; Salty;,2,218.25,5.525,1.5,0,5,Machine Learning,10.1016/j.foodchem.2022.134812
+LS,Bitter; Salty,2,218.25,5.525,1.5,0,5,Machine Learning,10.1016/j.foodchem.2022.134812
 LT,Bitter,2,232.277,5.525,1.55,0,5,Yeast,10.1016/j.foodchem.2022.134812
 LV,Umami; Bitter,2,230.304,5.525,4,0,5,Yeast,10.1271/bbb1961.52.91; 10.1016/j.foodchem.2022.134812
 LW,Bitter,2,317.383,5.525,1.45,0.5,123.4,Not reported,10.1080/10408398.2023.2220792
@@ -176,7 +176,7 @@ SP,Salty,2,202.208,5.24,-1.2,0,224.7,Not reported,10.7506/spkx1002-
 SR,Salty,2,261.278,9.465,-2.65,0,101.3,Not reported,10.7506/spkx1002-
 TD,Umami; Sour; Kokumi,2,234.207,4.297,-2.1,0,5,Aspergillus oryzae,Not reported
 TE,Umami,2,248.233,4.595,-2.1,0,101.3,Not reported,10.1038/s41598-022-25935-3
-TF,Sweet;,2,266.293,5.185,1.05,0.5,66.7,Not reported,10.1271/bbb1961.51.3309
+TF,Sweet,2,266.293,5.185,1.05,0.5,66.7,Not reported,10.1271/bbb1961.51.3309
 TG,Bitter,2,176.171,5.185,-0.55,0,-37.45,Not reported,10.1016/j.foodchem.2022.134812
 TP,Bitter; Sour,2,216.234,5.185,-1.15,0,5,Not reported,10.3390/ijms20235978; 10.1016/j.foodchem.2022.134812
 TR,Salty,2,275.305,9.41,-2.6,0,5,Not reported,10.7506/spkx1002-
@@ -190,7 +190,7 @@ VL,Bitter,2,230.304,5.495,4,0,5,Not reported,10.1271/bbb1961.52.91
 VM,Umami,2,248.342,5.495,3.05,0,5,Yak bone collagen,10.3390/foods14234057
 VN,Umami,2,231.249,5.495,0.35,0,5,Yak bone collagen,10.3390/foods14234057
 VP,Sour; Sweet; Salty,2,214.261,5.495,1.3,0,101.3,Not reported,10.3390/ijms20235978; 10.7506/spkx1002-6630-20221103-030; 10.1021/acs.jafc.3c04479
-VR,Salty; Sour;,2,273.332,9.72,-0.15,0,5,Yeast extract,10.7506/spkx1002-; 10.1016/j.foodres.2024.115622
+VR,Salty; Sour,2,273.332,9.72,-0.15,0,5,Yeast extract,10.7506/spkx1002-; 10.1016/j.foodres.2024.115622
 VT,Umami,2,218.25,5.495,1.75,0,-37.45,Not reported,10.1016/j.foodchem.2022.134812
 VV,Umami; Bitter; Salty,2,216.277,5.495,4.2,0,5,Chinese Douchi; Yeast; Bovine,10.1271/bbb1961.52.91; 10.1016/j.foodchem.2024.138692; 10.1038/s41598-022-25935-3
 VY,Umami; Bitter,2,280.319,5.494,1.45,0.5,-32.7,Yak bone collagen,10.1080/00021369.1987.10868574; 10.3390/foods14234057
@@ -238,7 +238,7 @@ DCG,Umami,3,293.297,4.05,-0.467,0,6.667,Wheat,10.1016/j.foodchem.2022.134812
 DDD,Umami; Salty,3,363.277,4.05,-3.5,0,6.667,Yeast,10.3390/ijms20235978
 DDE,Umami; Salty,3,377.304,4.05,-3.5,0,6.667,Not reported,10.3390/ijms20235978
 DDF,Umami,3,395.364,4.05,-1.4,0.333,-18.467,Not reported,10.3390/foods12071498
-DDL,Umami; Sour,3,361.348,4.05,-1.067,0,6.667,Mushroom,Not reported
+DDL,Umami; Sour,3,361.348,4.05,-1.067,0,6.667,Mushroom,10.1039/D4FO01369G
 DED,Umami; Salty,3,377.304,4.05,-3.5,0,70.867,Not reported,10.3390/ijms20235978
 DEE,Umami; Salty; Sour,3,391.331,4.05,-3.5,0,115.333,Enzymatic Hydrolysate,10.1271/bbb.63.555; 10.1080/00021369.1989.10869317
 DEK,Umami,3,390.389,4.37,-3.633,0,6.667,Not reported,10.1016/j.foodchem.2022.134935
@@ -349,7 +349,7 @@ KPF,Bitter,3,390.477,8.75,-0.9,0.333,45.733,Not reported,10.1080/00021369.1988.1
 KPK,Bitter,3,371.475,10.003,-3.133,0,-18.467,Not reported,10.1080/00021369.1988.10868632
 LDF,Umami,3,393.434,4.05,1.033,0.333,-18.467,Chicken,10.1016/j.foodres.2023.113208
 LDL,Umami; Bitter,3,359.418,4.05,1.367,0,6.667,Not reported,10.1080/00021369.1988.10868747
-LEF,Umami,3,407.461,4.05,1.033,0.333,6.667,Yeast,Not reported
+LEF,Umami,3,407.461,4.05,1.033,0.333,6.667,Yeast,10.1016/j.foodchem.2024.139216
 LEL,Bitter,3,373.445,4.05,1.367,0,6.667,Not reported,10.1080/00021369.1988.10868747
 LGG,Bitter,3,245.276,5.525,1,0,47.8,Not reported,10.1271/bbb1961.51.2389
 LGL,Bitter,3,301.382,5.525,2.4,0,6.667,Not reported,10.1271/bbb1961.51.2389
@@ -370,8 +370,8 @@ NAL,Bitter,3,316.353,5.525,0.7,0,6.667,Sauce,10.1016/j.foodchem.2022.134812
 NCW,Sweet,3,421.471,5.518,-0.633,0.333,76,Mizuhopecten yessoensis (yesso scallop),10.1002/jsfa.70529
 NER,Umami; Bitter; Sour,3,417.418,6.002,-3.833,0,6.667,Agaricus bisporus,10.1016/j.jfca.2025.107200
 NGG,Umami,3,246.22,5.525,-1.433,0,-2.3,Not reported,10.1016/j.foodchem.2022.134812
-NKF,Umami; Sour;,3,407.464,8.75,-1.533,0.333,85.6,Yeast,Not reported
-NNP,Umami; Sweet;,3,343.336,5.525,-2.867,0,-2.933,Aspergillus oryzae HN 3.042,10.1016/j.foodchem.2018.11.114
+NKF,Umami; Sour,3,407.464,8.75,-1.533,0.333,85.6,Yeast,10.1016/j.foodchem.2024.139216
+NNP,Umami; Sweet,3,343.336,5.525,-2.867,0,-2.933,Aspergillus oryzae HN 3.042,10.1016/j.foodchem.2018.11.114
 NQS,Umami; Sweet,3,347.324,5.525,-2.6,0,128,Machine Learning,10.1016/j.foodchem.2022.134812
 PAA,Umami,3,257.286,5.955,0.667,0,70.867,Yeast,10.1038/s41598-022-25935-3
 PAQ,Umami,3,314.338,5.955,-1.1,0,70.867,Not reported,10.1038/s41598-022-25935-3
@@ -417,7 +417,7 @@ TGS,Umami; Bitter,3,263.248,5.185,-0.633,0,-21.633,Machine Learning,Not reported
 TPE,Umami,3,345.348,4.595,-1.933,0,64.6,Not reported,10.1016/j.foodchem.2022.134812
 TSE,Umami,3,335.31,4.595,-1.667,0,70.867,Aspergillus oryzae,Not reported
 VAV,Umami,3,287.355,5.495,3.4,0,6.667,Yeast,10.1016/j.foodchem.2022.134935
-VDF,Sour;,3,379.407,4.05,1.167,0.333,-68.567,Yeast,Not reported
+VDF,Sour,3,379.407,4.05,1.167,0.333,-68.567,Yeast,10.1016/j.foodchem.2024.139216
 VDR,Umami,3,388.419,5.807,-1.267,0,-68.567,Not reported,10.1038/s41598-022-25935-3
 VDV,Umami,3,331.365,4.05,1.633,0,-43.433,Not reported,10.1080/00021369.1988.10868747
 VDW,Umami; Sour,3,418.444,4.05,-0.067,0.333,-43.433,Corn,Not reported
@@ -433,7 +433,7 @@ VLY,Bitter; Sour,3,393.477,5.494,2.233,0.333,6.667,Soy sauce,10.1016/j.foodchem.
 VPY,Umami; Sweet,3,377.435,5.494,0.433,0.333,70.867,Silkworm,10.1016/j.foodres.2018.02.047
 VVV,Bitter,3,315.408,5.495,4.2,0,6.667,Bovine,10.1271/bbb1961.52.91
 VYP,Bitter,3,377.435,5.494,0.433,0.333,22.667,Not reported,10.1080/00021369.1987.10868574
-WDL,Sour,3,432.47,4.05,-0.2,0.333,6.667,Yeast,Not reported
+WDL,Sour,3,432.47,4.05,-0.2,0.333,6.667,Yeast,10.1016/j.foodchem.2024.139216
 WWW,Bitter,3,576.645,5.525,-0.9,1,6.667,Not reported,10.1016/j.foodchem.2023.137288
 WYD,Salty,3,482.486,4.299,-1.9,0.667,85.6,Wheat gluten (enzymatic/fermented),10.1016/j.foodchem.2025.146622
 YDQ,Umami; Salty; Sour,3,424.405,4.05,-2.767,0.333,85.6,Saccharomyces Cerevisiae; Yeast,Not reported
@@ -450,7 +450,7 @@ APAP,Salty; Sour; Umami,4,354.401,5.57,0.1,0,151.95,Trachinotus,10.1016/j.lwt.20
 AQPA,Umami,4,385.416,5.57,-0.375,0,103.8,Not reported,Not reported
 AQPT,Umami,4,415.441,5.57,-1,0,55.65,Not reported,Not reported
 CTMR,Umami; Salty,4,509.644,8.25,-0.2,0,70.15,Rice bran protein,10.1002/jsfa.70217
-DATE,Umami; Sweet,4,434.399,4.085,-1.475,0,55.65,Machine Learning,Not reported
+DATE,Umami; Sweet,4,434.399,4.085,-1.475,0,55.65,Machine Learning,10.1021/acs.jafc.4c00187
 DCIY,Umami,4,512.576,4.05,0.55,0.25,7.5,Not reported,10.3390/foods12071498
 DDDD,Umami,4,478.365,4.05,-3.5,0,7.5,Not reported,10.1038/s41598-022-25935-3
 DDED,Umami; Sweet; Salty,4,492.392,4.05,-3.5,0,55.65,Not reported,10.1016/j.foodchem.2025.145905
@@ -481,9 +481,9 @@ ESLA,Sour; Umami,4,418.442,4.05,0.325,0,55.65,Borvine,10.1016/j.foodchem.2022.13
 EVLN,Bitter,4,473.52,4.05,0.25,0,7.5,Not reported,10.1038/s41598-022-25935-3
 FAPF,Bitter;,4,480.556,5.525,1.45,0.5,103.8,Soy sauce,10.1016/j.foodchem.2025.146470
 FDDP,Salty,4,492.479,4.05,-1.45,0.25,38.35,Not reported,10.7506/spkx1002-6630-20220624-278
-FDGK,Umami; Salty; Sour,4,465.5,5.836,-1.25,0.25,17.125,Yeast,Not reported
+FDGK,Umami; Salty; Sour,4,465.5,5.836,-1.25,0.25,17.125,Yeast,10.1016/j.foodchem.2024.139216
 FDLS,Umami; Bitter; Sour,4,480.511,4.05,0.575,0.25,38.35,Yeast extract,10.1016/j.foodchem.2025.146259
-FDSL,Umami; Sweet; Sour,4,480.511,4.05,0.575,0.25,86.5,Yeast,Not reported
+FDSL,Umami; Sweet; Sour,4,480.511,4.05,0.575,0.25,86.5,Yeast,10.1016/j.foodchem.2024.139216
 FFGG,Bitter,4,426.465,5.525,1.2,0.5,38.35,Not reported,10.1271/bbb1961.54.1401
 FFPE,Bitter,4,538.592,4.599,0.125,0.5,99.1,Not reported,10.3390/ijms20235978
 FFPG,Bitter,4,466.529,5.525,0.9,0.5,55.65,Not reported,10.1038/s41598-022-25935-3
@@ -533,7 +533,7 @@ LEQL,Umami,4,501.574,4.05,0.15,0,55.65,Not reported,10.1016/j.foodchem.2022.1349
 LERM,Umami; Bitter,4,547.669,6.002,-0.575,0,7.5,Lamb,10.1016/j.foodchem.2022.134562
 LGFL,Umami; Bitter,4,448.556,5.525,2.5,0.25,7.5,Soy sauce,10.1016/j.foodchem.2025.146470
 LGGG,Bitter,4,302.327,5.525,0.65,0,69.2,Not reported,10.1271/bbb1961.51.2389
-LGLR,Umami; Bitter,4,457.567,9.75,0.675,0,55.65,Yeast,Not reported
+LGLR,Umami; Bitter,4,457.567,9.75,0.675,0,55.65,Yeast,10.1016/j.foodchem.2024.139216
 LGPK,Umami,4,413.512,8.75,-0.525,0,7.5,Soybean protein,10.1016/j.fochx.2025.102544
 LLLL,Bitter,4,470.646,5.525,3.8,0,7.5,Not reported,10.1271/bbb1961.51.2389
 LMSL,Umami; Bitter,4,462.604,5.525,2.175,0,117.35,Clam,10.1002/jsfa.12319
@@ -549,7 +549,7 @@ LYER,Umami; Sweet; Kokumi,4,579.646,6.001,-1.375,0.25,-11.35,Puffer Fish,10.1016
 NAEG,Umami; Sweet; Sour,4,389.361,4.05,-1.4,0,7.5,Volvariella volvacea,10.1016/j.jfca.2025.107200
 NAMK,Umami,4,462.564,8.75,-0.925,0,7.5,Bonito,Not reported
 NLQG,Bitter,4,430.456,5.525,-0.9,0,89,Not reported,10.3390/ijms20235978
-NMKF,Umami; Salty; Sour,4,538.66,8.75,-0.675,0.25,7.5,Yeast,Not reported
+NMKF,Umami; Salty; Sour,4,538.66,8.75,-0.675,0.25,7.5,Yeast,10.1016/j.foodchem.2024.139216
 NRTF,Umami,4,536.581,9.75,-1.475,0.25,38.35,Not reported,10.1016/j.foodchem.2022.134935
 PDFP,Salty,4,474.507,4.05,-0.975,0.25,17.95,Not reported,10.7506/spkx1002-6630-20220624-278
 PDPN,Umami,4,441.436,4.05,-2.55,0,-11.35,Mytilus coruscus,10.1021/acs.jafc.5c03722
@@ -565,7 +565,7 @@ QDTW,Umami,4,548.546,4.05,-2.15,0.25,-19.5,Not reported,10.3390/foods12071498
 QEEK,Umami,4,532.545,4.531,-3.6,0,137.15,Not reported,10.1016/j.foodchem.2022.134812
 QEEL,Umami,4,517.53,4.05,-1.675,0,137.15,Not reported,10.1038/s41598-022-25935-3
 QEGW,Umami; Bitter,4,518.52,4.05,-2.075,0.25,86.5,Grain Wine,10.1016/j.jfca.2023.105822
-QFLR,Umami; Sweet; Sour,4,562.662,9.75,-0.35,0.25,36.8,Yeast,Not reported
+QFLR,Umami; Sweet; Sour,4,562.662,9.75,-0.35,0.25,36.8,Yeast,10.1016/j.foodchem.2024.139216
 QIVK,Umami,4,486.605,8.75,0.325,0,-20.925,Douban; Sauce,10.1016/j.foodchem.2022.134812
 QNDF,Umami; Sour,4,522.508,4.05,-1.925,0.25,-11.35,Mushroom,10.1021/acs.jafc.3c04281
 QPFP,Salty,4,487.549,5.525,-0.975,0.25,151.95,Not reported,10.7506/spkx1002-6630-20220624-278
@@ -577,7 +577,7 @@ RPGF,Bitter,4,475.541,9.75,-0.925,0.25,55.65,Not reported,10.1271/bbb1961.51.210
 RPHR,Bitter; Kokumi,4,564.641,12,-3.45,0,55.65,Puffer Fish,10.1016/j.foodchem.2016.11.133
 RRLL,Umami; Sour,4,556.702,12,-0.35,0,150.7,Yeast,Not reported
 RRPP,Bitter,4,524.617,12,-3.05,0,247,Not reported,10.3390/foods11223742
-SDFF,Sweet;,4,514.528,4.05,0.325,0.5,-11.35,Walnut meal protein hydrolysate,10.1016/j.foodchem.2026.148141
+SDFF,Sweet,4,514.528,4.05,0.325,0.5,-11.35,Walnut meal protein hydrolysate,10.1016/j.foodchem.2026.148141
 SEEG,Umami,4,420.372,4.05,-2.05,0,137.15,Bean,Not reported
 SEEK,Umami; Bitter,4,491.493,4.529,-2.925,0,137.15,Clam,10.1016/j.foodchem.2020.128522
 SEGR,Umami,4,447.444,5.718,-2.3,0,55.65,Not reported,10.3390/foods12071498
@@ -585,7 +585,7 @@ SGVQ,Sweet; Sour,4,389.404,5.24,-0.125,0,7.5,Bovine,10.1111/ijfs.13893
 STAN,Umami,4,391.377,5.24,-0.8,0,7.5,Machine Learning,Not reported
 TDEE,Umami; Sour,4,492.435,4.05,-2.8,0,89,Bean,Not reported
 THEA,Umami; Sour,4,456.45,5.211,-1.4,0,7.5,Aspergillus oryzae,Not reported
-TLFE,Salty; Sour;,4,508.565,4.595,0.6,0.25,7.5,Yeast extract,10.1016/j.foodchem.2025.146259
+TLFE,Salty; Sour,4,508.565,4.595,0.6,0.25,7.5,Yeast extract,10.1016/j.foodchem.2025.146259
 TWKE,Umami; Sour,4,562.615,5.884,-2.25,0.25,-30.075,Clam,10.1016/j.foodchem.2022.134812
 TYET,Umami; Kokumi,4,512.51,4.05,-1.55,0.25,-11.35,Aspergillus oryzae,Not reported
 VDAY,Umami; Bitter; Sweet; Salty; Sour,4,466.485,4.05,0.3,0.25,-30.075,Truffle (Tuber melanosporum),10.1016/j.crfs.2025.101177
@@ -626,7 +626,7 @@ DPRVI,Umami; Sour,5,598.692,5.836,-0.18,0,-7.08,Aspergillus oryzae,Not reported
 DPWER,Umami; Sweet; Sour,5,701.728,4.37,-2.8,0.2,2.24,Flammulina filiformis,10.1016/j.foodchem.2025.146558
 DRAFR,Umami; Sour,5,663.726,9.599,-1.58,0.2,-7.08,Pleurotus ostreatus,10.1016/j.foodchem.2025.145575
 EAGIQ,Umami; Salty; Sour; Sweet,5,516.545,4.05,-0.22,0,-8.98,Sauce,10.1016/j.foodchem.2016.03.058; 10.1038/s41598-022-25935-3
-EDEDE,Umami; Sour,5,635.532,4.05,-3.5,0,85.04,Bean,Not reported
+EDEDE,Umami; Sour,5,635.532,4.05,-3.5,0,85.04,Bean,10.1021/acs.jafc.3c09545
 EEDGK,Umami; Sweet; Sour,5,576.554,4.138,-2.96,0,94.74,Not reported,10.1271/bbb.59.689
 EEEQR,Sweet,5,689.672,4.253,-3.7,0,176.92,Bean,Not reported
 EEFLK,Umami,5,664.747,4.532,-0.86,0.2,56.22,Pacific Oyster,10.26599/fshw.2022.9250012
@@ -642,7 +642,7 @@ EQEEK,Umami,5,661.659,4.253,-3.58,0,150.24,Not reported,10.1016/j.foodchem.2022.
 EQEEL,Umami,5,646.644,4.05,-2.04,0,150.24,Not reported,10.1038/s41598-022-25935-3
 EQQQQ,Umami; Salty; Sour,5,659.646,4.05,-3.5,0,162.08,Sauce,10.1016/j.foodchem.2016.03.058
 ESKIL,Umami,5,588.694,6.101,0.02,0,68.06,Cod,Not reported
-EVLNE,Umami; Sour;,5,602.635,4.24,-0.5,0,8,Fermented milk,10.1016/j.foodchem.2026.147994
+EVLNE,Umami; Sour,5,602.635,4.24,-0.5,0,8,Fermented milk,10.1016/j.foodchem.2026.147994
 FAPEF,Bitter,5,609.67,4.05,0.46,0.4,81.28,Not reported,10.1016/j.foodchem.2023.137288
 FDDLP,Umami; Bitter; Sweet,5,605.637,4.05,-0.4,0.2,71.2,Lactobacillus helveticus Lh191404,Not reported
 FFPGG,Bitter,5,523.581,5.525,0.64,0.4,71.2,Not reported,10.3390/foods11223742
@@ -727,12 +727,12 @@ SSAVK,Umami,5,490.551,8.465,0.1,0,40.76,Yeast,10.1021/acs.jafc.2c06237
 SYNPR,Umami; Bitter,5,635.669,8.463,-2.34,0.2,-12.84,Chinese Wine,10.3390/foods12183398
 TFEKP,Umami; Kokumi,5,620.695,5.664,-1.38,0.2,17.6,Aspergillus oryzae,Not reported
 TLPDK,Sweet; Salty; Sour,5,572.652,5.498,-1.18,0,14.46,Yeast extract,10.1016/j.foodchem.2025.146259
-TMTQR,Umami,5,635.734,9.41,-1.5,0,-12.84,Grain,Not reported
+TMTQR,Umami,5,635.734,9.41,-1.5,0,-12.84,Grain,10.1016/j.fbio.2024.105536
 TYNPK,Umami; Bitter,5,621.683,8.256,-2.2,0.2,2.24,Chinese Wine,10.3390/foods12183398
 TYNPR,Umami; Bitter,5,649.696,8.408,-2.32,0.2,-12.84,Chinese Wine,10.3390/foods12183398
 VAEQE,Umami; Sour,5,574.581,4.24,-0.9,0,85.04,Tuna,10.1016/j.foodchem.2023.137331
 VAPFP,Bitter,5,529.628,5.495,1.12,0.2,123.56,Not reported,10.1016/j.foodchem.2023.137288
-VAQWR,Umami; Sweet; Salty,5,658.749,9.72,-0.58,0.2,8,Lactobacillus helveticus Lh191404,Not reported
+VAQWR,Umami; Sweet; Salty,5,658.749,9.72,-0.58,0.2,8,Lactobacillus helveticus Lh191404,10.1016/j.fbio.2024.104250
 VLRDF,Umami; Bitter; Sour,5,648.751,5.807,0.56,0.2,31.44,Pleurotus ostreatus,10.1016/j.foodchem.2025.145575
 VPPFL,Bitter,5,571.708,5.495,1.52,0.2,123.56,Not reported,10.1016/j.foodchem.2023.137288
 VRGPR,Umami,5,583.684,12,-1.36,0,-24.06,Sturgeon,10.1021/acs.jafc.3c05395
@@ -742,7 +742,7 @@ VVVPP,Bitter,5,509.639,5.495,1.88,0,85.04,Bovine,10.1080/10408398.2023.2220792
 WGDDP,Umami; Sweet; Sour,5,588.567,4.05,-1.98,0.2,-12.74,Corn,Not reported
 WPAGE,Umami; Sour,5,558.584,4.599,-0.92,0.2,31.44,Corn,Not reported
 YEGNS,Bitter,5,568.534,4.05,-1.9,0.2,-24.06,Not reported,10.3390/foods11223742
-AALVKA,Umami; Sweet;,6,571.71,8.795,1.583,0,3.533,Grass carp (RYRF marinated),10.1016/j.fbio.2025.107593
+AALVKA,Umami; Sweet,6,571.71,8.795,1.583,0,3.533,Grass carp (RYRF marinated),10.1016/j.fbio.2025.107593
 ADGLWL,Umami; Bitter; Sweet; Sour,6,673.757,4.05,0.767,0.167,54.217,Chicken,10.1007/s00217-021-03734-w
 AEFAER,Umami; Bitter,6,721.759,4.532,-0.85,0.167,8.333,Salmon head hydrolysates,10.1016/j.foodchem.2025.143673
 ALPAEV,Umami,6,598.689,4.05,1.083,0,72.533,Not reported,10.1016/j.foodchem.2022.134812
@@ -789,7 +789,7 @@ FPPFIV,Bitter,6,718.882,5.525,1.85,0.333,90.483,Not reported,10.1038/s41598-022-
 FQKVVA,Umami; Sweet; Salty,6,690.831,8.75,0.933,0.167,-5.817,Porcine,10.1002/jsfa.12319
 FRDEHQ,Umami; Sour,6,830.845,5.321,-2.567,0.167,-4.233,Chinese Wine,10.3390/foods12183398
 FREGDI,Bitter; Sour,6,735.785,4.37,-0.767,0.167,8.333,Aspergillus oryzae,Not reported
-FREGDL,Umami; Sour; Kokumi,6,735.785,4.37,-0.883,0.167,8.333,Aspergillus oryzae,Not reported
+FREGDL,Umami; Sour; Kokumi,6,735.785,4.37,-0.883,0.167,8.333,Aspergillus oryzae,FREGDL
 FSDKIA,Bitter; Salty,6,679.762,5.836,0.15,0.167,-19.967,Fermented milk,10.1016/j.foodchem.2026.147994
 FTERVQ,Umami; Sour,6,778.853,6.002,-0.867,0.167,40.433,Chicken,10.1021/acs.jafc.3c01251
 FYPELF,Bitter,6,814.923,4.05,0.5,0.5,112.202,Not reported,10.3390/foods11223742
@@ -842,7 +842,7 @@ PVLVQR,Sour,6,710.865,10.18,0.433,0,40.433,Chicken,10.1016/j.foodchem.2022.13245
 QDSIGS,Umami,6,605.595,4.05,-0.75,0,72.533,Not reported,10.1016/j.foodchem.2022.134935
 QKNSHQ,Umami; Bitter,6,740.765,8.757,-3.067,0,8.333,Soybean paste,10.1016/j.foodchem.2025.143621
 QLFNPS,Bitter,6,704.771,5.525,-0.467,0.167,35.633,Rice,10.3390/foods11223742
-RDNPHW,Sour; Kokumi,6,823.855,6.745,-2.867,0.167,-1.267,Aspergillus oryzae,Not reported
+RDNPHW,Sour; Kokumi,6,823.855,6.745,-2.867,0.167,-1.267,Aspergillus oryzae,10.1016/j.fbio.2024.103951
 RFRQGD,Umami; Sour,6,777.828,9.599,-2.267,0.167,40.433,Chinese Wine,10.3390/foods12183398
 RGGFIV,Bitter,6,647.766,9.75,1.033,0.167,0.6,Not reported,10.1038/s41598-022-25935-3
 RGPFIV,Bitter,6,687.83,9.75,0.833,0.167,12.133,Not reported,10.3390/foods11223742
@@ -903,7 +903,7 @@ ADHDLPF,Salty,7,813.854,4.197,-0.486,0.143,51.471,Mushroom,10.1016/j.lwt.2023.11
 AEASALR,Umami; Sour,7,716.784,6.047,0.057,0,36.086,Trachinotus,10.1016/j.lwt.2021.110887
 AELTPEP,Umami,7,755.813,4.05,-0.757,0,60.914,Pixian broad-bean paste,10.1039/d2fo01389d
 AEVKKAP,Umami; Sweet,7,741.876,8.635,-0.729,0,31.971,Porcine,10.1002/jsfa.12319
-AGAGPTP,Umami; Sour;,7,569.608,5.57,-0.157,0,-3.557,Clam,10.1016/j.foodchem.2020.128522
+AGAGPTP,Umami; Sour,7,569.608,5.57,-0.157,0,-3.557,Clam,10.1016/j.foodchem.2020.128522
 AGDDAPR,Umami; Bitter; Sweet; Sour,7,700.698,4.208,-1.414,0,25.314,Chicken,10.1007/s00217-021-03734-w
 AGFMPLP,Umami; Bitter,7,731.902,5.57,0.957,0.143,98.857,Egg,10.3390/foods12071498
 AGLELLK,Umami; Sweet; Salty; Sour,7,742.904,6.046,0.771,0,-3.557,Mushroom,Not reported
@@ -1027,7 +1027,7 @@ SGCVNEL,Umami,7,720.792,4.05,0.329,0,-2.2,Mushroom,10.1016/j.ultsonch.2022.10620
 SITRINK,Bitter,7,830.972,11,-0.629,0,42.4,Not reported,10.1080/10408398.2023.2220792
 SLSSLMK,Umami,7,764.931,8.465,0.457,0,36.086,Egg,10.3390/foods12071498
 SPLESLF,Bitter; Sour,7,791.888,4.05,0.529,0.143,98.857,Soy sauce,10.1016/j.foodchem.2025.146470
-TERGYSF,Umami; Sour,7,858.894,5.664,-1.2,0.286,11.829,Bovine,Not reported
+TERGYSF,Umami; Sour,7,858.894,5.664,-1.2,0.286,11.829,Bovine,10.1016/j.foodchem.2024.141368
 TFYNELR,Umami; Salty,7,942.026,5.664,-0.986,0.286,100.287,Spanish Mackerel,10.1111/ijfs.15883
 TGWVDVK,Umami; Salty; Sour,7,803.902,5.498,-0.143,0.143,-23.643,Yeast,10.1016/j.foodchem.2023.136807
 TLFQPSF,Umami,7,838.946,5.185,0.4,0.286,63.6,Spanish Mackerel,10.1111/ijfs.15883
@@ -1070,7 +1070,7 @@ DGKQGQNQ,Umami,8,873.868,5.836,-2.775,0,18.262,Synthetic peptides (STURCs screen
 DKKVSVGT,Umami; Sweet; Kokumi,8,832.942,8.591,-0.6,0,-33.7,Soybean paste,10.1016/j.foodchem.2025.143621
 DPLRGGYY,Umami; Kokumi,8,940.01,5.835,-1.15,0.25,42.45,Puffer Fish,10.1016/j.foodchem.2020.127204
 DQLEKQVK,Umami,8,987.108,6.069,-1.725,0,25.275,Clam,10.1016/j.foodchem.2022.134812
-EALEATAQ,Umami,8,831.868,4.05,-0.25,0,8.75,Bean,Not reported
+EALEATAQ,Umami,8,831.868,4.05,-0.25,0,8.75,Bean,10.1016/j.fochx.2024.101940
 EAPGTYHH,Umami,8,910.929,5.991,-1.512,0.125,37.638,Not reported,Not reported
 EAVEKPQS,Umami,8,886.946,4.532,-1.35,0,78.325,Porcine,10.1002/jsfa.12319
 EGNPAHQK,Umami; Bitter; Sweet; Salty,8,879.917,6.848,-2.225,0,8,Mushroom,Not reported
@@ -1102,13 +1102,13 @@ GPVRGPFP,Bitter,8,825.954,9.75,-0.388,0.125,70.363,Cheese,10.1021/jf800552n
 GRVSNCAA,Umami; Sweet,8,776.862,8.25,0.138,0,5.15,Clam,10.1016/j.foodchem.2020.128522
 GVNAMLRK,Umami; Sour,8,888.09,11.001,-0.075,0,32.825,Porcine,Not reported
 HEEDKEGE,Umami,8,971.922,4.427,-3.125,0,53.537,Not reported,Not reported
-HGDWPLPT,Sour;,8,921.995,5.077,-1.012,0.125,19.863,Yeast,10.1016/j.foodres.2023.113908
+HGDWPLPT,Sour,8,921.995,5.077,-1.012,0.125,19.863,Yeast,10.1016/j.foodres.2023.113908
 HGEDKEGE,Umami; Sour,8,899.859,4.603,-2.737,0,-9.6,Chicken,10.1007/s00217-021-03734-w
 HLPLPLLQ,Bitter,8,930.145,6.741,0.662,0,97.65,Not reported,10.1080/10408398.2023.2220792
 HWDRSNWF,Umami; Bitter; Sour,8,1147.201,6.745,-1.812,0.375,37.688,Porcine,Not reported
 IPIPATKT,Umami; Sweet,8,840.019,8.75,0.288,0,25.625,Chicken,10.1007/s00217-021-03734-w
 IQKEDVPS,Bitter,8,914.999,4.37,-1.013,0,80.975,Not reported,10.1080/10408398.2023.2220792
-ISPPVVAY,Bitter; Sour;,8,844.994,5.524,1.175,0.125,111.825,Yeast,10.1016/j.foodres.2023.113908
+ISPPVVAY,Bitter; Sour,8,844.994,5.524,1.175,0.125,111.825,Yeast,10.1016/j.foodres.2023.113908
 ITTDTPEL,Umami,8,888.959,4.05,-0.3,0,11.688,Not reported,Not reported
 KAVPYPPQ,Bitter,8,899.044,8.591,-0.938,0.125,96.4,Not reported,10.1038/s41598-022-25935-3
 KCIGNWVT,Umami; Sweet,8,920.087,8.222,0.225,0.125,-36.05,Grain,Not reported
@@ -1164,7 +1164,7 @@ RPNPFENR,Umami; Sweet,8,1029.11,9.599,-2.487,0.125,53.3,Clam,10.1016/j.foodchem.
 RRPPPFFF,Bitter,8,1063.254,12,-0.675,0.375,176.65,Not reported,10.1002/psc.1428
 RVPAGTTY,Umami; Bitter,8,863.957,8.748,-0.4,0.125,46.288,Sufu (fermented soybean curd),10.1016/j.foodchem.2025.144684
 SDRKIPEK,Umami; Sweet; Sour,8,972.097,8.31,-2.15,0,6.837,Broad Bean,10.1021/acs.jafc.2c09178
-SEYPPLGR,Sour;,8,918.005,5.718,-1.237,0.125,72.325,Yeast,10.1016/j.foodres.2023.113908
+SEYPPLGR,Sour,8,918.005,5.718,-1.237,0.125,72.325,Yeast,10.1016/j.foodres.2023.113908
 SIITPPER,Bitter,8,912.042,5.718,-0.463,0,54.55,Not reported,10.1039/d2fo01389d
 SKKTVDME,Umami; Bitter,8,937.07,5.968,-1.275,0,-10.037,Fermented milk,10.1016/j.foodchem.2026.147994
 SLADEEKG,Umami; Sour,8,847.867,4.137,-1.25,0,28.275,Not reported,10.1271/bbb.59.689
@@ -1247,7 +1247,7 @@ KLNDAQAPK,Umami,9,984.108,8.591,-1.389,0,20.856,Mushroom,10.1016/j.foodchem.2022
 KTDLNFENL,Umami,9,1093.187,4.37,-0.911,0.111,-7.811,Puffer Fish,10.7506/spkx1002-6630-20200917-231
 KTGLSPDQF,Umami; Sweet,9,992.083,5.836,-0.867,0.111,31.522,Puffer Fish,10.7506/spkx1002-6630-20200917-231
 KVVITAPSS,Umami,9,901.059,8.75,0.767,0,63.656,Yeast,10.1016/j.foodres.2023.113908
-LDSPATPEK,Umami; Salty; Sour,9,957.036,4.37,-1.111,0,119.822,Mushroom,Not reported
+LDSPATPEK,Umami; Salty; Sour,9,957.036,4.37,-1.111,0,119.822,Mushroom,10.1016/j.foodchem.2024.139071
 LIDVDGKPQ,Umami; Bitter; Salty,9,984.104,4.208,-0.433,0,-4.222,Yeast,10.1016/j.foodchem.2023.136807
 LLLPGELAF,Sweet; Umami,9,972.178,4.05,1.589,0.111,21.911,Not reported,10.1016/j.foodchem.2022.134812
 LLLPGELAK,Umami; Sweet,9,953.176,6.001,0.844,0,21.911,Puffer Fish,10.1016/j.foodchem.2020.127204
@@ -1327,7 +1327,7 @@ EFFSNYGTRV,Umami,10,1219.302,6.101,-0.49,0.3,-7.98,Grain,Not reported
 EFVDIINSRN,Sweet,10,1206.305,4.37,-0.33,0.1,25.57,Yeast; Yeast proteins,10.1016/j.foodchem.2024.141138
 EIVPNSVEQK,Bitter,10,1142.259,4.532,-0.74,0,58.29,Not reported,10.1016/j.foodchem.2023.137288
 EQFEEEQEAK,Bitter; Sour,10,1266.268,4.05,-2.38,0.1,124.44,Salmon head hydrolysates,10.1016/j.foodchem.2025.143673
-EQYEEEQEAK,Umami,10,1282.267,4.05,-2.79,0.1,116.9,Skipjack Tuna,Not reported
+EQYEEEQEAK,Umami,10,1282.267,4.05,-2.79,0.1,116.9,Skipjack Tuna,10.1016/j.chroma.2024.465290
 EVLNENLLRF,Umami; Bitter,10,1246.412,4.532,-0.01,0.1,28.26,UHT milk,10.1016/j.foodchem.2025.147421
 FFRPFFRPFF,Bitter,10,1407.66,12,0.46,0.6,86.04,Not reported,10.3390/foods11223742
 FFVAPFPEVF,Bitter,10,1199.395,4.05,1.47,0.4,84.16,Not reported,10.1080/10408398.2023.2220792
