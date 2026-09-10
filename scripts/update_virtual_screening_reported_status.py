@@ -14,7 +14,7 @@ VIRTUAL_DIR = ROOT / "data" / "VirtualScreening"
 METHODS = [
     ("ChyTryPep", "Chymotrypsin + Trypsin + Pepsin (pH=1.3)"),
     ("ThePap", "Thermolysin + Papain"),
-    ("PepPan", "Pepsin + Pancreatic"),
+    ("PepPan", "Pepsin + Trypsin"),
     ("ProteinaseK", "Proteinase K"),
     ("Thermolysin", "Thermolysin"),
     ("Papain", "Papain"),

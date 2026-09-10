@@ -1,7 +1,7 @@
 ﻿method_id,method_name,source_sequences,Reported,No_reported,Reported_Rate
 ChyTryPep,Chymotrypsin + Trypsin + Pepsin (pH=1.3),313149,120,313029,0.00038320416159719493
 ThePap,Thermolysin + Papain,154566,60,154506,0.00038818368852140835
-PepPan,Pepsin + Pancreatic,138379,79,138300,0.0005708958729286959
+PepPan,Pepsin + Trypsin,138379,79,138300,0.0005708958729286959
 ProteinaseK,Proteinase K,188918,71,188847,0.00037582443176404577
 Thermolysin,Thermolysin,431224,86,431138,0.0001994323136003562
 Papain,Papain,336030,101,335929,0.00030056840163080676

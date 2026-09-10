@@ -2732,7 +2732,7 @@ def virtual_screening_page() -> None:
     enzyme_display_names = {
         "Chymotrypsin + Trypsin + Pepsin (pH=1.3)": "Chymotrypsin+Trypsin+Pepsin",
         "Thermolysin + Papain": "Thermolysin+Papain",
-        "Pepsin + Pancreatic": "Pepsin+Pancreatic",
+        "Pepsin + Trypsin": "Pepsin+Trypsin",
         "Proteinase K": "Proteinase K",
         "Thermolysin": "Thermolysin",
         "Papain": "Papain",
@@ -2743,7 +2743,7 @@ def virtual_screening_page() -> None:
     enzyme_order_source = [
         "Chymotrypsin + Trypsin + Pepsin (pH=1.3)",
         "Thermolysin + Papain",
-        "Pepsin + Pancreatic",
+        "Pepsin + Trypsin",
         "Proteinase K",
         "Thermolysin",
         "Papain",
@@ -2869,7 +2869,7 @@ def virtual_screening_page() -> None:
         method_id_to_label = {
             "ChyTryPep": "Chymotrypsin+Trypsin+Pepsin",
             "ThePap": "Thermolysin+Papain",
-            "PepPan": "Pepsin+Pancreatic",
+            "PepPan": "Pepsin+Trypsin",
             "ProteinaseK": "Proteinase K",
             "Thermolysin": "Thermolysin",
             "Papain": "Papain",
