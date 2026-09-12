@@ -27,7 +27,9 @@ jobs:
           set -uo pipefail
 
           frontend_url="https://cqu-pep2taste.streamlit.app/"
-          health_url="https://cqu-pep2taste.streamlit.app/_stcore/health"
+          health_url="https://cqu-pep2taste.streamlit.app/~/+/_stcore/health"
+          cookie_jar="/tmp/pep2taste_streamlit.cookies"
+          : > "${cookie_jar}"
 
           for attempt in $(seq 1 12); do
             echo "Streamlit wake check ${attempt}/12"
@@ -39,6 +41,8 @@ jobs:
               --silent \
               --show-error \
               --output /dev/null \
+              --cookie "${cookie_jar}" \
+              --cookie-jar "${cookie_jar}" \
               --connect-timeout 30 \
               --max-time 90 \
               --user-agent "Mozilla/5.0 Pep2Taste-Keepalive/1.0" \
@@ -49,6 +53,8 @@ jobs:
               --silent \
               --show-error \
               --output /tmp/pep2taste_frontend.out \
+              --cookie "${cookie_jar}" \
+              --cookie-jar "${cookie_jar}" \
               --connect-timeout 30 \
               --max-time 60 \
               "${health_url}"; then
