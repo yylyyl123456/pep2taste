@@ -621,7 +621,7 @@ div[data-testid="stFullScreenFrame"] > div {
 .virtual-library-card-marker {
     display:none;
 }
-div[data-testid="stVerticalBlockBorderWrapper"]:has(.virtual-library-card-marker) {
+div[data-testid="stVerticalBlockBorderWrapper"]:has(> div > div[data-testid="stVerticalBlock"] > div[data-testid="stElementContainer"]:first-child .virtual-library-card-marker) {
     margin:.7rem 0 1.25rem;
     padding:1.15rem 1.25rem;
     border:1px solid rgba(16,185,129,.28);
@@ -691,7 +691,7 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has(.virtual-library-card-marker
     font-weight:650;
     line-height:1.5;
 }
-div[data-testid="stVerticalBlockBorderWrapper"]:has(.virtual-library-card-marker) div[data-testid="stDownloadButton"] button {
+div[data-testid="stVerticalBlockBorderWrapper"]:has(> div > div[data-testid="stVerticalBlock"] > div[data-testid="stElementContainer"]:first-child .virtual-library-card-marker) div[data-testid="stDownloadButton"] button {
     min-height:2.8rem;
     border-color:#059669;
     background:linear-gradient(135deg,#047857 0%,#10b981 100%);
@@ -699,7 +699,7 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has(.virtual-library-card-marker
     font-weight:900;
     box-shadow:0 9px 20px rgba(5,150,105,.2);
 }
-div[data-testid="stVerticalBlockBorderWrapper"]:has(.virtual-library-card-marker) div[data-testid="stDownloadButton"] button:hover {
+div[data-testid="stVerticalBlockBorderWrapper"]:has(> div > div[data-testid="stVerticalBlock"] > div[data-testid="stElementContainer"]:first-child .virtual-library-card-marker) div[data-testid="stDownloadButton"] button:hover {
     border-color:#047857;
     background:linear-gradient(135deg,#065f46 0%,#059669 100%);
     color:#ffffff;
