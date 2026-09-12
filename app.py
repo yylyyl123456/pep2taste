@@ -618,6 +618,92 @@ div[data-testid="stFullScreenFrame"] > div {
 .virtual-download-muted {
     color:#94a3b8;
 }
+.virtual-library-card-marker {
+    display:none;
+}
+div[data-testid="stVerticalBlockBorderWrapper"]:has(.virtual-library-card-marker) {
+    margin:.7rem 0 1.25rem;
+    padding:1.15rem 1.25rem;
+    border:1px solid rgba(16,185,129,.28);
+    border-left:5px solid #10b981;
+    border-radius:16px;
+    background:linear-gradient(135deg,#f0fdf8 0%,#ffffff 62%,#f5fbff 100%);
+    box-shadow:0 14px 34px rgba(15,118,110,.09);
+}
+.virtual-library-kicker {
+    margin-bottom:.28rem;
+    color:#047857;
+    font-size:.76rem;
+    font-weight:900;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+}
+.virtual-library-title {
+    color:#0f172a;
+    font-size:1.14rem;
+    font-weight:900;
+    line-height:1.35;
+}
+.virtual-library-summary {
+    max-width:760px;
+    margin:.38rem 0 .72rem;
+    color:#475569;
+    font-size:.93rem;
+    font-weight:650;
+    line-height:1.58;
+}
+.virtual-library-facts {
+    display:flex;
+    flex-wrap:wrap;
+    gap:.45rem;
+}
+.virtual-library-fact {
+    display:inline-flex;
+    align-items:center;
+    padding:.32rem .58rem;
+    border:1px solid rgba(15,118,110,.16);
+    border-radius:999px;
+    background:rgba(255,255,255,.82);
+    color:#0f766e;
+    font-size:.78rem;
+    font-weight:850;
+    font-variant-numeric:tabular-nums;
+}
+.virtual-library-package {
+    margin:.1rem 0 .55rem;
+    color:#334155;
+    font-size:.82rem;
+    font-weight:800;
+    line-height:1.45;
+    text-align:center;
+}
+.virtual-library-package strong {
+    display:block;
+    margin-top:.12rem;
+    color:#0f172a;
+    font-size:1rem;
+    font-weight:900;
+}
+.virtual-library-footnote {
+    margin-top:.7rem;
+    color:#64748b;
+    font-size:.8rem;
+    font-weight:650;
+    line-height:1.5;
+}
+div[data-testid="stVerticalBlockBorderWrapper"]:has(.virtual-library-card-marker) div[data-testid="stDownloadButton"] button {
+    min-height:2.8rem;
+    border-color:#059669;
+    background:linear-gradient(135deg,#047857 0%,#10b981 100%);
+    color:#ffffff;
+    font-weight:900;
+    box-shadow:0 9px 20px rgba(5,150,105,.2);
+}
+div[data-testid="stVerticalBlockBorderWrapper"]:has(.virtual-library-card-marker) div[data-testid="stDownloadButton"] button:hover {
+    border-color:#047857;
+    background:linear-gradient(135deg,#065f46 0%,#059669 100%);
+    color:#ffffff;
+}
 div[role="radiogroup"][aria-label="Virtual download task"],
 div[role="radiogroup"][aria-label="High-confidence analysis target"] {
     display:flex;
@@ -3837,6 +3923,66 @@ def virtual_screening_page() -> None:
     with tab_downloads:
         st.markdown("#### Download Center")
         st.caption("All available virtual screening output files are listed by prediction task and hydrolysis method.")
+
+        source_library_archive = (
+            VIRTUAL_SCREENING_DIR
+            / "source_libraries"
+            / "Pep2Taste_virtual_enzymatic_peptide_library.zip"
+        )
+        with st.container(border=True):
+            st.markdown('<span class="virtual-library-card-marker"></span>', unsafe_allow_html=True)
+            library_info, library_action = st.columns([3.35, 1.15], gap="large")
+            with library_info:
+                st.markdown(
+                    """
+                    <div class="virtual-library-kicker">Complete source library</div>
+                    <div class="virtual-library-title">Virtual enzymatic peptide library</div>
+                    <div class="virtual-library-summary">
+                        Download the complete source collection used for virtual hydrolysis screening.
+                        The archive contains the deduplicated peptide union and all nine
+                        method-specific libraries in a simple text format.
+                    </div>
+                    <div class="virtual-library-facts">
+                        <span class="virtual-library-fact">2,321,342 unique peptides</span>
+                        <span class="virtual-library-fact">9 hydrolysis methods</span>
+                        <span class="virtual-library-fact">10 source files</span>
+                        <span class="virtual-library-fact">TXT + ZIP</span>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
+            with library_action:
+                st.markdown(
+                    '<div class="virtual-library-package">Single download<strong>Complete archive</strong></div>',
+                    unsafe_allow_html=True,
+                )
+                if source_library_archive.exists() and source_library_archive.is_file():
+                    archive_size_mb = source_library_archive.stat().st_size / (1024 * 1024)
+                    st.download_button(
+                        "Download complete library",
+                        data=source_library_archive.read_bytes(),
+                        file_name=source_library_archive.name,
+                        mime="application/zip",
+                        type="primary",
+                        use_container_width=True,
+                        key="virtual_enzymatic_library_download",
+                    )
+                    st.markdown(
+                        f'<div class="virtual-library-package">ZIP archive · {archive_size_mb:.2f} MB</div>',
+                        unsafe_allow_html=True,
+                    )
+                else:
+                    st.button("Package unavailable", disabled=True, use_container_width=True)
+            st.markdown(
+                """
+                <div class="virtual-library-footnote">
+                    Includes <strong>unreported_fragments_all.txt</strong> plus nine enzyme-specific
+                    files. Each line uses <strong>Peptide_n|SEQUENCE</strong>. Method totals overlap
+                    because the same peptide can be generated by more than one hydrolysis method.
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
 
         def resolve_download_path(row: pd.Series) -> Path | None:
             for column in ["Filtered file", "Download_File", "Pool file"]:
