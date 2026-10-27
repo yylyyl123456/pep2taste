@@ -10,8 +10,10 @@ on:
     paths:
       - ".github/workflows/keepalive.yml"
 
+# 增加 actions: write 权限，用于工作流防禁用机制
 permissions:
   contents: read
+  actions: write
 
 concurrency:
   group: pep2taste-keepalive
@@ -22,54 +24,65 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - name: Wake and verify Streamlit frontend
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install Playwright
         run: |
-          set -uo pipefail
+          pip install playwright
+          python -m playwright install --with-deps chromium
 
-          frontend_url="https://cqu-pep2taste.streamlit.app/"
-          health_url="https://cqu-pep2taste.streamlit.app/~/+/_stcore/health"
-          cookie_jar="/tmp/pep2taste_streamlit.cookies"
-          : > "${cookie_jar}"
+      - name: Wake Streamlit App (Playwright)
+        run: |
+          python - <<'EOF'
+          import asyncio
+          from playwright.async_api import async_playwright
 
-          for attempt in $(seq 1 12); do
-            echo "Streamlit wake check ${attempt}/12"
+          async def wake_app():
+              async with async_playwright() as p:
+                  browser = await p.chromium.launch(headless=True)
+                  page = await browser.new_page()
+                  try:
+                      await page.goto("https://cqu-pep2taste.streamlit.app/", timeout=120000)
+                      print("Page loaded.")
+                      # 寻找唤醒按钮
+                      wake_button = page.locator("text=Yes, get this app back up")
+                      if await wake_button.count() > 0:
+                          print("Wake-up button found, clicking...")
+                          await wake_button.click()
+                          await wake_button.wait_for(state="hidden", timeout=120000)
+                          print("App wake-up triggered successfully.")
+                      else:
+                          print("No wake-up button detected. App seems to be awake already.")
+                  except Exception as e:
+                      print(f"An error occurred: {e}")
+                      raise
+                  finally:
+                      await browser.close()
 
-            # A request to the app page counts as real frontend traffic and can
-            # wake a sleeping Community Cloud app. The health endpoint alone
-            # may return an error without starting the app.
-            curl --location \
-              --silent \
-              --show-error \
-              --output /dev/null \
-              --cookie "${cookie_jar}" \
-              --cookie-jar "${cookie_jar}" \
-              --connect-timeout 30 \
-              --max-time 90 \
-              --user-agent "Mozilla/5.0 Pep2Taste-Keepalive/1.0" \
-              "${frontend_url}" || true
+          asyncio.run(wake_app())
+          EOF
 
-            if curl --fail-with-body \
-              --location \
-              --silent \
-              --show-error \
-              --output /tmp/pep2taste_frontend.out \
-              --cookie "${cookie_jar}" \
-              --cookie-jar "${cookie_jar}" \
-              --connect-timeout 30 \
-              --max-time 60 \
-              "${health_url}"; then
-              cat /tmp/pep2taste_frontend.out
-              echo "Streamlit frontend is healthy."
-              exit 0
-            fi
-
-            if [[ "${attempt}" -lt 12 ]]; then
-              sleep 30
-            fi
-          done
-
-          echo "::error::Streamlit did not become healthy after repeated wake attempts."
-          exit 1
+      - name: Send failure notification (Streamlit)
+        if: failure() # 仅当上述步骤失败时执行
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.qq.com
+          server_port: 465
+          secure: true
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: "❌ Streamlit Keepalive FAILED - ${{ github.repository }}"
+          to: 1604884110@qq.com
+          from: GitHub Actions Notifier
+          body: |
+            The Streamlit keepalive workflow for ${{ github.repository }} has failed.
+            Please check the run details: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
   hugging-face:
     runs-on: ubuntu-latest
@@ -99,3 +112,28 @@ jobs:
             "https://yylcqu123-pep2taste-api.hf.space/health"
           cat /tmp/pep2taste_backend.out
           echo "Hugging Face backend is healthy."
+
+      - name: Send failure notification (Hugging Face)
+        if: failure()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.qq.com
+          server_port: 465
+          secure: true
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: "❌ Hugging Face Keepalive FAILED - ${{ github.repository }}"
+          to: 1604884110@qq.com
+          from: GitHub Actions Notifier
+          body: |
+            The Hugging Face keepalive workflow for ${{ github.repository }} has failed.
+            Please check the run details: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+  keepalive-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Prevent workflow from being disabled
+        if: github.event_name == 'schedule'
+        uses: liskin/gh-workflow-keepalive@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
