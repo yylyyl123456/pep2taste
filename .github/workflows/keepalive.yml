@@ -10,7 +10,6 @@ on:
     paths:
       - ".github/workflows/keepalive.yml"
 
-# 增加 actions: write 权限，用于工作流防禁用机制
 permissions:
   contents: read
   actions: write
@@ -25,10 +24,10 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.10"
 
@@ -50,7 +49,7 @@ jobs:
                   try:
                       await page.goto("https://cqu-pep2taste.streamlit.app/", timeout=120000)
                       print("Page loaded.")
-                      # 寻找唤醒按钮
+                      
                       wake_button = page.locator("text=Yes, get this app back up")
                       if await wake_button.count() > 0:
                           print("Wake-up button found, clicking...")
@@ -69,7 +68,7 @@ jobs:
           EOF
 
       - name: Send failure notification (Streamlit)
-        if: failure() # 仅当上述步骤失败时执行
+        if: failure()
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.qq.com
